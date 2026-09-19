@@ -1,0 +1,3135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Nuestra historia de amor | Leandro & Vanessa
+    </title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            width: 100%;
+
+            min-height: 100vh;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            color: #607984;
+
+            background:
+                #f7fafb;
+
+            overflow-x: hidden;
+        }
+
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           PORTADA
+        ===================================================== */
+
+        .portada {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 100vh;
+
+            min-height: 100vh;
+
+            overflow: hidden;
+
+            background: #edf4f6;
+
+            z-index: 100;
+        }
+
+
+        /* =====================================================
+           FONDO ORIGINAL
+        ===================================================== */
+
+        .fondo-portada {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            object-position: center center;
+
+            z-index: 1;
+        }
+
+
+        /* =====================================================
+           PUERTAS
+        ===================================================== */
+
+        .puerta {
+
+            position: absolute;
+
+            top: 0;
+
+            width: 50%;
+
+            height: 100%;
+
+            overflow: hidden;
+
+            z-index: 3;
+
+            transition:
+                transform 1.8s
+                cubic-bezier(.77,0,.18,1);
+        }
+
+
+        .puerta-izquierda {
+
+            left: 0;
+        }
+
+
+        .puerta-derecha {
+
+            right: 0;
+        }
+
+
+        .puerta img {
+
+            position: absolute;
+
+            top: 0;
+
+            width: 200%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            object-position: center center;
+        }
+
+
+        .puerta-izquierda img {
+
+            left: 0;
+        }
+
+
+        .puerta-derecha img {
+
+            right: 0;
+        }
+
+
+        .portada.abierto
+        .puerta-izquierda {
+
+            transform:
+                translateX(-100%);
+        }
+
+
+        .portada.abierto
+        .puerta-derecha {
+
+            transform:
+                translateX(100%);
+        }
+
+
+        /* =====================================================
+           CONTENIDO PORTADA
+        ===================================================== */
+
+        .contenido-portada {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: min(650px, 90vw);
+
+            text-align: center;
+
+            z-index: 5;
+
+            transition:
+                opacity .7s ease,
+                transform .7s ease;
+        }
+
+
+        .mensaje-amor {
+
+            position: relative;
+
+            display: inline-block;
+
+            margin-bottom: 38px;
+
+            font-size:
+                clamp(38px, 5vw, 58px);
+
+            font-weight: 400;
+
+            line-height: 1.15;
+
+            letter-spacing: 1px;
+
+            color: #6f8791;
+
+            text-shadow:
+                0 1px 1px rgba(255,255,255,.8);
+        }
+
+
+        .mensaje-amor::before,
+        .mensaje-amor::after {
+
+            content: "✦";
+
+            position: absolute;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            font-size: 13px;
+
+            color: #87a3ae;
+        }
+
+
+        .mensaje-amor::before {
+
+            left: -35px;
+        }
+
+
+        .mensaje-amor::after {
+
+            right: -35px;
+        }
+
+
+        /* =====================================================
+           BOTÓN ABRIR
+        ===================================================== */
+
+        .boton-abrir {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 240px;
+
+            padding:
+                16px 25px;
+
+            border: 1px solid
+                rgba(102,130,140,.45);
+
+            background:
+                rgba(255,255,255,.58);
+
+            color: #607984;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            cursor: pointer;
+
+            backdrop-filter:
+                blur(5px);
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .boton-abrir:hover {
+
+            background:
+                rgba(255,255,255,.85);
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(80,110,120,.15);
+        }
+
+
+        /* =====================================================
+           HISTORIA
+        ===================================================== */
+
+        .seccion-historia {
+
+            width: 100%;
+
+            min-height: auto;
+
+            padding:
+                70px 20px;
+
+            background:
+                #f7fafb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .historia-layout {
+
+            position: relative;
+
+            width: min(1100px, 90vw);
+
+            max-width: 1100px;
+
+            min-height: 680px;
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            align-items: stretch;
+
+            justify-content: center;
+
+            box-shadow:
+                0 25px 70px
+                rgba(70,105,120,.16);
+        }
+
+
+        /* =====================================================
+           TARJETA HISTORIA
+        ===================================================== */
+
+        .tarjeta-historia {
+
+            width: 100%;
+
+            min-height: 680px;
+
+            padding:
+                50px 45px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            background:
+                rgba(255,255,255,.98);
+        }
+
+
+        .pequeno-titulo {
+
+            margin-bottom: 20px;
+
+            color: #8ca2ab;
+
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            font-weight: 400;
+        }
+
+
+        .nombres {
+
+            color: #657e89;
+
+            font-size: 48px;
+
+            font-weight: 400;
+
+            line-height: 1.15;
+
+            letter-spacing: .5px;
+        }
+
+
+        .corazon {
+
+            margin:
+                22px 0;
+
+            color: #9bb1b9;
+
+            font-size: 28px;
+        }
+
+
+        .frase {
+
+            width: 100%;
+
+            max-width: 470px;
+
+            margin:
+                0 auto 32px;
+
+            color: #718891;
+
+            font-size: 16px;
+
+            line-height: 1.8;
+
+            font-style: italic;
+        }
+
+
+        /* =====================================================
+           INFORMACIÓN
+        ===================================================== */
+
+        .informacion {
+
+            width: 100%;
+
+            max-width: 470px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 5px;
+        }
+
+
+        .dato {
+
+            padding:
+                16px 10px;
+
+            border-top:
+                1px solid
+                rgba(120,150,160,.22);
+
+            border-bottom:
+                1px solid
+                rgba(120,150,160,.22);
+        }
+
+
+        .dato-titulo {
+
+            margin-bottom: 8px;
+
+            color: #94a9b1;
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+        }
+
+
+        .dato-valor {
+
+            color: #637b85;
+
+            font-size: 15px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           UBICACIÓN
+        ===================================================== */
+
+        .ubicacion {
+
+            width: 100%;
+
+            max-width: 470px;
+
+            margin-top: 15px;
+
+            padding:
+                14px 12px;
+
+            border:
+                1px solid
+                rgba(120,150,160,.18);
+        }
+
+
+        .ubicacion-titulo {
+
+            margin-bottom: 6px;
+
+            color: #94a9b1;
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+        }
+
+
+        .ubicacion-texto {
+
+            color: #637b85;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FOTO NOVIOS
+        ===================================================== */
+
+        .foto-novios {
+
+            position: relative;
+
+            width: 100%;
+
+            min-height: 680px;
+
+            overflow: hidden;
+
+            background: #edf4f6;
+        }
+
+
+        .foto-novios img {
+
+            display: block;
+
+            width: 100%;
+
+            height: 100%;
+
+            min-height: 680px;
+
+            object-fit: cover;
+
+            object-position: center center;
+        }
+
+
+        /* =====================================================
+           GRAN DÍA
+        ===================================================== */
+
+        .gran-dia {
+
+            width: 100%;
+
+            min-height: 100vh;
+
+            padding:
+                80px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #edf4f6;
+        }
+
+
+        .gran-dia-contenido {
+
+            width: min(850px, 92vw);
+
+            padding:
+                65px 40px;
+
+            text-align: center;
+
+            background:
+                rgba(255,255,255,.78);
+
+            border:
+                1px solid
+                rgba(110,145,155,.18);
+
+            box-shadow:
+                0 20px 60px
+                rgba(70,105,120,.12);
+        }
+
+
+        .decoracion {
+
+            margin-bottom: 18px;
+
+            color: #9bb1b9;
+
+            font-size: 20px;
+        }
+
+
+        .gran-dia-titulo {
+
+            margin-bottom: 24px;
+
+            color: #8ca2ab;
+
+            font-size: 10px;
+
+            letter-spacing: 5px;
+        }
+
+
+        .gran-dia h2 {
+
+            margin-bottom: 14px;
+
+            color: #637b85;
+
+            font-size: 38px;
+
+            font-weight: 400;
+        }
+
+
+        .hora {
+
+            color: #78919a;
+
+            font-size: 21px;
+
+            letter-spacing: 3px;
+        }
+
+
+        /* =====================================================
+           CUENTA REGRESIVA
+        ===================================================== */
+
+        .cuenta-regresiva {
+
+            width: 100%;
+
+            margin-top: 40px;
+        }
+
+
+        .cuenta-titulo {
+
+            margin-bottom: 18px;
+
+            color: #94a9b1;
+
+            font-size: 10px;
+
+            letter-spacing: 4px;
+        }
+
+
+        .contador {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+        }
+
+
+        .tiempo {
+
+            padding:
+                15px 8px;
+
+            border-left:
+                1px solid
+                rgba(105,140,153,.22);
+        }
+
+
+        .tiempo:last-child {
+
+            border-right:
+                1px solid
+                rgba(105,140,153,.22);
+        }
+
+
+        .tiempo span {
+
+            display: block;
+
+            color: #657e89;
+
+            font-size: 32px;
+
+            line-height: 1;
+        }
+
+
+        .tiempo small {
+
+            display: block;
+
+            margin-top: 8px;
+
+            color: #94a9b1;
+
+            font-size: 8px;
+
+            letter-spacing: 2px;
+        }
+
+
+        /* =====================================================
+           SEPARADOR
+        ===================================================== */
+
+        .separador {
+
+            margin:
+                38px 0;
+
+            color: #a0b4bb;
+
+            font-size: 14px;
+        }
+
+
+        .ceremonia-titulo {
+
+            margin-bottom: 14px;
+
+            color: #8ca2ab;
+
+            font-size: 10px;
+
+            letter-spacing: 4px;
+        }
+
+
+        .lugar {
+
+            margin-bottom: 8px;
+
+            color: #637b85;
+
+            font-size: 23px;
+        }
+
+
+        .direccion {
+
+            margin-bottom: 28px;
+
+            color: #78919a;
+
+            font-size: 15px;
+        }
+
+
+        .boton-ubicacion {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                14px 25px;
+
+            border:
+                1px solid
+                rgba(102,130,140,.4);
+
+            background:
+                transparent;
+
+            color: #637b85;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .boton-ubicacion:hover {
+
+            background:
+                rgba(255,255,255,.7);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           CONFIRMACIÓN
+        ===================================================== */
+
+        .seccion-confirmacion {
+
+            width: 100%;
+
+            min-height: 100vh;
+
+            padding:
+                80px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #f7fafb;
+        }
+
+
+        .confirmacion-contenido {
+
+            width: min(700px, 92vw);
+
+            padding:
+                65px 45px;
+
+            text-align: center;
+
+            background:
+                white;
+
+            border:
+                1px solid
+                rgba(110,145,155,.18);
+
+            box-shadow:
+                0 20px 60px
+                rgba(70,105,120,.12);
+        }
+
+
+        .confirmacion-decoracion {
+
+            margin-bottom: 20px;
+
+            color: #9bb1b9;
+
+            font-size: 25px;
+        }
+
+
+        .confirmacion-titulo {
+
+            margin-bottom: 24px;
+
+            color: #8ca2ab;
+
+            font-size: 10px;
+
+            letter-spacing: 5px;
+        }
+
+
+        .confirmacion-contenido h2 {
+
+            margin-bottom: 18px;
+
+            color: #637b85;
+
+            font-size: 40px;
+
+            font-weight: 400;
+        }
+
+
+        .confirmacion-frase {
+
+            max-width: 500px;
+
+            margin:
+                0 auto 35px;
+
+            color: #78919a;
+
+            font-size: 16px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =====================================================
+           CAMPO NOMBRE
+        ===================================================== */
+
+        .campo-nombre {
+
+            width: 100%;
+
+            max-width: 450px;
+
+            margin:
+                0 auto 25px;
+
+            text-align: left;
+        }
+
+
+        .campo-nombre label {
+
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: #8ca2ab;
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+        }
+
+
+        .campo-nombre input {
+
+            width: 100%;
+
+            padding:
+                14px;
+
+            border:
+                1px solid
+                rgba(110,145,155,.3);
+
+            outline: none;
+
+            background: #fafcfd;
+
+            color: #637b85;
+
+            font-size: 16px;
+
+            transition:
+                border .3s ease;
+        }
+
+
+        .campo-nombre input:focus {
+
+            border-color:
+                #8fa9b3;
+        }
+
+
+        /* =====================================================
+           BOTONES CONFIRMACIÓN
+        ===================================================== */
+
+        .botones-confirmacion {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .boton-confirmar {
+
+            min-width: 200px;
+
+            padding:
+                15px 18px;
+
+            border:
+                1px solid
+                rgba(102,130,140,.4);
+
+            background:
+                transparent;
+
+            color: #637b85;
+
+            font-size: 9px;
+
+            letter-spacing: 2px;
+
+            cursor: pointer;
+
+            transition:
+                all .3s ease;
+        }
+
+
+        .boton-confirmar:hover {
+
+            background:
+                #edf4f6;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .boton-si {
+
+            background:
+                #edf4f6;
+        }
+
+
+        .mensaje-confirmacion {
+
+            margin-top: 22px;
+
+            color: #78919a;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FINAL
+        ===================================================== */
+
+        .final-invitacion {
+
+            width: 100%;
+
+            padding:
+                70px 20px;
+
+            text-align: center;
+
+            background:
+                #edf4f6;
+        }
+
+
+        .corazon-final {
+
+            margin-bottom: 18px;
+
+            color: #9bb1b9;
+
+            font-size: 28px;
+        }
+
+
+        .final-invitacion p {
+
+            color: #718891;
+
+            font-size: 15px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width:950px) {
+
+            .historia-layout {
+
+                width: 92vw;
+
+                min-height: 600px;
+
+                margin: 0 auto;
+            }
+
+
+            .tarjeta-historia {
+
+                min-height: 600px;
+
+                padding:
+                    40px 28px;
+            }
+
+
+            .foto-novios {
+
+                min-height: 600px;
+            }
+
+
+            .foto-novios img {
+
+                min-height: 600px;
+            }
+
+
+            .nombres {
+
+                font-size: 42px;
+            }
+
+
+            .frase {
+
+                font-size: 16px;
+            }
+
+        }
+
+
+        /* =====================================================
+           CELULAR
+        ===================================================== */
+
+        @media (max-width:700px) {
+
+            /* ================================================
+               GENERAL
+            ================================================ */
+
+            html,
+            body {
+
+                width: 100%;
+
+                max-width: 100%;
+
+                overflow-x: hidden;
+            }
+
+
+            body {
+
+                font-size: 16px;
+            }
+
+
+            /* ================================================
+               PORTADA
+            ================================================ */
+
+            .portada {
+
+                width: 100%;
+
+                height: 100vh;
+
+                min-height: 100vh;
+            }
+
+
+            .fondo-portada {
+
+                width: 100%;
+
+                height: 100%;
+
+                object-fit: cover;
+
+                object-position: center center;
+            }
+
+
+            .contenido-portada {
+
+                width: 90%;
+
+                max-width: 390px;
+
+                top: 50%;
+
+                left: 50%;
+
+                text-align: center;
+            }
+
+
+            .mensaje-amor {
+
+                font-size:
+                    clamp(30px, 9vw, 40px);
+
+                line-height: 1.2;
+
+                letter-spacing: .5px;
+
+                margin-bottom: 35px;
+
+                width: 100%;
+            }
+
+
+            .mensaje-amor::before {
+
+                left: -22px;
+
+                font-size: 9px;
+            }
+
+
+            .mensaje-amor::after {
+
+                right: -22px;
+
+                font-size: 9px;
+            }
+
+
+            .boton-abrir {
+
+                width: auto;
+
+                min-width: 210px;
+
+                max-width: 90%;
+
+                padding:
+                    15px 18px;
+
+                font-size: 10px;
+
+                letter-spacing: 2px;
+            }
+
+
+            /* ================================================
+               PUERTAS
+            ================================================ */
+
+            .puerta {
+
+                width: 50%;
+
+                height: 100%;
+            }
+
+
+            .puerta img {
+
+                width: 200%;
+
+                height: 100%;
+
+                object-fit: cover;
+            }
+
+
+            /* ================================================
+               HISTORIA
+            ================================================ */
+
+            .seccion-historia {
+
+                width: 100%;
+
+                min-height: auto;
+
+                padding:
+                    30px 12px 45px;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+            }
+
+
+            .historia-layout {
+
+                width: 100%;
+
+                max-width: 500px;
+
+                min-height: auto;
+
+                margin: 0 auto;
+
+                display: grid;
+
+                grid-template-columns: 1fr;
+
+                box-shadow:
+                    0 18px 45px
+                    rgba(70,105,120,.13);
+            }
+
+
+            /* ================================================
+               TARJETA
+            ================================================ */
+
+            .tarjeta-historia {
+
+                width: 100%;
+
+                min-height: auto;
+
+                padding:
+                    48px 20px 45px;
+
+                display: flex;
+
+                justify-content: center;
+
+                align-items: center;
+
+                text-align: center;
+            }
+
+
+            .pequeno-titulo {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+
+                margin-bottom: 17px;
+            }
+
+
+            .nombres {
+
+                width: 100%;
+
+                font-size:
+                    clamp(34px, 10vw, 43px);
+
+                line-height: 1.15;
+
+                word-break: normal;
+            }
+
+
+            .corazon {
+
+                margin:
+                    18px 0;
+
+                font-size: 25px;
+            }
+
+
+            .frase {
+
+                width: 100%;
+
+                max-width: 400px;
+
+                margin:
+                    0 auto 25px;
+
+                font-size: 15px;
+
+                line-height: 1.75;
+            }
+
+
+            /* ================================================
+               INFORMACIÓN
+            ================================================ */
+
+            .informacion {
+
+                width: 100%;
+
+                max-width: 400px;
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 8px;
+
+                margin-top: 5px;
+            }
+
+
+            .dato {
+
+                min-width: 0;
+
+                padding:
+                    14px 6px;
+            }
+
+
+            .dato-titulo {
+
+                font-size: 8px;
+
+                letter-spacing: 2px;
+
+                margin-bottom: 7px;
+            }
+
+
+            .dato-valor {
+
+                font-size: 14px;
+
+                line-height: 1.4;
+            }
+
+
+            /* ================================================
+               UBICACIÓN
+            ================================================ */
+
+            .ubicacion {
+
+                width: 100%;
+
+                max-width: 400px;
+
+                margin-top: 10px;
+
+                padding:
+                    12px 10px;
+            }
+
+
+            .ubicacion-titulo {
+
+                font-size: 8px;
+
+                letter-spacing: 2px;
+
+                margin-bottom: 5px;
+            }
+
+
+            .ubicacion-texto {
+
+                font-size: 14px;
+            }
+
+
+            /* ================================================
+               FOTO
+            ================================================ */
+
+            .foto-novios {
+
+                position: relative;
+
+                width: 100%;
+
+                height: 460px;
+
+                min-height: 460px;
+
+                overflow: hidden;
+
+                background: #edf4f6;
+            }
+
+
+            .foto-novios img {
+
+                display: block;
+
+                width: 100%;
+
+                height: 460px;
+
+                min-height: 460px;
+
+                object-fit: cover;
+
+                object-position: center center;
+            }
+
+
+            /* ================================================
+               GRAN DÍA
+            ================================================ */
+
+            .gran-dia {
+
+                width: 100%;
+
+                min-height: 100vh;
+
+                padding:
+                    55px 12px;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+            }
+
+
+            .gran-dia-contenido {
+
+                width: 100%;
+
+                max-width: 500px;
+
+                padding:
+                    45px 16px;
+
+                margin: 0 auto;
+            }
+
+
+            .decoracion {
+
+                font-size: 16px;
+
+                margin-bottom: 14px;
+            }
+
+
+            .gran-dia-titulo {
+
+                font-size: 10px;
+
+                letter-spacing: 4px;
+
+                margin-bottom: 20px;
+            }
+
+
+            .gran-dia h2 {
+
+                width: 100%;
+
+                font-size:
+                    clamp(27px, 8vw, 35px);
+
+                line-height: 1.2;
+
+                margin-bottom: 13px;
+            }
+
+
+            .hora {
+
+                font-size: 19px;
+
+                letter-spacing: 2px;
+            }
+
+
+            /* ================================================
+               CONTADOR
+            ================================================ */
+
+            .cuenta-regresiva {
+
+                width: 100%;
+
+                margin-top: 32px;
+
+                margin-bottom: 10px;
+            }
+
+
+            .cuenta-titulo {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .contador {
+
+                width: 100%;
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(4, 1fr);
+
+                gap: 3px;
+
+                align-items: stretch;
+            }
+
+
+            .tiempo {
+
+                width: 100%;
+
+                min-width: 0;
+
+                padding:
+                    11px 3px;
+
+                border-left:
+                    1px solid
+                    rgba(105,140,153,.22);
+            }
+
+
+            .tiempo:last-child {
+
+                border-right:
+                    1px solid
+                    rgba(105,140,153,.22);
+            }
+
+
+            .tiempo span {
+
+                font-size:
+                    clamp(20px, 7vw, 28px);
+
+                line-height: 1;
+            }
+
+
+            .tiempo small {
+
+                margin-top: 7px;
+
+                font-size: 7px;
+
+                letter-spacing: 1px;
+            }
+
+
+            /* ================================================
+               CEREMONIA
+            ================================================ */
+
+            .separador {
+
+                margin:
+                    28px 0;
+
+                font-size: 12px;
+            }
+
+
+            .ceremonia-titulo {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+
+                margin-bottom: 12px;
+            }
+
+
+            .lugar {
+
+                font-size: 21px;
+
+                margin-bottom: 7px;
+            }
+
+
+            .direccion {
+
+                font-size: 15px;
+
+                margin-bottom: 24px;
+            }
+
+
+            .boton-ubicacion {
+
+                width: auto;
+
+                max-width: 100%;
+
+                padding:
+                    13px 22px;
+
+                font-size: 9px;
+
+                letter-spacing: 2px;
+            }
+
+
+            /* ================================================
+               CONFIRMACIÓN
+            ================================================ */
+
+            .seccion-confirmacion {
+
+                width: 100%;
+
+                min-height: auto;
+
+                padding:
+                    55px 12px;
+            }
+
+
+            .confirmacion-contenido {
+
+                width: 100%;
+
+                max-width: 500px;
+
+                padding:
+                    45px 18px;
+
+                margin: 0 auto;
+            }
+
+
+            .confirmacion-decoracion {
+
+                font-size: 22px;
+
+                margin-bottom: 17px;
+            }
+
+
+            .confirmacion-titulo {
+
+                font-size: 9px;
+
+                letter-spacing: 4px;
+
+                line-height: 1.5;
+
+                margin-bottom: 18px;
+            }
+
+
+            .confirmacion-contenido h2 {
+
+                font-size:
+                    clamp(30px, 9vw, 38px);
+
+                line-height: 1.2;
+
+                margin-bottom: 15px;
+            }
+
+
+            .confirmacion-frase {
+
+                width: 100%;
+
+                font-size: 15px;
+
+                line-height: 1.7;
+
+                margin:
+                    0 auto 28px;
+            }
+
+
+            /* ================================================
+               CAMPO
+            ================================================ */
+
+            .campo-nombre {
+
+                width: 100%;
+
+                margin:
+                    0 auto 22px;
+            }
+
+
+            .campo-nombre label {
+
+                font-size: 8px;
+
+                letter-spacing: 2px;
+
+                margin-bottom: 8px;
+            }
+
+
+            .campo-nombre input {
+
+                width: 100%;
+
+                min-height: 48px;
+
+                padding:
+                    13px 14px;
+
+                font-size: 16px;
+
+                border-radius: 0;
+            }
+
+
+            /* ================================================
+               BOTONES
+            ================================================ */
+
+            .botones-confirmacion {
+
+                width: 100%;
+
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: center;
+
+                gap: 10px;
+            }
+
+
+            .boton-confirmar {
+
+                width: 100%;
+
+                max-width: 330px;
+
+                min-width: 0;
+
+                min-height: 48px;
+
+                padding:
+                    14px 12px;
+
+                font-size: 9px;
+
+                letter-spacing: 1.5px;
+            }
+
+
+            .mensaje-confirmacion {
+
+                margin-top: 20px;
+
+                font-size: 13px;
+            }
+
+
+            /* ================================================
+               FINAL
+            ================================================ */
+
+            .final-invitacion {
+
+                width: 100%;
+
+                padding:
+                    55px 18px;
+            }
+
+
+            .corazon-final {
+
+                font-size: 25px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .final-invitacion p {
+
+                font-size: 14px;
+
+                line-height: 1.8;
+            }
+
+        }
+
+
+        /* =====================================================
+           CELULARES PEQUEÑOS
+        ===================================================== */
+
+        @media (max-width:400px) {
+
+
+            .mensaje-amor {
+
+                font-size: 29px;
+
+                max-width: 300px;
+
+                margin-left: auto;
+
+                margin-right: auto;
+            }
+
+
+            .mensaje-amor::before,
+            .mensaje-amor::after {
+
+                display: none;
+            }
+
+
+            .boton-abrir {
+
+                min-width: 200px;
+
+                font-size: 9px;
+
+                letter-spacing: 1.8px;
+            }
+
+
+            .tarjeta-historia {
+
+                padding:
+                    42px 17px;
+            }
+
+
+            .pequeno-titulo {
+
+                font-size: 8px;
+
+                letter-spacing: 3px;
+            }
+
+
+            .nombres {
+
+                font-size: 32px;
+            }
+
+
+            .frase {
+
+                font-size: 14px;
+
+                line-height: 1.7;
+            }
+
+
+            .dato-valor {
+
+                font-size: 13px;
+            }
+
+
+            .ubicacion-texto {
+
+                font-size: 13px;
+            }
+
+
+            .foto-novios {
+
+                height: 400px;
+
+                min-height: 400px;
+            }
+
+
+            .foto-novios img {
+
+                height: 400px;
+
+                min-height: 400px;
+            }
+
+
+            .gran-dia-contenido {
+
+                padding:
+                    40px 12px;
+            }
+
+
+            .contador {
+
+                gap: 2px;
+            }
+
+
+            .tiempo {
+
+                padding:
+                    10px 2px;
+            }
+
+
+            .tiempo span {
+
+                font-size: 20px;
+            }
+
+
+            .tiempo small {
+
+                font-size: 6px;
+
+                letter-spacing: .7px;
+            }
+
+
+            .confirmacion-contenido {
+
+                padding:
+                    42px 15px;
+            }
+
+
+            .confirmacion-titulo {
+
+                font-size: 8px;
+
+                letter-spacing: 3px;
+            }
+
+
+            .confirmacion-contenido h2 {
+
+                font-size: 31px;
+            }
+
+
+            .confirmacion-frase {
+
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         MÚSICA
+    ====================================================== -->
+
+    <audio
+        id="musicaBoda"
+        autoplay
+        loop
+        preload="auto"
+    >
+
+        <source
+            src="musica.mp3"
+            type="audio/mpeg"
+        >
+
+    </audio>
+
+
+
+    <!-- =====================================================
+         PORTADA
+    ====================================================== -->
+
+    <section
+        class="portada"
+        id="portada"
+    >
+
+
+        <!-- Fondo floral -->
+
+        <img
+            src="fondo-boda.png"
+            alt=""
+            class="fondo-portada"
+        >
+
+
+        <!-- Puerta izquierda -->
+
+        <div
+            class="puerta puerta-izquierda"
+        >
+
+            <img
+                src="fondo-boda.png"
+                alt=""
+            >
+
+        </div>
+
+
+        <!-- Puerta derecha -->
+
+        <div
+            class="puerta puerta-derecha"
+        >
+
+            <img
+                src="fondo-boda.png"
+                alt=""
+            >
+
+        </div>
+
+
+
+        <!-- Texto central -->
+
+        <div
+            class="contenido-portada"
+            id="contenidoPortada"
+        >
+
+            <h1 class="mensaje-amor">
+                Nuestra historia de amor
+            </h1>
+
+
+            <button
+                class="boton-abrir"
+                id="botonAbrir"
+            >
+
+                » DESLIZA PARA ABRIR «
+
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         HISTORIA
+    ====================================================== -->
+
+    <section
+        class="seccion-historia"
+        id="historia"
+    >
+
+
+        <div class="historia-layout">
+
+
+            <!-- TEXTO -->
+
+            <div class="tarjeta-historia">
+
+
+                <div class="pequeno-titulo">
+
+                    NUESTRA BODA
+
+                </div>
+
+
+                <h2 class="nombres">
+
+                    Leandro
+
+                    <br>
+
+                    <span>&</span>
+
+                    <br>
+
+                    Vanessa
+
+                </h2>
+
+
+                <div class="corazon">
+
+                    ♥
+                    
+                </div>
+
+
+                <p class="frase">
+
+                    Hay historias que comienzan sin
+                    saber que terminarán convirtiéndose
+                    en el capítulo más bonito de nuestras vidas.
+
+                </p>
+
+
+                <div class="informacion">
+
+
+                    <div class="dato">
+
+                        <div class="dato-titulo">
+
+                            FECHA
+
+                        </div>
+
+
+                        <div class="dato-valor">
+
+                            18 de diciembre
+                            <br>
+                            de 2026
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="dato">
+
+                        <div class="dato-titulo">
+
+                            HORA
+
+                        </div>
+
+
+                        <div class="dato-valor">
+
+                            6:00 PM
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="ubicacion">
+
+                    <div class="ubicacion-titulo">
+
+                        LUGAR
+
+                    </div>
+
+
+                    <div class="ubicacion-texto">
+
+                        Próximamente
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- FOTO -->
+
+            <div class="foto-novios">
+
+                <img
+                    src="novios.jpeg"
+                    alt="Leandro y Vanessa"
+                >
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         GRAN DÍA
+    ====================================================== -->
+
+    <section
+        class="gran-dia"
+        id="granDia"
+    >
+
+
+        <div class="gran-dia-contenido">
+
+
+            <div class="decoracion">
+
+                ✦
+
+            </div>
+
+
+            <div class="gran-dia-titulo">
+
+                EL GRAN DÍA
+
+            </div>
+
+
+            <h2>
+
+                Nuestra boda
+
+            </h2>
+
+
+            <div class="hora">
+
+                18 · 12 · 2026 &nbsp; | &nbsp; 6:00 PM
+
+            </div>
+
+
+
+            <!-- CONTADOR -->
+
+            <div class="cuenta-regresiva">
+
+
+                <div class="cuenta-titulo">
+
+                    FALTAN
+
+                </div>
+
+
+                <div
+                    class="contador"
+                    id="contador"
+                >
+
+
+                    <div class="tiempo">
+
+                        <span id="dias">
+
+                            00
+
+                        </span>
+
+                        <small>
+
+                            DÍAS
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="tiempo">
+
+                        <span id="horas">
+
+                            00
+
+                        </span>
+
+                        <small>
+
+                            HORAS
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="tiempo">
+
+                        <span id="minutos">
+
+                            00
+
+                        </span>
+
+                        <small>
+
+                            MINUTOS
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="tiempo">
+
+                        <span id="segundos">
+
+                            00
+
+                        </span>
+
+                        <small>
+
+                            SEGUNDOS
+
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="separador">
+
+                ✧
+
+            </div>
+
+
+
+            <!-- CEREMONIA -->
+
+            <div class="ceremonia-titulo">
+
+                CELEBRAREMOS JUNTOS
+
+            </div>
+
+
+            <div class="lugar">
+
+                Próximamente
+
+            </div>
+
+
+            <div class="direccion">
+
+                El lugar será anunciado próximamente
+
+            </div>
+
+
+            <a
+                href="#"
+                class="boton-ubicacion"
+                onclick="
+                    event.preventDefault();
+                    alert('La ubicación estará disponible próximamente.');
+                "
+            >
+
+                VER UBICACIÓN
+
+            </a>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONFIRMACIÓN
+    ====================================================== -->
+
+    <section
+        class="seccion-confirmacion"
+        id="confirmacion"
+    >
+
+
+        <div class="confirmacion-contenido">
+
+
+            <div class="confirmacion-decoracion">
+
+                ♥
+                
+            </div>
+
+
+            <div class="confirmacion-titulo">
+
+                CONFIRMACIÓN DE ASISTENCIA
+
+            </div>
+
+
+            <h2>
+
+                ¿Nos acompañas?
+
+            </h2>
+
+
+            <p class="confirmacion-frase">
+
+                Nos haría muy felices compartir
+                este día tan especial contigo.
+                Por favor confirma tu asistencia.
+
+            </p>
+
+
+
+            <!-- NOMBRE -->
+
+            <div class="campo-nombre">
+
+
+                <label for="nombreInvitado">
+
+                    TU NOMBRE
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="nombreInvitado"
+                    placeholder="Escribe tu nombre"
+                    autocomplete="name"
+                >
+
+
+            </div>
+
+
+
+            <!-- BOTONES -->
+
+            <div class="botones-confirmacion">
+
+
+                <button
+                    class="boton-confirmar boton-si"
+                    id="btnSi"
+                >
+
+                    SÍ, ASISTIRÉ
+
+                </button>
+
+
+                <button
+                    class="boton-confirmar"
+                    id="btnNo"
+                >
+
+                    NO PODRÉ ASISTIR
+
+                </button>
+
+
+            </div>
+
+
+            <div
+                class="mensaje-confirmacion"
+                id="mensajeConfirmacion"
+            ></div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FINAL
+    ====================================================== -->
+
+    <section class="final-invitacion">
+
+
+        <div class="corazon-final">
+
+            ♥
+            
+        </div>
+
+
+        <p>
+
+            Con amor,
+
+            <br>
+
+            Leandro & Vanessa
+
+        </p>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =================================================
+           ELEMENTOS
+        ================================================= */
+
+        const portada =
+            document.getElementById("portada");
+
+
+        const botonAbrir =
+            document.getElementById("botonAbrir");
+
+
+        const contenidoPortada =
+            document.getElementById("contenidoPortada");
+
+
+        const musica =
+            document.getElementById("musicaBoda");
+
+
+
+        /* =================================================
+           MÚSICA
+        ================================================= */
+
+        async function iniciarMusica() {
+
+            try {
+
+                musica.volume = 0.35;
+
+                await musica.play();
+
+                console.log(
+                    "🎵 Música iniciada automáticamente."
+                );
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "El navegador bloqueó el autoplay."
+                );
+
+            }
+
+        }
+
+
+        iniciarMusica();
+
+
+        window.addEventListener(
+            "load",
+            function () {
+
+                iniciarMusica();
+
+            }
+        );
+
+
+        /*
+
+            Algunos navegadores móviles
+            bloquean automáticamente el audio
+            hasta que el usuario interactúe.
+
+        */
+
+        document.addEventListener(
+            "click",
+            function activarMusicaPorInteraccion() {
+
+                if (musica.paused) {
+
+                    musica.volume = 0.35;
+
+
+                    musica.play()
+
+                        .then(function () {
+
+                            console.log(
+                                "🎵 Música iniciada mediante interacción."
+                            );
+
+                        })
+
+                        .catch(function (error) {
+
+                            console.log(
+                                "No fue posible reproducir:",
+                                error
+                            );
+
+                        });
+
+                }
+
+
+                document.removeEventListener(
+                    "click",
+                    activarMusicaPorInteraccion
+                );
+
+            },
+            {
+                once: true
+            }
+        );
+
+
+
+        /* =================================================
+           ABRIR INVITACIÓN
+        ================================================= */
+
+        botonAbrir.addEventListener(
+            "click",
+            async function () {
+
+
+                /* Intentar iniciar música */
+
+                try {
+
+                    musica.volume = 0.35;
+
+                    await musica.play();
+
+                }
+
+                catch (error) {
+
+                    console.log(
+                        "Música bloqueada:",
+                        error
+                    );
+
+                }
+
+
+                /* Ocultar texto */
+
+                contenidoPortada.style.opacity = "0";
+
+
+                contenidoPortada.style.transform =
+                    "translate(-50%, -50%) scale(.94)";
+
+
+                /* Abrir puertas */
+
+                portada.classList.add("abierto");
+
+
+                /* Bloquear scroll durante la animación */
+
+                document.body.style.overflowY =
+                    "hidden";
+
+
+                setTimeout(
+                    function () {
+
+                        /*
+                         * Quitamos completamente
+                         * la portada.
+                         */
+
+                        portada.style.display =
+                            "none";
+
+
+                        /*
+                         * Restauramos scroll.
+                         */
+
+                        document.body.style.overflowY =
+                            "auto";
+
+
+                        /*
+                         * Llevamos al comienzo
+                         * de la invitación.
+                         */
+
+                        document.getElementById(
+                            "historia"
+                        ).scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                    },
+                    1900
+                );
+
+            }
+        );
+
+
+
+        /* =================================================
+           CUENTA REGRESIVA
+        ================================================= */
+
+        const fechaBoda =
+            new Date(
+                "2026-12-18T18:00:00"
+            ).getTime();
+
+
+        function actualizarContador() {
+
+
+            const ahora =
+                new Date().getTime();
+
+
+            const diferencia =
+                fechaBoda - ahora;
+
+
+            if (diferencia <= 0) {
+
+
+                document.getElementById("dias")
+                    .textContent = "00";
+
+
+                document.getElementById("horas")
+                    .textContent = "00";
+
+
+                document.getElementById("minutos")
+                    .textContent = "00";
+
+
+                document.getElementById("segundos")
+                    .textContent = "00";
+
+
+                return;
+
+            }
+
+
+            const dias =
+                Math.floor(
+                    diferencia /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            const horas =
+                Math.floor(
+                    (
+                        diferencia %
+                        (1000 * 60 * 60 * 24)
+                    ) /
+                    (1000 * 60 * 60)
+                );
+
+
+            const minutos =
+                Math.floor(
+                    (
+                        diferencia %
+                        (1000 * 60 * 60)
+                    ) /
+                    (1000 * 60)
+                );
+
+
+            const segundos =
+                Math.floor(
+                    (
+                        diferencia %
+                        (1000 * 60)
+                    ) /
+                    1000
+                );
+
+
+            document.getElementById("dias")
+                .textContent =
+                String(dias).padStart(2, "0");
+
+
+            document.getElementById("horas")
+                .textContent =
+                String(horas).padStart(2, "0");
+
+
+            document.getElementById("minutos")
+                .textContent =
+                String(minutos).padStart(2, "0");
+
+
+            document.getElementById("segundos")
+                .textContent =
+                String(segundos).padStart(2, "0");
+
+        }
+
+
+        actualizarContador();
+
+
+        setInterval(
+            actualizarContador,
+            1000
+        );
+
+
+
+        /* =================================================
+           WHATSAPP
+        ================================================= */
+
+        const numeroWhatsApp =
+            "57XXXXXXXXXX";
+
+
+        const btnSi =
+            document.getElementById("btnSi");
+
+
+        const btnNo =
+            document.getElementById("btnNo");
+
+
+        const nombreInvitado =
+            document.getElementById("nombreInvitado");
+
+
+        const mensajeConfirmacion =
+            document.getElementById(
+                "mensajeConfirmacion"
+            );
+
+
+
+        /* =================================================
+           CONFIRMAR ASISTENCIA
+        ================================================= */
+
+        btnSi.addEventListener(
+            "click",
+            function () {
+
+
+                const nombre =
+                    nombreInvitado.value.trim();
+
+
+                if (!nombre) {
+
+                    mensajeConfirmacion.textContent =
+                        "Por favor escribe tu nombre.";
+
+                    nombreInvitado.focus();
+
+                    return;
+
+                }
+
+
+                const mensaje =
+                    "Hola, soy " +
+                    nombre +
+                    ". Confirmo que SÍ asistiré a la boda de Leandro y Vanessa el 18 de diciembre de 2026.";
+
+
+                const url =
+                    "https://wa.me/" +
+                    numeroWhatsApp +
+                    "?text=" +
+                    encodeURIComponent(mensaje);
+
+
+                if (
+                    numeroWhatsApp ===
+                    "57XXXXXXXXXX"
+                ) {
+
+                    mensajeConfirmacion.textContent =
+                        "⚠️ Falta configurar el número de WhatsApp.";
+
+                    return;
+
+                }
+
+
+                window.open(
+                    url,
+                    "_blank"
+                );
+
+            }
+        );
+
+
+
+        /* =================================================
+           NO ASISTIRÉ
+        ================================================= */
+
+        btnNo.addEventListener(
+            "click",
+            function () {
+
+
+                const nombre =
+                    nombreInvitado.value.trim();
+
+
+                if (!nombre) {
+
+                    mensajeConfirmacion.textContent =
+                        "Por favor escribe tu nombre.";
+
+                    nombreInvitado.focus();
+
+                    return;
+
+                }
+
+
+                const mensaje =
+                    "Hola, soy " +
+                    nombre +
+                    ". Lamentablemente no podré asistir a la boda de Leandro y Vanessa el 18 de diciembre de 2026.";
+
+
+                const url =
+                    "https://wa.me/" +
+                    numeroWhatsApp +
+                    "?text=" +
+                    encodeURIComponent(mensaje);
+
+
+                if (
+                    numeroWhatsApp ===
+                    "57XXXXXXXXXX"
+                ) {
+
+                    mensajeConfirmacion.textContent =
+                        "⚠️ Falta configurar el número de WhatsApp.";
+
+                    return;
+
+                }
+
+
+                window.open(
+                    url,
+                    "_blank"
+                );
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
