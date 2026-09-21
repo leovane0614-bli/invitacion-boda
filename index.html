@@ -2285,7 +2285,7 @@
                 <div class="ubicacion">
 
                     <div class="ubicacion-titulo">
-                        Lugar
+                        LUGAR
                     </div>
 
                     <div class="ubicacion-texto">
@@ -3051,26 +3051,34 @@
             );
 
         }
+          /* Menos corazones:
+             - PC/tablet: 10 corazones iniciales + ritmo suave
+             - Celular: 6 corazones iniciales + ritmo aún más suave
+          */
+          const esCelular =
+             window.matchMedia("(max-width: 600px)").matches;
 
+          const cantidadCorazones =
+             esCelular ? 6 : 10;
 
-        setInterval(
-            crearCorazon,
-            280
-        );
+          const intervaloCorazones =
+             esCelular ? 900 : 650;
 
+          setInterval(
+             crearCorazon,
+             intervaloCorazones
+          );
 
-        for (
-            let i = 0;
-            i < 24;
-            i++
-        ) {
-
-            setTimeout(
-                crearCorazon,
-                i * 140
-            );
-
-        }
+          for (
+             let i = 0;
+             i < cantidadCorazones;
+             i++
+          ) {
+             setTimeout(
+                 crearCorazon,
+                 i * 220
+             );
+          }
 
 
         /* =====================================================
@@ -3382,4 +3390,4 @@
 </script>
 
 </body>
-</html> -->
+</html>
