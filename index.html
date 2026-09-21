@@ -652,13 +652,66 @@
 
         .pequeno-titulo {
 
-            font-size: 12px;
+            position: relative;
 
-            letter-spacing: 4px;
+            display: inline-flex;
 
-            color: #7b9199;
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 15px;
+
+            letter-spacing: 6px;
+
+            font-weight: 600;
+
+            color: #4d7180;
 
             margin-bottom: 25px;
+
+            padding: 9px 24px;
+
+            text-shadow:
+                0 1px 2px rgba(255,255,255,.95),
+                0 0 8px rgba(255,255,255,.75);
+
+            background: rgba(255,255,255,.38);
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 4px 16px rgba(90,130,145,.08);
+        }
+
+        .pequeno-titulo::before,
+        .pequeno-titulo::after {
+
+            content: "";
+
+            width: 48px;
+
+            height: 1px;
+
+            background: linear-gradient(
+                to right,
+                transparent,
+                #7fb7c8
+            );
+
+            opacity: .9;
+        }
+
+        .pequeno-titulo::before {
+
+            margin-right: 13px;
+        }
+
+        .pequeno-titulo::after {
+
+            margin-left: 13px;
+
+            transform: rotate(180deg);
         }
 
         .nombres {
@@ -1520,7 +1573,25 @@
                 min-height: 0;
             }
 
-            .pequeno-titulo { font-size: 8px; letter-spacing: 2px; margin-bottom: 10px; }
+            .pequeno-titulo {
+                font-size: 9px;
+                letter-spacing: 2.8px;
+                padding: 6px 9px;
+                margin-bottom: 10px;
+            }
+
+            .pequeno-titulo::before,
+            .pequeno-titulo::after {
+                width: 20px;
+            }
+
+            .pequeno-titulo::before {
+                margin-right: 6px;
+            }
+
+            .pequeno-titulo::after {
+                margin-left: 6px;
+            }
             .nombres { font-size: clamp(28px, 8vw, 42px); }
             .corazon { font-size: 20px; margin: 12px 0; }
             .frase { font-size: 11px; line-height: 1.45; }
@@ -1751,7 +1822,7 @@
                 class="boton-abrir"
                 id="botonAbrir">
 
-                » DESLIZA PARA ABRIR «
+                ❤️Click aquí para abrir❤️
 
             </button>
 
@@ -1784,7 +1855,7 @@
 
 
                 <div class="pequeno-titulo">
-                    NUESTRA BODA
+                   ❤️ NOS CASAMOS ❤️
                 </div>
 
 
@@ -1825,12 +1896,12 @@
                     <div class="dato">
 
                         <div class="dato-titulo">
-                            FECHA
+                            Fecha
                         </div>
 
                         <div class="dato-valor">
 
-                            18 de diciembre
+                            20 de diciembre
                             <br>
                             de 2026
 
@@ -1842,11 +1913,11 @@
                     <div class="dato">
 
                         <div class="dato-titulo">
-                            HORA
+                            Hora
                         </div>
 
                         <div class="dato-valor">
-                            6:00 PM
+                            5:30 PM
                         </div>
 
                     </div>
@@ -1862,7 +1933,7 @@
                     </div>
 
                     <div class="ubicacion-texto">
-                        Próximamente
+                        IPUC Las Minas - Huila
                     </div>
 
                 </div>
@@ -1925,9 +1996,9 @@
 
             <div class="hora">
 
-                18 · 12 · 2026
+                20 · 12 · 2026
                 &nbsp; | &nbsp;
-                6:00 PM
+                5:30 PM
 
             </div>
 
@@ -2012,28 +2083,21 @@
             </div>
 
 
-            <div class="lugar">
-                Próximamente
-            </div>
-
-
-            <div class="direccion">
-                El lugar será anunciado próximamente
-            </div>
+           
 
 
         </div>
 
         <div class="navegacion-pantalla">
             <button class="boton-pantalla boton-atras" data-ir="historia">← ATRÁS</button>
-            <button class="boton-pantalla boton-siguiente" data-ir="confirmacion">SIGUIENTE →</button>
+            <button class="boton-pantalla boton-siguiente" data-ir="finalInvitacion">SIGUIENTE →</button>
         </div>
 
     </section>
 
 
     <!-- =====================================================
-         FINAL
+         FINAL / CON AMOR
     ===================================================== -->
 
     <section
@@ -2064,6 +2128,12 @@
 
 
 
+
+
+
+    <!-- =====================================================
+         CONFIRMACIÓN — ÚLTIMA VENTANA
+    ===================================================== -->
 
     <!-- =====================================================
          CONFIRMACIÓN
@@ -2158,6 +2228,8 @@
         </div>
 
     </section>
+
+
 
 
     <!-- =====================================================
@@ -2369,7 +2441,7 @@
 
         const fechaBoda =
             new Date(
-                "2026-12-18T18:00:00"
+                "2026-12-20T17:30:00"
             ).getTime();
 
 
@@ -2726,7 +2798,7 @@
 
 
                 const mensaje =
-                    `Hola Leandro y Vanessa ❤️. Soy ${nombre} y quiero confirmar que SÍ asistiré a su boda el 18 de diciembre de 2026. ¡Será un placer acompañarlos en este día tan especial!`;
+                    `Hola Leandro y Vanessa ❤️. Soy ${nombre} y quiero confirmar que SÍ asistiré a su boda el 20 de Diciembre de 2026. ¡Será un placer acompañarlos en este día tan especial!`;
 
 
                 const url =
@@ -2772,7 +2844,7 @@
 
 
                 const mensaje =
-                    `Hola Leandro y Vanessa. Soy ${nombre}. Lamentablemente no podré acompañarlos a su boda el 18 de diciembre de 2026, pero les deseo toda la felicidad del mundo en este día tan especial. ❤️`;
+                    `Hola Leandro y Vanessa. Soy ${nombre}. Lamentablemente no podré acompañarlos a su boda el 20 de Diciembre de 2026, pero les deseo toda la felicidad del mundo en este día tan especial. ❤️`;
 
 
                 const url =
