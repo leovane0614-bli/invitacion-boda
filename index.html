@@ -2107,6 +2107,49 @@
 }
 
 </style>
+
+<style>
+/* =========================================================
+   AJUSTE FINAL CELULAR — FOTO CUBIERTA HASTA ABAJO
+   Mantiene información + foto juntas en la misma pantalla.
+   La foto ocupa toda la altura de su columna, sin franja blanca.
+   ========================================================= */
+@media (max-width: 500px) {
+
+    .seccion-historia .historia-layout {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+    }
+
+    .seccion-historia .tarjeta-historia,
+    .seccion-historia .foto-novios {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+    }
+
+    .seccion-historia .foto-novios {
+        display: block !important;
+        align-self: stretch !important;
+        height: auto !important;
+        min-height: 100% !important;
+        overflow: hidden !important;
+        background: #f8fbfc !important;
+    }
+
+    .seccion-historia .foto-novios img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: cover !important;
+        object-position: center bottom !important;
+    }
+}
+</style>
+
 </head>
 
 
