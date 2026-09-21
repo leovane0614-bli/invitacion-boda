@@ -1616,22 +1616,8 @@
                 font-size: 14px;
             }
 
-            /* En celular: mostrar TODA la foto, sin recortarla */
             .foto-novios {
-                height: 100%;
-                min-height: 0;
-                background: #ffffff;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
-
-            .foto-novios img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                object-position: center center;
+                height: 430px;
             }
 
             .gran-dia {
@@ -1710,7 +1696,51 @@
             }
         }
 
-    </style>
+    
+
+        /* =====================================================
+           CORRECCIÓN DEFINITIVA FOTO EN CELULAR
+           Mostrar la fotografía completa, sin recorte.
+        ===================================================== */
+        @media (max-width: 500px) {
+            .historia-layout {
+                width: 96% !important;
+                height: auto !important;
+                max-height: none !important;
+                flex-direction: row !important;
+                align-items: flex-start !important;
+            }
+
+            .tarjeta-historia {
+                width: 50% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                align-self: stretch !important;
+            }
+
+            .foto-novios {
+                width: 50% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                aspect-ratio: 899 / 1599 !important;
+                overflow: hidden !important;
+                align-self: flex-start !important;
+            }
+
+            .foto-novios img {
+                display: block !important;
+                width: 100% !important;
+                height: auto !important;
+                min-width: 0 !important;
+                min-height: 0 !important;
+                max-width: 100% !important;
+                max-height: none !important;
+                object-fit: contain !important;
+                object-position: center top !important;
+            }
+        }
+
+</style>
 </head>
 
 
