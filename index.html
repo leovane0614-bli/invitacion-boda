@@ -2524,13 +2524,15 @@
            CAMBIA SOLAMENTE ESTA LÍNEA.
         ===================================================== */
 
-        const nombreInvitadoPersonalizado =
-            "Omar Gómez e Hija"
+        const parametros = new URLSearchParams(window.location.search);
 
-        document.getElementById(
-            "nombreInvitadoPersonalizado"
-        ).textContent =
-            nombreInvitadoPersonalizado;
+const nombreInvitadoPersonalizado =
+    parametros.get("invitado") || "Invitado especial";
+
+document.getElementById(
+    "nombreInvitadoPersonalizado"
+).textContent =
+    nombreInvitadoPersonalizado;
 
 
         /* =====================================================
