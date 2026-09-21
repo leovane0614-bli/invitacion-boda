@@ -1714,36 +1714,49 @@
 
         /* AJUSTE FINAL CELULAR - DISEÑO 50/50 */
         @media (max-width: 500px) {
-            .seccion-historia .historia-layout {
-                width: 96% !important;
-                height: calc(100dvh - 105px) !important;
-                max-height: calc(100dvh - 105px) !important;
-                min-height: 0 !important;
-                display: flex !important;
-                flex-direction: row !important;
-                align-items: stretch !important;
-            }
-            .seccion-historia .tarjeta-historia {
-                width: 50% !important;
-                flex: 0 0 50% !important;
-                height: 100% !important;
-                min-height: 0 !important;
-                overflow: hidden !important;
-            }
-            .seccion-historia .foto-novios {
-                width: 50% !important;
-                flex: 0 0 50% !important;
-                height: 100% !important;
-                min-height: 0 !important;
-                overflow: hidden !important;
-            }
-            .seccion-historia .foto-novios img {
-                display: block !important;
-                width: 100% !important;
-                height: 100% !important;
-                object-fit: cover !important;
-                object-position: center center !important;
-            }
+
+    .seccion-historia {
+        padding: 10px 8px 70px !important;
+    }
+
+    .seccion-historia .historia-layout {
+        width: 96% !important;
+        height: calc(100dvh - 80px) !important;
+        max-height: calc(100dvh - 80px) !important;
+        min-height: 0 !important;
+
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+    }
+
+    .seccion-historia .tarjeta-historia {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .seccion-historia .foto-novios {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+    }
+
+    .seccion-historia .foto-novios img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: cover !important;
+        object-position: center center !important;
+    }
+
         }
 </style>
 </head>
