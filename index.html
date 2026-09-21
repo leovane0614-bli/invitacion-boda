@@ -1703,14 +1703,39 @@
         ===================================================== */
 
         @media (max-width: 500px) {
-            .seccion-historia .foto-novios {
-                width: 50% !important;
-                height: 100% !important;
+            /* CELULAR: la foto ocupa todo el ancho y conserva TODA su proporción.
+               Así no se recorta ni queda diminuta dentro de una columna estrecha. */
+            .seccion-historia {
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                justify-content: flex-start !important;
+            }
+
+            .seccion-historia .historia-layout {
+                width: 96% !important;
+                height: auto !important;
+                max-height: none !important;
                 min-height: 0 !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 14px !important;
+                margin: 0 auto 20px !important;
+            }
+
+            .seccion-historia .tarjeta-historia {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 430px !important;
+                flex: none !important;
+            }
+
+            .seccion-historia .foto-novios {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                flex: none !important;
                 overflow: hidden !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
+                display: block !important;
                 background: #ffffff !important;
             }
 
@@ -1719,7 +1744,7 @@
                 width: 100% !important;
                 height: auto !important;
                 max-width: 100% !important;
-                max-height: 100% !important;
+                max-height: none !important;
                 object-fit: contain !important;
                 object-position: center center !important;
             }
