@@ -1458,6 +1458,98 @@
 
 
         /* =====================================================
+           PANTALLA SEPARADA PARA LA FOTO
+        ===================================================== */
+
+        .seccion-historia .historia-layout {
+            width: min(92%, 760px);
+            height: auto;
+            min-height: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .seccion-historia .tarjeta-historia {
+            width: 100%;
+            max-width: 760px;
+            min-height: auto;
+        }
+
+        .foto-pantalla {
+            background: #f8fbfc;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .foto-pantalla-contenido {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 20px 85px;
+        }
+
+        .foto-novios-pantalla {
+            width: min(92vw, 650px);
+            height: min(82vh, 760px);
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 22px;
+            box-shadow: 0 12px 35px rgba(50,80,90,.18);
+            background: #fff;
+        }
+
+        .foto-novios-pantalla img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .navegacion-foto {
+            bottom: 22px;
+        }
+
+        @media (max-width: 500px) {
+            .seccion-historia .historia-layout {
+                width: 94%;
+                height: auto;
+                max-height: none;
+            }
+
+            .seccion-historia .tarjeta-historia {
+                width: 100%;
+                height: auto;
+                flex: none;
+                padding: 24px 18px 30px;
+            }
+
+            .foto-pantalla-contenido {
+                padding: 15px 10px 72px;
+            }
+
+            .foto-novios-pantalla {
+                width: 94vw;
+                height: 82vh;
+                border-radius: 16px;
+            }
+
+            .foto-novios-pantalla img {
+                object-fit: contain;
+            }
+
+            .navegacion-foto {
+                bottom: 10px;
+            }
+        }
+
+
+        /* =====================================================
            RESPONSIVE
         ===================================================== */
 
@@ -2352,24 +2444,38 @@
             </div>
 
 
-            <!-- FOTO -->
-
-            <div
-                class="foto-novios">
-
-
-                <img
-                    src="novios.jpeg"
-                    alt="Leandro y Vanessa">
-
-
-            </div>
 
 
         </div>
 
         <!-- BOTÓN DENTRO DE LA PANTALLA, DEBAJO DE LA TARJETA -->
         <div class="navegacion-pantalla navegacion-historia">
+            <button class="boton-pantalla boton-siguiente" data-ir="fotoNovios">SIGUIENTE →</button>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SEGUNDA PANTALLA — FOTO DE LOS NOVIOS
+    ===================================================== -->
+
+    <section
+        class="foto-pantalla pantalla-invitacion"
+        id="fotoNovios">
+
+        <div class="foto-pantalla-contenido">
+
+            <div class="foto-novios foto-novios-pantalla">
+                <img
+                    src="novios.jpeg"
+                    alt="Leandro y Vanessa">
+            </div>
+
+        </div>
+
+        <div class="navegacion-pantalla navegacion-foto">
+            <button class="boton-pantalla boton-atras" data-ir="historia">← ATRÁS</button>
             <button class="boton-pantalla boton-siguiente" data-ir="granDia">SIGUIENTE →</button>
         </div>
 
