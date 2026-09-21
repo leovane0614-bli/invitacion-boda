@@ -1696,51 +1696,36 @@
             }
         }
 
-    
 
         /* =====================================================
-           CORRECCIÓN DEFINITIVA FOTO EN CELULAR
-           Mostrar la fotografía completa, sin recorte.
+           CORRECCION REAL: FOTO COMPLETA EN CELULAR
+           No recortar novios.jpeg aunque existan reglas anteriores.
         ===================================================== */
+
         @media (max-width: 500px) {
-            .historia-layout {
-                width: 96% !important;
-                height: auto !important;
-                max-height: none !important;
-                flex-direction: row !important;
-                align-items: flex-start !important;
-            }
-
-            .tarjeta-historia {
+            .seccion-historia .foto-novios {
                 width: 50% !important;
-                height: auto !important;
+                height: 100% !important;
                 min-height: 0 !important;
-                align-self: stretch !important;
-            }
-
-            .foto-novios {
-                width: 50% !important;
-                height: auto !important;
-                min-height: 0 !important;
-                aspect-ratio: 899 / 1599 !important;
                 overflow: hidden !important;
-                align-self: flex-start !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: #ffffff !important;
             }
 
-            .foto-novios img {
+            .seccion-historia .foto-novios img {
                 display: block !important;
                 width: 100% !important;
                 height: auto !important;
-                min-width: 0 !important;
-                min-height: 0 !important;
                 max-width: 100% !important;
-                max-height: none !important;
+                max-height: 100% !important;
                 object-fit: contain !important;
-                object-position: center top !important;
+                object-position: center center !important;
             }
         }
 
-</style>
+    </style>
 </head>
 
 
