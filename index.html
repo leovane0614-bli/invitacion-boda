@@ -1942,6 +1942,133 @@
             }
         }
 
+
+        /* =====================================================
+           GENERADOR DE LINKS PERSONALIZADOS
+        ===================================================== */
+
+        .generador-links {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 12000;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .generador-links[hidden] {
+            display: none !important;
+        }
+
+        .generador-toggle {
+            border: 1px solid rgba(70,100,110,.45);
+            background: rgba(255,255,255,.94);
+            color: #496572;
+            padding: 10px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            box-shadow: 0 7px 20px rgba(60,90,100,.16);
+            backdrop-filter: blur(6px);
+        }
+
+        .generador-panel {
+            width: min(330px, calc(100vw - 28px));
+            margin-top: 8px;
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255,255,255,.97);
+            border: 1px solid rgba(100,140,150,.25);
+            box-shadow: 0 18px 45px rgba(40,70,80,.22);
+        }
+
+        .generador-panel[hidden] {
+            display: none !important;
+        }
+
+        .generador-titulo {
+            color: #496572;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .generador-panel label {
+            display: block;
+            color: #647982;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .generador-panel input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid #cbdbe0;
+            border-radius: 10px;
+            outline: none;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 15px;
+            color: #4f6872;
+            background: white;
+        }
+
+        .generador-panel input:focus {
+            border-color: #83b7ca;
+            box-shadow: 0 0 0 3px rgba(130,190,210,.12);
+        }
+
+        .generador-accion,
+        .generador-copiar {
+            width: 100%;
+            margin-top: 10px;
+            padding: 11px;
+            border-radius: 10px;
+            border: 1px solid #9bb5be;
+            background: #8bbfd4;
+            color: white;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .generador-copiar {
+            background: white;
+            color: #526d77;
+        }
+
+        .generador-copiar:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .link-generado {
+            display: none;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 9px;
+            background: #f3f8fa;
+            color: #526d77;
+            font-size: 11px;
+            line-height: 1.45;
+            word-break: break-all;
+        }
+
+        .link-generado.visible {
+            display: block;
+        }
+
+        .mensaje-link {
+            min-height: 16px;
+            margin-top: 8px;
+            color: #58727c;
+            text-align: center;
+            font-size: 10px;
+        }
+
 </style>
 </head>
 
@@ -2478,11 +2605,171 @@
 
 
 
+
+    <!-- =====================================================
+         GENERADOR DE LINKS PERSONALIZADOS
+         Solo aparece con ?admin=1
+         Ejemplo:
+         https://leovane0614-bli.github.io/invitacion-boda/?admin=1
+    ===================================================== -->
+
+    <div id="generadorLinks" class="generador-links" hidden>
+        <button type="button" id="btnAbrirGenerador" class="generador-toggle">
+            ⚙ GENERAR LINK
+        </button>
+
+        <div id="panelGenerador" class="generador-panel" hidden>
+            <div class="generador-titulo">LINK PERSONALIZADO</div>
+
+            <label for="nombreParaLink">Nombre del invitado</label>
+
+            <input
+                id="nombreParaLink"
+                type="text"
+                placeholder="Ej: Omar Gómez e Hija"
+                autocomplete="off">
+
+            <button type="button" id="btnGenerarLink" class="generador-accion">
+                GENERAR LINK
+            </button>
+
+            <div id="linkGenerado" class="link-generado"></div>
+
+            <button type="button" id="btnCopiarLink" class="generador-copiar" disabled>
+                COPIAR LINK
+            </button>
+
+            <div id="mensajeLink" class="mensaje-link"></div>
+        </div>
+    </div>
+
     <!-- =====================================================
          JAVASCRIPT
     ===================================================== -->
 
     <script>
+
+
+        /* =====================================================
+           GENERADOR DE LINKS
+           Solo se activa si la URL contiene ?admin=1
+        ===================================================== */
+
+        (function configurarGeneradorLinks() {
+
+            const parametros = new URLSearchParams(window.location.search);
+
+            if (parametros.get("admin") !== "1") {
+                return;
+            }
+
+            const generador = document.getElementById("generadorLinks");
+            const btnAbrir = document.getElementById("btnAbrirGenerador");
+            const panel = document.getElementById("panelGenerador");
+            const input = document.getElementById("nombreParaLink");
+            const btnGenerar = document.getElementById("btnGenerarLink");
+            const resultado = document.getElementById("linkGenerado");
+            const btnCopiar = document.getElementById("btnCopiarLink");
+            const mensaje = document.getElementById("mensajeLink");
+
+            if (!generador || !btnAbrir || !panel || !input ||
+                !btnGenerar || !resultado || !btnCopiar || !mensaje) {
+                return;
+            }
+
+            generador.hidden = false;
+
+            btnAbrir.addEventListener("click", function () {
+                panel.hidden = !panel.hidden;
+
+                if (!panel.hidden) {
+                    input.focus();
+                }
+            });
+
+            function crearSlug(nombre) {
+
+                return nombre
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .trim()
+                    .replace(/\s+/g, "-")
+                    .replace(/[^a-zA-Z0-9-]/g, "")
+                    .replace(/-+/g, "-")
+                    .replace(/^-|-$/g, "");
+            }
+
+            btnGenerar.addEventListener("click", function () {
+
+                const nombre = input.value.trim();
+
+                if (!nombre) {
+                    resultado.textContent = "";
+                    resultado.classList.remove("visible");
+                    btnCopiar.disabled = true;
+                    mensaje.textContent = "Escribe el nombre del invitado.";
+                    return;
+                }
+
+                const slug = crearSlug(nombre);
+
+                if (!slug) {
+                    resultado.textContent = "";
+                    resultado.classList.remove("visible");
+                    btnCopiar.disabled = true;
+                    mensaje.textContent = "Ese nombre no permite crear un link.";
+                    return;
+                }
+
+                const urlBase =
+                    window.location.origin +
+                    window.location.pathname;
+
+                const link =
+                    urlBase + "#" + slug;
+
+                resultado.textContent = link;
+                resultado.classList.add("visible");
+
+                btnCopiar.disabled = false;
+                btnCopiar.dataset.link = link;
+
+                mensaje.textContent =
+                    "Link listo para compartir.";
+            });
+
+            btnCopiar.addEventListener("click", async function () {
+
+                const link = btnCopiar.dataset.link;
+
+                if (!link) return;
+
+                try {
+                    await navigator.clipboard.writeText(link);
+                    mensaje.textContent = "✓ Link copiado.";
+                } catch (error) {
+
+                    const area = document.createElement("textarea");
+                    area.value = link;
+                    area.style.position = "fixed";
+                    area.style.left = "-9999px";
+
+                    document.body.appendChild(area);
+                    area.select();
+
+                    try {
+                        document.execCommand("copy");
+                        mensaje.textContent = "✓ Link copiado.";
+                    } catch (copyError) {
+                        mensaje.textContent =
+                            "No se pudo copiar. Selecciona el link manualmente.";
+                    }
+
+                    area.remove();
+                }
+            });
+
+        })();
 
 
         /* =====================================================
@@ -2524,15 +2811,42 @@
            CAMBIA SOLAMENTE ESTA LÍNEA.
         ===================================================== */
 
-        const parametros = new URLSearchParams(window.location.search);
+        /* =====================================================
+           INVITADO PERSONALIZADO POR LINK
 
-const nombreInvitadoPersonalizado =
-    parametros.get("invitado") || "Omar Gómez e Hija";
+           Ejemplo:
+           https://leovane0614-bli.github.io/invitacion-boda/#Omar-Gomez-e-Hija
 
-document.getElementById(
-    "nombreInvitadoPersonalizado"
-).textContent =
-    nombreInvitadoPersonalizado;
+           Cada enlace puede tener un invitado diferente sin
+           modificar ni volver a subir este index.html.
+        ===================================================== */
+
+        function obtenerNombreDesdeLink() {
+
+            const hash = window.location.hash
+                .replace(/^#/, "")
+                .trim();
+
+            if (!hash) {
+                return "Invitado especial";
+            }
+
+            try {
+                return decodeURIComponent(hash.replace(/-/g, " ")).trim()
+                    || "Invitado especial";
+            } catch (error) {
+                return hash.replace(/-/g, " ").trim()
+                    || "Invitado especial";
+            }
+        }
+
+        const nombreInvitadoPersonalizado =
+            obtenerNombreDesdeLink();
+
+        document.getElementById(
+            "nombreInvitadoPersonalizado"
+        ).textContent =
+            nombreInvitadoPersonalizado;
 
 
         /* =====================================================
