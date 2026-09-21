@@ -1616,8 +1616,21 @@
                 font-size: 14px;
             }
 
-            .foto-novios {
-                height: 430px;
+            /* FOTO: debe ocupar TODA la mitad derecha en celular */
+            .historia-layout .foto-novios {
+                width: 50% !important;
+                height: 100% !important;
+                min-height: 0 !important;
+                flex: 0 0 50% !important;
+                overflow: hidden !important;
+            }
+
+            .historia-layout .foto-novios img {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                object-position: center center !important;
             }
 
             .gran-dia {
@@ -1697,20 +1710,16 @@
         }
 
     
+
         /* =====================================================
-           AJUSTE FINAL CELULAR — DISEÑO 50/50
-           La tarjeta y la foto permanecen JUNTAS.
-           La foto llena completamente su mitad, sin quedar
-           pequeña ni quedarse arriba.
+           AJUSTE FINAL CELULAR - HISTORIA 50/50
+           La tarjeta y la foto ocupan toda la altura disponible.
         ===================================================== */
         @media (max-width: 500px) {
-
             .seccion-historia .historia-layout {
                 width: 96% !important;
                 height: calc(100dvh - 105px) !important;
                 max-height: calc(100dvh - 105px) !important;
-                min-height: 0 !important;
-
                 display: flex !important;
                 flex-direction: row !important;
                 align-items: stretch !important;
@@ -1723,7 +1732,6 @@
                 min-height: 0 !important;
                 flex: 0 0 50% !important;
                 overflow: hidden !important;
-                box-sizing: border-box !important;
             }
 
             .seccion-historia .foto-novios {
@@ -1732,25 +1740,18 @@
                 min-height: 0 !important;
                 flex: 0 0 50% !important;
                 overflow: hidden !important;
-                box-sizing: border-box !important;
-                display: block !important;
             }
 
             .seccion-historia .foto-novios img {
-                display: block !important;
                 width: 100% !important;
                 height: 100% !important;
-                max-width: none !important;
-                max-height: none !important;
-
-                /* Llena TODA la mitad derecha */
+                display: block !important;
                 object-fit: cover !important;
-
-                /* Mantiene los rostros en la zona visible */
-                object-position: center 28% !important;
+                object-position: center center !important;
             }
         }
-</style>
+
+    </style>
 </head>
 
 
