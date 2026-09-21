@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>❤️ Leo & Vane ❤️ Nuestra Boda</title>
+    <title>❤️ Leo & Vanessa ❤️ Nuestra Boda</title>
 
     <style>
 
@@ -1556,6 +1556,7 @@
                 width: 96%;
                 height: calc(100dvh - 105px);
                 max-height: calc(100dvh - 105px);
+                min-height: 0;
                 flex-direction: row;
                 align-items: stretch;
             }
@@ -1564,7 +1565,9 @@
                 width: 50%;
                 height: 100%;
                 min-height: 0;
+                flex: 0 0 50%;
                 padding: 18px 12px;
+                overflow: hidden;
             }
 
             .foto-novios {
@@ -1592,7 +1595,12 @@
             .pequeno-titulo::after {
                 margin-left: 6px;
             }
-            .nombres { font-size: clamp(28px, 8vw, 42px); }
+            .nombres {
+                font-size: clamp(21px, 7vw, 30px);
+                line-height: 1.05;
+                width: 100%;
+                max-width: 100%;
+            }
             .corazon { font-size: 20px; margin: 12px 0; }
             .frase { font-size: 11px; line-height: 1.45; }
             .informacion { gap: 12px; margin-top: 18px; }
@@ -1601,7 +1609,10 @@
             .ubicacion { margin-top: 14px; }
 
             .nombres {
-                font-size: 43px;
+                font-size: clamp(21px, 7vw, 30px);
+                line-height: 1.05;
+                width: 100%;
+                max-width: 100%;
             }
 
             .frase {
@@ -1616,21 +1627,11 @@
                 font-size: 14px;
             }
 
-            /* FOTO: debe ocupar TODA la mitad derecha en celular */
-            .historia-layout .foto-novios {
-                width: 50% !important;
-                height: 100% !important;
-                min-height: 0 !important;
-                flex: 0 0 50% !important;
-                overflow: hidden !important;
-            }
-
-            .historia-layout .foto-novios img {
-                display: block !important;
-                width: 100% !important;
-                height: 100% !important;
-                object-fit: cover !important;
-                object-position: center center !important;
+            .foto-novios {
+                width: 50%;
+                height: 100%;
+                min-height: 0;
+                flex: 0 0 50%;
             }
 
             .gran-dia {
@@ -1711,47 +1712,40 @@
 
     
 
-        /* =====================================================
-           AJUSTE FINAL CELULAR - HISTORIA 50/50
-           La tarjeta y la foto ocupan toda la altura disponible.
-        ===================================================== */
+        /* AJUSTE FINAL CELULAR - DISEÑO 50/50 */
         @media (max-width: 500px) {
             .seccion-historia .historia-layout {
                 width: 96% !important;
                 height: calc(100dvh - 105px) !important;
                 max-height: calc(100dvh - 105px) !important;
+                min-height: 0 !important;
                 display: flex !important;
                 flex-direction: row !important;
                 align-items: stretch !important;
-                gap: 0 !important;
             }
-
             .seccion-historia .tarjeta-historia {
                 width: 50% !important;
+                flex: 0 0 50% !important;
                 height: 100% !important;
                 min-height: 0 !important;
-                flex: 0 0 50% !important;
                 overflow: hidden !important;
             }
-
             .seccion-historia .foto-novios {
                 width: 50% !important;
+                flex: 0 0 50% !important;
                 height: 100% !important;
                 min-height: 0 !important;
-                flex: 0 0 50% !important;
                 overflow: hidden !important;
             }
-
             .seccion-historia .foto-novios img {
+                display: block !important;
                 width: 100% !important;
                 height: 100% !important;
-                display: block !important;
                 object-fit: cover !important;
                 object-position: center center !important;
             }
         }
-
-    </style>
+</style>
 </head>
 
 
