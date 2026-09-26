@@ -1894,25 +1894,22 @@
 
         /* Obtener nombre del invitado desde la URL */
 
+        /* Obtener nombre del invitado desde la URL */
+
         function obtenerNombreDesdeLink() {
-            // 1. Intentar leer del hash (#)
-            let texto = window.location.hash.replace(/^#/, "").trim();
+            let texto = "";
 
-            // 2. Si no hay hash, intentar leer de los parámetros (?nombre=)
-            if (!texto) {
-                const params = new URLSearchParams(window.location.search);
-                texto = params.get("nombre") || "";
-            }
+            // Lee de la URL (sea despues de ?nombre= o despues de #)
+            const params = new URLSearchParams(window.location.search);
+            texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
 
-            if (!texto) {
-                return "Invitado especial";
-            }
+            if (!texto) return "Invitado especial";
 
             try {
                 texto = decodeURIComponent(texto);
-            } catch (error) {}
+            } catch (e) {}
 
-            // Reemplaza guiones (-) por espacios y la palabra "y" (aislada) por "&"
+            // Cambia guiones por espacios y la letra 'y' por '&'
             return texto
                 .replace(/-/g, " ")
                 .replace(/\by\b/gi, "&")
@@ -1920,9 +1917,7 @@
                 .trim() || "Invitado especial";
         }
 
-        const nombreInvitadoPersonalizado = obtenerNombreDesdeLink();
-
-        document.getElementById("nombreInvitadoPersonalizado").textContent = nombreInvitadoPersonalizado;
+        document.getElementById("nombreInvitadoPersonalizado").textContent = obtenerNombreDesdeLink();
 
         /* Música */
 
