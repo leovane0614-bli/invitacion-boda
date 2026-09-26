@@ -1488,7 +1488,7 @@
 
 
         /* =====================================================
-           GENERADOR DE LINKS PERSONALIZADOS
+           GENERADOR DE LINKS PERSONALIZADOS (CORREGIDO)
         ===================================================== */
 
         #generadorLinksAdmin {
@@ -2129,11 +2129,14 @@
             window.open(url, "_blank");
         });
 
-        /* Generador de enlaces dinámicos en ?admin=1 */
+        /* Generador de enlaces dinámicos (APUNTA AL WORKER DE CLOUDFLARE) */
 
         (function () {
             const admin = new URLSearchParams(window.location.search).get("admin");
             if (admin !== "1") return;
+
+            // DOMINIO DE TU WORKER EN CLOUDFLARE
+            const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
 
             const contenedor = document.createElement("div");
             contenedor.id = "generadorLinksAdmin";
@@ -2142,7 +2145,7 @@
                 <button class="admin-boton" type="button">⚙ GENERAR LINK</button>
                 <div class="admin-panel oculto">
                     <div class="admin-titulo">LINK PERSONALIZADO</div>
-                    <input class="admin-nombre" type="text" placeholder="Ej: Omar Gómez e Hija" autocomplete="off">
+                    <input class="admin-nombre" type="text" placeholder="Ej: Carlosa" autocomplete="off">
                     <button class="admin-generar" type="button">GENERAR LINK</button>
                     <div class="admin-link"></div>
                     <button class="admin-copiar" type="button">COPIAR LINK</button>
@@ -2175,17 +2178,8 @@
                     return;
                 }
 
-                const slug = nombre
-                    .replace(/\s+/g, "-")
-                    .replace(/-+/g, "-")
-                    .replace(/^-|-$/g, "");
-
-                if (!slug) {
-                    mensaje.textContent = "No se pudo crear el nombre del enlace.";
-                    return;
-                }
-
-                linkActual = window.location.origin + window.location.pathname + "#" + slug;
+                // Genera el enlace apuntando al Worker ?nombre=
+                linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombre);
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
