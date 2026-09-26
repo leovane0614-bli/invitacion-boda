@@ -3602,7 +3602,7 @@
                 const slug = nombre
                     .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "")
-                    .replace(/&/g, " y ")
+                    .replace(/&/g, "%26")
                     .replace(/[^a-zA-Z0-9]+/g, "-")
                     .replace(/^-+|-+$/g, "");
 
