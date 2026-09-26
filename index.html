@@ -2179,8 +2179,13 @@
                     return;
                 }
 
-                // Conserva el & usando encodeURIComponent
-                linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombre);
+                // Reemplaza ampersand (&) por la letra "y", y espacios por guiones
+                const nombreLimpio = nombre
+                    .replace(/&/g, "y")
+                    .replace(/\s+/g, "-")
+                    .replace(/-+/g, "-");
+
+                linkActual = WORKER_URL + "?nombre=" + nombreLimpio;
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
