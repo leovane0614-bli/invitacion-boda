@@ -1890,18 +1890,39 @@
 
         /* Obtener nombre del invitado desde la URL */
 
+        /* Obtener nombre del invitado desde la URL (?nombre= o #) */
+
         function obtenerNombreDesdeLink() {
+            let texto = "";
+
+            // 1. Intentar leer del hash (#)
             const hash = window.location.hash.replace(/^#/, "").trim();
 
-            if (!hash) {
+            // 2. Intentar leer de los parámetros (?nombre=)
+            const params = new URLSearchParams(window.location.search);
+            const queryNombre = params.get("nombre");
+
+            if (hash) {
+                texto = hash;
+            } else if (queryNombre) {
+                texto = queryNombre;
+            }
+
+            if (!texto) {
                 return "Invitado especial";
             }
 
             try {
-                return decodeURIComponent(hash).replace(/-/g, " ").trim() || "Invitado especial";
-            } catch (error) {
-                return hash.replace(/-/g, " ").trim() || "Invitado especial";
-            }
+                texto = decodeURIComponent(texto);
+            } catch (e) {}
+
+            // Reemplaza guiones por espacios y la palabra 'y' aislada por '&'
+            texto = texto
+                .replace(/-/g, " ")
+                .replace(/\by\b/gi, "&")
+                .trim();
+
+            return texto || "Invitado especial";
         }
 
         const nombreInvitadoPersonalizado = obtenerNombreDesdeLink();
