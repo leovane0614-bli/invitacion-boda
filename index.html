@@ -3609,17 +3609,24 @@
                 /*
                  * VISTA PREVIA PERSONALIZADA DE WHATSAPP
                  *
-                 * IMPORTANTE:
-                 * Este enlace debe apuntar al Worker que genera
-                 * los metadatos de vista previa para cada invitado.
+                 * La URL real del Worker se configura UNA SOLA VEZ
+                 * cuando Cloudflare nos entregue la dirección publicada.
                  *
-                 * REEMPLAZA SOLO ESTA URL por la URL de tu Worker.
+                 * NO se deja una URL falsa ni de ejemplo.
                  */
-                const URL_PREVIEW =
-                    "https://TU-WORKER.workers.dev/";
+                const URL_PREVIEW = "";
+
+                if (!URL_PREVIEW) {
+                    mensaje.textContent =
+                        "⚠ Falta conectar el enlace real del Worker de WhatsApp.";
+                    linkBox.textContent =
+                        "Primero publica el Worker y coloca aquí su URL real.";
+                    linkBox.classList.add("visible");
+                    return;
+                }
 
                 linkActual =
-                    URL_PREVIEW +
+                    URL_PREVIEW.replace(/\/$/, "") +
                     "?nombre=" +
                     encodeURIComponent(nombre);
 
