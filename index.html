@@ -2184,9 +2184,8 @@
 
                 // Reemplaza ampersand (&) por la letra "y", y espacios por guiones
                 const nombreLimpio = nombre
-                    .replace(/&/g, "y")
-                    .replace(/\s+/g, "-")
-                    .replace(/-+/g, "-");
+                .replace(/\s+/g, "-")
+                .replace(/-+/g, "-");
 
                 linkActual = WORKER_URL + "?nombre=" + nombreLimpio;
 
