@@ -2106,6 +2106,79 @@
     -webkit-text-stroke: 0.2px currentColor;
 }
 
+
+
+        /* =====================================================
+           UBICACIÓN Y FECHA DE CONFIRMACIÓN
+           AGREGADO — NO MODIFICA EL DISEÑO EXISTENTE
+        ===================================================== */
+
+        .confirmacion-ubicacion {
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        .confirmacion-ubicacion-titulo {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #82969d;
+            margin-bottom: 8px;
+        }
+
+        .confirmacion-ubicacion-lugar {
+            font-size: 18px;
+            color: #4e6976;
+            margin-bottom: 5px;
+        }
+
+        .confirmacion-ubicacion-direccion {
+            font-size: 13px;
+            color: #71858d;
+            margin-bottom: 12px;
+        }
+
+        .boton-ubicacion {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 18px;
+            border: 1px solid #9bb5be;
+            border-radius: 30px;
+            background: rgba(255,255,255,.95);
+            color: #526d77 !important;
+            text-decoration: none !important;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            box-shadow: 0 6px 18px rgba(50,80,90,.10);
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+        }
+
+        .boton-ubicacion:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(50,80,90,.16);
+            background: #f8fcfd;
+        }
+
+        .boton-ubicacion:active {
+            transform: scale(.97);
+        }
+
+        .fecha-confirmacion {
+            margin: -4px auto 24px;
+            color: #71858d;
+            font-size: 13px;
+            line-height: 1.5;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .fecha-confirmacion strong {
+            color: #526d77;
+            font-style: normal;
+        }
+
 </style>
 
 <style>
@@ -2149,58 +2222,6 @@
     }
 }
 </style>
-
-
-
-/* =====================================================
-   UBICACIÓN Y FECHA DE CONFIRMACIÓN
-===================================================== */
-.confirmacion-ubicacion {
-    margin: 0 auto 22px;
-    text-align: center;
-}
-
-.boton-ubicacion {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border: 1px solid #8abbd0;
-    border-radius: 30px;
-    background: rgba(255,255,255,.92);
-    color: #52717e;
-    text-decoration: none;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    box-shadow: 0 6px 18px rgba(50,80,90,.10);
-    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
-}
-
-.boton-ubicacion:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(50,80,90,.16);
-    background: #f8fcfd;
-}
-
-.boton-ubicacion:active {
-    transform: scale(.97);
-}
-
-.fecha-confirmacion {
-    margin: -8px auto 28px;
-    color: #71858d;
-    font-size: 13px;
-    line-height: 1.5;
-    font-style: italic;
-    text-align: center;
-}
-
-.fecha-confirmacion strong {
-    color: #52717e;
-    font-style: normal;
-}
 
 </head>
 
@@ -2677,30 +2698,18 @@
             </p>
 
 
+
             <div class="confirmacion-ubicacion">
 
-                <div style="
-                    font-size: 11px;
-                    letter-spacing: 3px;
-                    color: #82969d;
-                    margin-bottom: 8px;
-                ">
+                <div class="confirmacion-ubicacion-titulo">
                     📍 LUGAR DE LA CELEBRACIÓN
                 </div>
 
-                <div style="
-                    font-size: 18px;
-                    color: #4e6976;
-                    margin-bottom: 5px;
-                ">
+                <div class="confirmacion-ubicacion-lugar">
                     IPUC Las Minas
                 </div>
 
-                <div style="
-                    font-size: 13px;
-                    color: #71858d;
-                    margin-bottom: 14px;
-                ">
+                <div class="confirmacion-ubicacion-direccion">
                     Vereda Las Minas · Pital, Huila
                 </div>
 
@@ -2714,12 +2723,10 @@
 
             </div>
 
-
             <p class="fecha-confirmacion">
                 Por favor confirma tu asistencia
                 <strong>antes del 20 de noviembre de 2026</strong>.
             </p>
-
 
             <div class="campo-nombre">
 
