@@ -2130,7 +2130,7 @@
         });
 
         /* =====================================================
-           GENERADOR DE ENLACES LIMPIOS (SIN %20 NI %26)
+           GENERADOR DE ENLACES CON SÍMBOLO & CONSERVADO
         ===================================================== */
 
         (function () {
@@ -2146,7 +2146,7 @@
                 <button class="admin-boton" type="button">⚙ GENERAR LINK</button>
                 <div class="admin-panel oculto">
                     <div class="admin-titulo">LINK PERSONALIZADO</div>
-                    <input class="admin-nombre" type="text" placeholder="Ej: Carlos y Familia" autocomplete="off">
+                    <input class="admin-nombre" type="text" placeholder="Ej: Carlos & Familia" autocomplete="off">
                     <button class="admin-generar" type="button">GENERAR LINK</button>
                     <div class="admin-link"></div>
                     <button class="admin-copiar" type="button">COPIAR LINK</button>
@@ -2179,13 +2179,8 @@
                     return;
                 }
 
-                // Reemplaza el ampersand (&) por la palabra "y" y espacios por guiones (-)
-                const nombreLimpio = nombre
-                    .replace(/&/g, "y")
-                    .replace(/\s+/g, "-")
-                    .replace(/-+/g, "-");
-
-                linkActual = WORKER_URL + "?nombre=" + nombreLimpio;
+                // Conserva el & usando encodeURIComponent
+                linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombre);
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
