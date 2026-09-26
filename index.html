@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>❤️ Leo & Vane ❤️ Nuestra Boda</title>
+    <title>❤️ Leo & Vanessa ❤️ Nuestra Boda</title>
 
     <style>
 
@@ -488,7 +488,7 @@
             font-size:
                 clamp(28px, 5vw, 44px);
 
-            font-weight: 700;
+            font-weight: 600;
 
             line-height: 1.2;
 
@@ -588,19 +588,22 @@
 
         .historia-layout {
 
-            width: min(900px, 94%);
+            width:
+                min(1100px, 94%);
 
-            margin: 0 auto;
+            max-height: calc(100vh - 115px);
+            max-height: calc(100dvh - 115px);
+
+            margin:
+                0 auto;
 
             display: flex;
-            flex-direction: column;
 
-            align-items: center;
-            justify-content: flex-start;
+            align-items: stretch;
+
+            justify-content: center;
 
             gap: 0;
-
-            max-height: none;
         }
 
 
@@ -610,12 +613,14 @@
 
         .tarjeta-historia {
 
-            width: 100%;
+            width: 50%;
 
             min-height: 0;
-            height: auto;
+            height: min(650px, calc(100vh - 155px));
+            height: min(650px, calc(100dvh - 155px));
 
-            padding: 38px 55px;
+            padding:
+                45px 55px;
 
             display: flex;
 
@@ -749,12 +754,6 @@
             color: #687a81;
 
             font-style: italic;
-
-            font-weight: 700;
-
-            text-shadow:
-                0 1px 4px
-                rgba(255,255,255,.9);
         }
 
         .informacion {
@@ -777,11 +776,9 @@
 
             letter-spacing: 3px;
 
-            color: #607984;
+            color: #78909a;
 
             margin-bottom: 8px;
-
-            font-weight: 700;
         }
 
         .dato-valor {
@@ -790,13 +787,7 @@
 
             line-height: 1.5;
 
-            color: #405c66;
-
-            font-weight: 700;
-
-            text-shadow:
-                0 1px 3px
-                rgba(255,255,255,.85);
+            color: #4f656e;
         }
 
         .ubicacion {
@@ -808,13 +799,7 @@
 
             font-size: 16px;
 
-            color: #405c66;
-
-            font-weight: 700;
-
-            text-shadow:
-                0 1px 3px
-                rgba(255,255,255,.85);
+            color: #5d7178;
         }
 
 
@@ -824,18 +809,13 @@
 
         .foto-novios {
 
-            width: 100%;
+            width: 50%;
 
             min-height: 0;
-            height: auto;
+            height: min(650px, calc(100vh - 155px));
+            height: min(650px, calc(100dvh - 155px));
 
             overflow: hidden;
-
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-
-            background: #f8fbfc;
 
             box-shadow:
                 0 15px 45px
@@ -847,14 +827,11 @@
             display: block;
 
             width: 100%;
-            height: auto;
+            height: 100%;
 
-            object-fit: contain;
+            object-fit: cover;
 
-            object-position: center center;
-
-            max-width: 100%;
-            max-height: none;
+            object-position: center;
         }
 
 
@@ -1283,6 +1260,59 @@
             font-style: italic;
         }
 
+
+        .confirmacion-ubicacion {
+            margin: 0 auto 18px;
+            text-align: center;
+        }
+
+        .confirmacion-ubicacion .ubicacion-icono {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .confirmacion-ubicacion .ubicacion-lugar {
+            font-size: 17px;
+            color: #4f6975;
+            line-height: 1.45;
+            margin-bottom: 4px;
+        }
+
+        .confirmacion-ubicacion .ubicacion-detalle {
+            font-size: 13px;
+            color: #7a8c92;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .boton-ubicacion {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border: 1px solid #8abbd0;
+            border-radius: 30px;
+            background: rgba(255,255,255,.94);
+            color: #52717e;
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            box-shadow: 0 6px 18px rgba(50,80,90,.10);
+        }
+
+        .fecha-confirmacion {
+            margin: 0 auto 24px;
+            color: #71858d;
+            font-size: 13px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .fecha-confirmacion strong {
+            color: #52717e;
+            font-style: normal;
+        }
+
         .campo-nombre {
 
             text-align: left;
@@ -1579,7 +1609,6 @@
                 width: 96%;
                 height: calc(100dvh - 105px);
                 max-height: calc(100dvh - 105px);
-                min-height: 0;
                 flex-direction: row;
                 align-items: stretch;
             }
@@ -1588,9 +1617,7 @@
                 width: 50%;
                 height: 100%;
                 min-height: 0;
-                flex: 0 0 50%;
                 padding: 18px 12px;
-                overflow: hidden;
             }
 
             .foto-novios {
@@ -1618,12 +1645,7 @@
             .pequeno-titulo::after {
                 margin-left: 6px;
             }
-            .nombres {
-                font-size: clamp(21px, 7vw, 30px);
-                line-height: 1.05;
-                width: 100%;
-                max-width: 100%;
-            }
+            .nombres { font-size: clamp(28px, 8vw, 42px); }
             .corazon { font-size: 20px; margin: 12px 0; }
             .frase { font-size: 11px; line-height: 1.45; }
             .informacion { gap: 12px; margin-top: 18px; }
@@ -1632,10 +1654,7 @@
             .ubicacion { margin-top: 14px; }
 
             .nombres {
-                font-size: clamp(21px, 7vw, 30px);
-                line-height: 1.05;
-                width: 100%;
-                max-width: 100%;
+                font-size: 43px;
             }
 
             .frase {
@@ -1651,10 +1670,7 @@
             }
 
             .foto-novios {
-                width: 50%;
-                height: 100%;
-                min-height: 0;
-                flex: 0 0 50%;
+                height: 430px;
             }
 
             .gran-dia {
@@ -1733,423 +1749,7 @@
             }
         }
 
-    
-
-        /* AJUSTE FINAL CELULAR - DISEÑO 50/50 */
-        @media (max-width: 500px) {
-
-    .seccion-historia {
-        padding: 10px 8px 70px !important;
-    }
-
-    .seccion-historia .historia-layout {
-        width: 96% !important;
-        height: auto !important;
-        max-height: none !important;
-        min-height: 0 !important;
-
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-    }
-
-    .seccion-historia .tarjeta-historia {
-        width: 100% !important;
-        flex: 0 0 auto !important;
-        height: auto !important;
-        min-height: 0 !important;
-        overflow: visible !important;
-    }
-
-    /* FOTO GRANDE DEBAJO DEL TEXTO */
-    .seccion-historia .foto-novios {
-        width: 100% !important;
-        flex: 0 0 auto !important;
-        height: auto !important;
-        min-height: 0 !important;
-        overflow: hidden !important;
-        position: relative !important;
-
-        display: flex !important;
-        align-items: flex-start !important;
-        justify-content: center !important;
-
-        background: #f8fbfc !important;
-    }
-
-    .seccion-historia .foto-novios img {
-        display: block !important;
-        width: 100% !important;
-        height: auto !important;
-        max-width: 100% !important;
-        max-height: none !important;
-        object-fit: contain !important;
-        object-position: center center !important;
-    }
-
-        }
-
-        /* =====================================================
-           AJUSTE FINAL DE LA FOTO
-           Se conserva la fotografía completa, sin deformarla.
-        ===================================================== */
-        @media (max-width: 500px) {
-            .seccion-historia .historia-layout {
-                width: 98% !important;
-            }
-
-            .seccion-historia .tarjeta-historia {
-                padding-left: 8px !important;
-                padding-right: 8px !important;
-            }
-
-            .seccion-historia .foto-novios img {
-                object-fit: contain !important;
-                object-position: center bottom !important;
-            }
-        }
-
-
-
-        /* =====================================================
-           DISEÑO FINAL: MISMO FORMATO EN CELULAR, REDUCIDO
-           Texto izquierda + foto derecha.
-           La foto conserva TODA su proporción: nunca se recorta.
-        ===================================================== */
-
-        .seccion-historia {
-            overflow: hidden !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 18px 12px 85px !important;
-        }
-
-        .seccion-historia .historia-layout {
-            width: min(1100px, 94%) !important;
-            height: auto !important;
-            max-height: none !important;
-
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: stretch !important;
-            justify-content: center !important;
-            gap: 0 !important;
-        }
-
-        .seccion-historia .tarjeta-historia {
-            width: 50% !important;
-            flex: 0 0 50% !important;
-            height: auto !important;
-            min-height: 0 !important;
-            overflow: hidden !important;
-
-            /* El contenido se adapta al tamaño del panel */
-            padding: clamp(16px, 3.8vw, 45px) clamp(10px, 4vw, 55px) !important;
-        }
-
-        .seccion-historia .foto-novios {
-            width: 50% !important;
-            flex: 0 0 50% !important;
-            height: auto !important;
-            min-height: 0 !important;
-            overflow: hidden !important;
-
-            display: flex !important;
-            align-items: flex-start !important;
-            justify-content: center !important;
-
-            background: #f8fbfc !important;
-        }
-
-        .seccion-historia .foto-novios img {
-            display: block !important;
-
-            width: 100% !important;
-            height: auto !important;
-
-            max-width: 100% !important;
-            max-height: none !important;
-
-            object-fit: contain !important;
-            object-position: center center !important;
-        }
-
-        /* La tarjeta toma la altura real de la foto. */
-        .seccion-historia .historia-layout {
-            align-items: stretch !important;
-        }
-
-        /* Escalado progresivo del texto para que conserve el mismo
-           diseño horizontal en pantallas pequeñas. */
-        .seccion-historia .pequeno-titulo {
-            font-size: clamp(7px, 2.2vw, 15px) !important;
-            letter-spacing: clamp(1.5px, .8vw, 6px) !important;
-            padding: clamp(4px, 1.2vw, 9px) clamp(5px, 2vw, 24px) !important;
-            margin-bottom: clamp(5px, 2vw, 25px) !important;
-        }
-
-        .seccion-historia .pequeno-titulo::before,
-        .seccion-historia .pequeno-titulo::after {
-            width: clamp(12px, 4vw, 48px) !important;
-        }
-
-        .seccion-historia .nombres {
-            font-size: clamp(20px, 7vw, 58px) !important;
-            line-height: .95 !important;
-        }
-
-        .seccion-historia .corazon {
-            font-size: clamp(12px, 3vw, 30px) !important;
-            margin: clamp(5px, 2vw, 25px) 0 !important;
-        }
-
-        .seccion-historia .frase {
-            font-size: clamp(8px, 2.2vw, 17px) !important;
-            line-height: 1.45 !important;
-            max-width: 100% !important;
-        }
-
-        .seccion-historia .informacion {
-            gap: clamp(8px, 4vw, 70px) !important;
-            margin-top: clamp(8px, 3vw, 40px) !important;
-        }
-
-        .seccion-historia .dato-titulo,
-        .seccion-historia .ubicacion-titulo {
-            font-size: clamp(6px, 1.5vw, 11px) !important;
-            letter-spacing: clamp(1px, .7vw, 3px) !important;
-            margin-bottom: clamp(2px, 1vw, 8px) !important;
-        }
-
-        .seccion-historia .dato-valor,
-        .seccion-historia .ubicacion-texto {
-            font-size: clamp(7px, 1.9vw, 16px) !important;
-            line-height: 1.35 !important;
-        }
-
-        .seccion-historia .ubicacion {
-            margin-top: clamp(7px, 3vw, 35px) !important;
-        }
-
-        @media (max-width: 500px) {
-            .seccion-historia {
-                padding: 12px 5px 72px !important;
-            }
-
-            .seccion-historia .historia-layout {
-                width: 98% !important;
-                flex-direction: row !important;
-            }
-
-            .seccion-historia .tarjeta-historia,
-            .seccion-historia .foto-novios {
-                width: 50% !important;
-                flex: 0 0 50% !important;
-            }
-
-            /* NO usar height:100% aquí.
-               La imagen define su propia altura y se muestra completa. */
-            .seccion-historia .foto-novios img {
-                width: 100% !important;
-                height: auto !important;
-                object-fit: contain !important;
-            }
-
-            /* El botón queda fuera del contenido visual. */
-            .navegacion-historia {
-                bottom: 8px !important;
-            }
-        }
-
-        /* =====================================================
-           GENERADOR DE LINKS PERSONALIZADOS
-        ===================================================== */
-        #generadorLinksAdmin {
-            position: fixed;
-            top: 14px;
-            right: 14px;
-            z-index: 999999;
-            font-family: Georgia, "Times New Roman", serif;
-        }
-
-        #generadorLinksAdmin .admin-boton {
-            border: 1px solid rgba(70,100,110,.45);
-            background: rgba(255,255,255,.96);
-            color: #496572;
-            padding: 11px 16px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            box-shadow: 0 7px 20px rgba(60,90,100,.18);
-        }
-
-        #generadorLinksAdmin .admin-panel {
-            width: min(340px, calc(100vw - 30px));
-            margin-top: 8px;
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(255,255,255,.98);
-            border: 1px solid rgba(100,140,150,.25);
-            box-shadow: 0 18px 45px rgba(40,70,80,.25);
-            box-sizing: border-box;
-        }
-
-        #generadorLinksAdmin .admin-panel.oculto {
-            display: none;
-        }
-
-        #generadorLinksAdmin .admin-titulo {
-            color: #496572;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        #generadorLinksAdmin input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 11px 12px;
-            border: 1px solid #cbdbe0;
-            border-radius: 10px;
-            outline: none;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 15px;
-            color: #4f6872;
-        }
-
-        #generadorLinksAdmin .admin-generar,
-        #generadorLinksAdmin .admin-copiar {
-            width: 100%;
-            margin-top: 10px;
-            padding: 11px;
-            border-radius: 10px;
-            border: 1px solid #9bb5be;
-            background: #8bbfd4;
-            color: white;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 10px;
-            letter-spacing: 1.5px;
-        }
-
-        #generadorLinksAdmin .admin-copiar {
-            background: white;
-            color: #526d77;
-        }
-
-        #generadorLinksAdmin .admin-link {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 9px;
-            background: #f3f8fa;
-            color: #526d77;
-            font-size: 11px;
-            line-height: 1.45;
-            word-break: break-all;
-            display: none;
-        }
-
-        #generadorLinksAdmin .admin-link.visible {
-            display: block;
-        }
-
-        #generadorLinksAdmin .admin-mensaje {
-            min-height: 16px;
-            margin-top: 8px;
-            color: #58727c;
-            text-align: center;
-            font-size: 10px;
-        }
-
-        @media (max-width: 600px) {
-            #generadorLinksAdmin {
-                top: 8px;
-                right: 8px;
-            }
-        }
-
-
-/* =========================================================
-   NEGRITA REAL - BLOQUE DE FECHA / HORA / LUGAR
-   ========================================================= */
-.frase {
-    font-weight: 800 !important;
-    color: #526b75 !important;
-    text-shadow:
-        0 1px 0 rgba(255,255,255,.95),
-        0 2px 4px rgba(60,80,85,.18) !important;
-}
-
-.dato-titulo,
-.ubicacion-titulo {
-    font-weight: 900 !important;
-    color: #526b75 !important;
-    text-shadow: 0 1px 2px rgba(255,255,255,.9);
-}
-
-.dato-valor,
-.ubicacion-texto {
-    font-weight: 900 !important;
-    color: #344f5a !important;
-    text-shadow:
-        0 1px 0 rgba(255,255,255,.95),
-        0 1px 2px rgba(50,75,85,.16) !important;
-    -webkit-text-stroke: 0.15px currentColor;
-}
-
-.invitado-nombre {
-    font-weight: 900 !important;
-    -webkit-text-stroke: 0.2px currentColor;
-}
-
-</style>
-
-<style>
-/* =========================================================
-   AJUSTE FINAL CELULAR — FOTO CUBIERTA HASTA ABAJO
-   Mantiene información + foto juntas en la misma pantalla.
-   La foto ocupa toda la altura de su columna, sin franja blanca.
-   ========================================================= */
-@media (max-width: 500px) {
-
-    .seccion-historia .historia-layout {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: stretch !important;
-    }
-
-    .seccion-historia .tarjeta-historia,
-    .seccion-historia .foto-novios {
-        width: 50% !important;
-        flex: 0 0 50% !important;
-    }
-
-    .seccion-historia .foto-novios {
-        display: block !important;
-        align-self: stretch !important;
-        height: auto !important;
-        min-height: 100% !important;
-        overflow: hidden !important;
-        background: #f8fbfc !important;
-    }
-
-    .seccion-historia .foto-novios img {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        min-height: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
-        object-fit: cover !important;
-        object-position: center bottom !important;
-    }
-}
-</style>
-
+    </style>
 </head>
 
 
@@ -2382,7 +1982,7 @@
                 <div class="ubicacion">
 
                     <div class="ubicacion-titulo">
-                        Lugar
+                        LUGAR
                     </div>
 
                     <div class="ubicacion-texto">
@@ -2625,6 +2225,34 @@
             </p>
 
 
+            <div class="confirmacion-ubicacion">
+
+                <div class="ubicacion-icono">📍</div>
+
+                <div class="ubicacion-lugar">
+                    IPUC Las Minas
+                </div>
+
+                <div class="ubicacion-detalle">
+                    Vereda Las Minas · Pital, Huila
+                </div>
+
+                <a
+                    class="boton-ubicacion"
+                    href="https://www.google.com/maps/search/?api=1&query=IPUC%20Las%20Minas%20Vereda%20Las%20Minas%20Pital%20Huila%20Colombia"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    ABRIR UBICACIÓN EN MAPS
+                </a>
+
+            </div>
+
+
+            <p class="fecha-confirmacion">
+                Confirma tu asistencia <strong>antes del 20 de noviembre de 2026</strong>.
+            </p>
+
+
             <div class="campo-nombre">
 
 
@@ -2681,14 +2309,18 @@
         </div>
 
     </section>
-</div>
+
+
+
 
     <!-- =====================================================
          JAVASCRIPT
     ===================================================== -->
 
     <script>
-/* =====================================================
+
+
+        /* =====================================================
            ELEMENTOS
         ===================================================== */
 
@@ -2727,41 +2359,8 @@
            CAMBIA SOLAMENTE ESTA LÍNEA.
         ===================================================== */
 
-        /* =====================================================
-           INVITADO PERSONALIZADO POR LINK
-
-           Ejemplo:
-           https://leovane0614-bli.github.io/invitacion-boda/#Omar-Gomez-e-Hija
-
-           Cada enlace puede tener un invitado diferente sin
-           modificar ni volver a subir este index.html.
-        ===================================================== */
-
-        function obtenerNombreDesdeLink() {
-
-            const hash = window.location.hash
-                .replace(/^#/, "")
-                .trim();
-
-            if (!hash) {
-                return "Invitado especial";
-            }
-
-            try {
-                return decodeURIComponent(hash)
-                    .replace(/-/g, " ")
-                    .trim()
-                    || "Invitado especial";
-            } catch (error) {
-                return hash
-                    .replace(/-/g, " ")
-                    .trim()
-                    || "Invitado especial";
-            }
-        }
-
         const nombreInvitadoPersonalizado =
-            obtenerNombreDesdeLink();
+            "Omar Gómez e Hija"
 
         document.getElementById(
             "nombreInvitadoPersonalizado"
@@ -3148,34 +2747,26 @@
             );
 
         }
-          /* Menos corazones:
-             - PC/tablet: 10 corazones iniciales + ritmo suave
-             - Celular: 6 corazones iniciales + ritmo aún más suave
-          */
-          const esCelular =
-             window.matchMedia("(max-width: 600px)").matches;
 
-          const cantidadCorazones =
-             esCelular ? 6 : 10;
 
-          const intervaloCorazones =
-             esCelular ? 900 : 650;
+        setInterval(
+            crearCorazon,
+            280
+        );
 
-          setInterval(
-             crearCorazon,
-             intervaloCorazones
-          );
 
-          for (
-             let i = 0;
-             i < cantidadCorazones;
-             i++
-          ) {
-             setTimeout(
-                 crearCorazon,
-                 i * 220
-             );
-          }
+        for (
+            let i = 0;
+            i < 24;
+            i++
+        ) {
+
+            setTimeout(
+                crearCorazon,
+                i * 140
+            );
+
+        }
 
 
         /* =====================================================
@@ -3287,7 +2878,7 @@
 
 
                 const mensaje =
-                    `Hola Leandro y Vanessa ❤️. Soy ${nombre} y quiero confirmar que SÍ asistiré a su boda el 20 de Diciembre de 2026. ¡Será un placer acompañarlos en este día tan especial!`;
+                    `Hola Leandro y Vanessa ❤️. Soy ${nombre} y quiero confirmar que SÍ asistiré a su boda el 20 de Diciembre de 2026. ¡Será un placer acompañarlos en este día tan especial! Recuerden que la confirmación debe hacerse antes del 20 de noviembre de 2026.`;
 
 
                 const url =
@@ -3353,138 +2944,7 @@
             }
         );
 
-    
-
-        /* =====================================================
-           GENERADOR ADMINISTRATIVO
-           Se crea directamente en el DOM cuando la URL contiene
-           ?admin=1. Esto evita depender de un elemento oculto.
-        ===================================================== */
-        (function () {
-
-            const admin = new URLSearchParams(window.location.search).get("admin");
-
-            if (admin !== "1") return;
-
-            const contenedor = document.createElement("div");
-            contenedor.id = "generadorLinksAdmin";
-
-            contenedor.innerHTML = `
-                <button class="admin-boton" type="button">
-                    ⚙ GENERAR LINK
-                </button>
-
-                <div class="admin-panel oculto">
-                    <div class="admin-titulo">LINK PERSONALIZADO</div>
-
-                    <input
-                        class="admin-nombre"
-                        type="text"
-                        placeholder="Ej: Omar Gómez e Hija"
-                        autocomplete="off">
-
-                    <button class="admin-generar" type="button">
-                        GENERAR LINK
-                    </button>
-
-                    <div class="admin-link"></div>
-
-                    <button class="admin-copiar" type="button">
-                        COPIAR LINK
-                    </button>
-
-                    <div class="admin-mensaje"></div>
-                </div>
-            `;
-
-            document.body.appendChild(contenedor);
-
-            const boton = contenedor.querySelector(".admin-boton");
-            const panel = contenedor.querySelector(".admin-panel");
-            const input = contenedor.querySelector(".admin-nombre");
-            const generar = contenedor.querySelector(".admin-generar");
-            const linkBox = contenedor.querySelector(".admin-link");
-            const copiar = contenedor.querySelector(".admin-copiar");
-            const mensaje = contenedor.querySelector(".admin-mensaje");
-
-            let linkActual = "";
-
-            boton.addEventListener("click", function () {
-                panel.classList.toggle("oculto");
-
-                if (!panel.classList.contains("oculto")) {
-                    input.focus();
-                }
-            });
-
-            generar.addEventListener("click", function () {
-
-                const nombre = input.value.trim();
-
-                if (!nombre) {
-                    mensaje.textContent = "Escribe el nombre del invitado.";
-                    return;
-                }
-
-                /*
-                 * IMPORTANTE:
-                 * NO quitamos tildes, ñ ni otros caracteres.
-                 * El fragmento de URL permite conservar el nombre
-                 * original del invitado.
-                 */
-                const slug = nombre
-                    .replace(/\s+/g, "-")
-                    .replace(/-+/g, "-")
-                    .replace(/^-|-$/g, "");
-
-                if (!slug) {
-                    mensaje.textContent = "No se pudo crear el nombre del enlace.";
-                    return;
-                }
-
-                linkActual =
-                    window.location.origin +
-                    window.location.pathname +
-                    "#" +
-                    slug;
-
-                linkBox.textContent = linkActual;
-                linkBox.classList.add("visible");
-                mensaje.textContent = "✓ Link generado.";
-            });
-
-            copiar.addEventListener("click", async function () {
-
-                if (!linkActual) {
-                    mensaje.textContent = "Primero genera un link.";
-                    return;
-                }
-
-                try {
-                    await navigator.clipboard.writeText(linkActual);
-                    mensaje.textContent = "✓ Link copiado.";
-                } catch (error) {
-                    const area = document.createElement("textarea");
-                    area.value = linkActual;
-                    area.style.position = "fixed";
-                    area.style.left = "-9999px";
-                    document.body.appendChild(area);
-                    area.select();
-
-                    try {
-                        document.execCommand("copy");
-                        mensaje.textContent = "✓ Link copiado.";
-                    } catch (e) {
-                        mensaje.textContent = "Selecciona y copia el link manualmente.";
-                    }
-
-                    area.remove();
-                }
-            });
-
-        })();
-
-</script>
+    </script>
 
 </body>
 </html>
