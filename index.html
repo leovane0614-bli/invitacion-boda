@@ -3619,21 +3619,18 @@
                     return;
                 }
 
-                /*
-                 * IMPORTANTE:
-                 * NO quitamos tildes, ñ ni otros caracteres.
-                 * El fragmento de URL permite conservar el nombre
-                 * original del invitado.
-                 */
-                const nombreCodificado = encodeURIComponent(nombre);
+              
+               const slug = nombre
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, " y ")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 
 linkActual =
     "https://gentle-frog-6f22.leovane0614.workers.dev/?nombre=" +
-    nombreCodificado;
-                linkBox.textContent = linkActual;
-                linkBox.classList.add("visible");
-                mensaje.textContent = "✓ Link generado.";
-            });
+    slug;
 
             copiar.addEventListener("click", async function () {
 
