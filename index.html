@@ -7,6 +7,9 @@
 
     <title>❤️ Leo & Vane ❤️ Nuestra Boda</title>
 
+    <meta property="og:title" content="❤️ Leo & Vane ❤️ Nuestra Boda">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="❤️ Leo & Vane ❤️ Nuestra Boda">
 
     <style>
 
@@ -3597,11 +3600,9 @@
                  * original del invitado.
                  */
                 const slug = nombre
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                    .replace(/&/g, " y ")
-                    .replace(/[^a-zA-Z0-9]+/g, "-")
-                    .replace(/^-+|-+$/g, "");
+                    .replace(/\s+/g, "-")
+                    .replace(/-+/g, "-")
+                    .replace(/^-|-$/g, "");
 
                 if (!slug) {
                     mensaje.textContent = "No se pudo crear el nombre del enlace.";
@@ -3609,7 +3610,9 @@
                 }
 
                 linkActual =
-                    "https://gentle-frog-6f22.leovane0614.workers.dev/?nombre=" +
+                    window.location.origin +
+                    window.location.pathname +
+                    "#" +
                     slug;
 
                 linkBox.textContent = linkActual;
