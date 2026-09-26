@@ -7,11 +7,6 @@
 
     <title>❤️ Leo & Vane ❤️ Nuestra Boda</title>
 
-    <meta property="og:title" content="❤️ Leo & Vane ❤️ Nuestra Boda">
-    <meta property="og:url" content="https://leovane0614-bli.github.io/invitacion-boda/">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="❤️ Leo & Vane ❤️ Nuestra Boda">
-
     <style>
 
         /* =====================================================
@@ -2907,6 +2902,18 @@
 
         function obtenerNombreDesdeLink() {
 
+            const parametros = new URLSearchParams(
+                window.location.search
+            );
+
+            const invitado = parametros.get("invitado");
+
+            if (invitado) {
+                return invitado.trim()
+                    || "Invitado especial";
+            }
+
+            /* Mantener compatibilidad con los links antiguos #Nombre */
             const hash = window.location.hash
                 .replace(/^#/, "")
                 .trim();
@@ -3613,8 +3620,8 @@
                 linkActual =
                     window.location.origin +
                     window.location.pathname +
-                    "#" +
-                    slug;
+                    "?invitado=" +
+                    encodeURIComponent(nombre);
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
