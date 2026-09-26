@@ -2909,7 +2909,9 @@
             const invitado = parametros.get("invitado");
 
             if (invitado) {
-                return invitado.trim()
+                return invitado
+                    .replace(/-/g, " ")
+                    .trim()
                     || "Invitado especial";
             }
 
@@ -2942,6 +2944,31 @@
             "nombreInvitadoPersonalizado"
         ).textContent =
             nombreInvitadoPersonalizado;
+
+        /* =====================================================
+           LIMPIAR LA URL AL ABRIR LA INVITACIÓN
+           El parámetro ?invitado= solo sirve para que WhatsApp
+           pueda distinguir cada enlace. Una vez leído, volvemos
+           a mostrar la URL limpia con #Nombre, como antes.
+        ===================================================== */
+        if (window.location.search.includes("invitado=")) {
+
+            const nombreParaHash =
+                encodeURIComponent(nombreInvitadoPersonalizado)
+                    .replace(/%20/g, "-");
+
+            const urlLimpia =
+                window.location.origin +
+                window.location.pathname +
+                "#" +
+                nombreParaHash;
+
+            window.history.replaceState(
+                {},
+                document.title,
+                urlLimpia
+            );
+        }
 
 
         /* =====================================================
@@ -3617,11 +3644,22 @@
                     return;
                 }
 
+                /*
+                 * URL nueva para WhatsApp: cada invitado tiene una
+                 * dirección diferente, pero conservamos el formato
+                 * limpio del nombre, sin %20, %C3%B3, etc.
+                 */
+                const invitadoUrl =
+                    nombre
+                        .replace(/\s+/g, "-")
+                        .replace(/-+/g, "-")
+                        .replace(/^-|-$/g, "");
+
                 linkActual =
                     window.location.origin +
                     window.location.pathname +
                     "?invitado=" +
-                    encodeURIComponent(nombre);
+                    encodeURIComponent(invitadoUrl);
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
