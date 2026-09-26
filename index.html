@@ -1892,20 +1892,16 @@
 
         /* Obtener nombre del invitado desde la URL (?nombre= o #) */
 
+        /* Obtener nombre del invitado desde la URL */
+
         function obtenerNombreDesdeLink() {
-            let texto = "";
-
             // 1. Intentar leer del hash (#)
-            const hash = window.location.hash.replace(/^#/, "").trim();
+            let texto = window.location.hash.replace(/^#/, "").trim();
 
-            // 2. Intentar leer de los parámetros (?nombre=)
-            const params = new URLSearchParams(window.location.search);
-            const queryNombre = params.get("nombre");
-
-            if (hash) {
-                texto = hash;
-            } else if (queryNombre) {
-                texto = queryNombre;
+            // 2. Si no hay hash, intentar leer de los parámetros (?nombre=)
+            if (!texto) {
+                const params = new URLSearchParams(window.location.search);
+                texto = params.get("nombre") || "";
             }
 
             if (!texto) {
@@ -1914,15 +1910,14 @@
 
             try {
                 texto = decodeURIComponent(texto);
-            } catch (e) {}
+            } catch (error) {}
 
-            // Reemplaza guiones por espacios y la palabra 'y' aislada por '&'
-            texto = texto
+            // Reemplaza guiones (-) por espacios y la palabra "y" (aislada) por "&"
+            return texto
                 .replace(/-/g, " ")
                 .replace(/\by\b/gi, "&")
-                .trim();
-
-            return texto || "Invitado especial";
+                .replace(/\s+/g, " ")
+                .trim() || "Invitado especial";
         }
 
         const nombreInvitadoPersonalizado = obtenerNombreDesdeLink();
