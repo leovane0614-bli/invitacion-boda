@@ -1895,13 +1895,10 @@
         /* Obtener nombre del invitado desde la URL */
 
         /* Obtener nombre del invitado desde la URL */
-
+        /* Obtener nombre del invitado */
         function obtenerNombreDesdeLink() {
-            let texto = "";
-
-            // Lee de la URL (sea despues de ?nombre= o despues de #)
             const params = new URLSearchParams(window.location.search);
-            texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
+            let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
 
             if (!texto) return "Invitado especial";
 
@@ -1909,12 +1906,7 @@
                 texto = decodeURIComponent(texto);
             } catch (e) {}
 
-            // Cambia guiones por espacios y la letra 'y' por '&'
-            return texto
-                .replace(/-/g, " ")
-                .replace(/\by\b/gi, "&")
-                .replace(/\s+/g, " ")
-                .trim() || "Invitado especial";
+            return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
         }
 
         document.getElementById("nombreInvitadoPersonalizado").textContent = obtenerNombreDesdeLink();
