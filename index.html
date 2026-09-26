@@ -2165,18 +2165,62 @@
             transform: scale(.97);
         }
 
-        .fecha-confirmacion {
-            margin: -4px auto 24px;
-            color: #71858d;
-            font-size: 13px;
-            line-height: 1.5;
-            font-style: italic;
+        .fecha-confirmacion-destacada {
+            width: 100%;
+            max-width: 460px;
+            margin: 5px auto 28px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             text-align: center;
+            background: rgba(139,191,212,.12);
+            border: 1px solid rgba(139,191,212,.55);
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(70,110,125,.10);
         }
 
-        .fecha-confirmacion strong {
-            color: #526d77;
-            font-style: normal;
+        .fecha-icono {
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #8bbfd4;
+            color: white;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(70,110,125,.18);
+        }
+
+        .fecha-texto {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fecha-texto span {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #71858d;
+            font-weight: 700;
+        }
+
+        .fecha-texto strong {
+            font-size: 13px;
+            line-height: 1.45;
+            letter-spacing: .5px;
+            color: #526b75;
+            font-weight: 600;
+        }
+
+        .fecha-texto b {
+            color: #4b8ba5;
+            font-weight: 700;
+            font-size: 14px;
         }
 
 </style>
@@ -2723,10 +2767,26 @@
 
             </div>
 
-            <p class="fecha-confirmacion">
-                Por favor confirma tu asistencia
-                <strong>antes del 20 de noviembre de 2026</strong>.
-            </p>
+            <div class="fecha-confirmacion-destacada">
+
+                <div class="fecha-icono">
+                    ♥
+                </div>
+
+                <div class="fecha-texto">
+
+                    <span>Importante</span>
+
+                    <strong>
+                        Confirma tu asistencia
+                        <br>
+                        antes del
+                        <b>20 de noviembre de 2026</b>
+                    </strong>
+
+                </div>
+
+            </div>
 
             <div class="campo-nombre">
 
