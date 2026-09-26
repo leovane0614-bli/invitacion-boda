@@ -7,16 +7,7 @@
 
     <title>❤️ Leo & Vane ❤️ Nuestra Boda</title>
 
-    <meta property="og:title" content="❤️ Leo & Vane ❤️ Nuestra Boda">
-<meta property="og:description" content="¡Nos casamos! 💍 Con inmensa alegría y agradecimiento a Dios, queremos compartir con ustedes uno de los momentos más importantes de nuestras vidas. Los invitamos a celebrar nuestra unión en matrimonio y a acompañarnos en este día tan especial. ❤️">
-<meta property="og:image" content="https://leovane0614-bli.github.io/invitacion-boda/novios.jpeg">
-<meta property="og:url" content="https://leovane0614-bli.github.io/invitacion-boda/">
-<meta property="og:type" content="website">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="❤️ Leo & Vane ❤️ Nuestra Boda">
-<meta name="twitter:description" content="¡Nos casamos! 💍 Con inmensa alegría y agradecimiento a Dios, queremos compartir con ustedes este día tan especial. ❤️">
-<meta name="twitter:image" content="https://leovane0614-bli.github.io/invitacion-boda/novios.jpeg">
+    <meta property="og:description" content="¡Nos casamos! 💍 Con inmensa alegría y agradecimiento a Dios, queremos compartir con ustedes uno de los momentos más importantes de nuestras vidas. Los invitamos a celebrar nuestra unión en matrimonio y a acompañarnos en este día tan especial, donde el amor, la fe y la esperanza serán los protagonistas. Su presencia será el mejor regalo para nosotros y hará de este día un recuerdo inolvidable. ❤️">
 
 
     <style>
@@ -3537,18 +3528,12 @@
         ===================================================== */
         (function () {
 
-            const admin =
-                new URLSearchParams(
-                    window.location.search
-                ).get("admin");
+            const admin = new URLSearchParams(window.location.search).get("admin");
 
             if (admin !== "1") return;
 
-            const contenedor =
-                document.createElement("div");
-
-            contenedor.id =
-                "generadorLinksAdmin";
+            const contenedor = document.createElement("div");
+            contenedor.id = "generadorLinksAdmin";
 
             contenedor.innerHTML = `
                 <button class="admin-boton" type="button">
@@ -3591,13 +3576,11 @@
             let linkActual = "";
 
             boton.addEventListener("click", function () {
-
                 panel.classList.toggle("oculto");
 
                 if (!panel.classList.contains("oculto")) {
                     input.focus();
                 }
-
             });
 
             generar.addEventListener("click", function () {
@@ -3606,16 +3589,19 @@
 
                 if (!nombre) {
                     mensaje.textContent = "Escribe el nombre del invitado.";
-                    input.focus();
                     return;
                 }
 
+                /*
+                 * IMPORTANTE:
+                 * NO quitamos tildes, ñ ni otros caracteres.
+                 * El fragmento de URL permite conservar el nombre
+                 * original del invitado.
+                 */
                 const slug = nombre
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                    .replace(/&/g, "%26")
-                    .replace(/[^a-zA-Z0-9]+/g, "-")
-                    .replace(/^-+|-+$/g, "");
+                    .replace(/\s+/g, "-")
+                    .replace(/-+/g, "-")
+                    .replace(/^-|-$/g, "");
 
                 if (!slug) {
                     mensaje.textContent = "No se pudo crear el nombre del enlace.";
@@ -3623,13 +3609,14 @@
                 }
 
                 linkActual =
-    "https://gentle-frog-6f22.leovane0614.workers.dev/?nombre=" +
-    slug;
+                    window.location.origin +
+                    window.location.pathname +
+                    "#" +
+                    slug;
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
                 mensaje.textContent = "✓ Link generado.";
-
             });
 
             copiar.addEventListener("click", async function () {
@@ -3643,7 +3630,6 @@
                     await navigator.clipboard.writeText(linkActual);
                     mensaje.textContent = "✓ Link copiado.";
                 } catch (error) {
-
                     const area = document.createElement("textarea");
                     area.value = linkActual;
                     area.style.position = "fixed";
@@ -3660,7 +3646,6 @@
 
                     area.remove();
                 }
-
             });
 
         })();
