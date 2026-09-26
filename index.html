@@ -7,6 +7,8 @@
 
     <title>❤️ Leo & Vane ❤️ Nuestra Boda</title>
 
+    <meta property="og:description" content="¡Nos casamos! 💍 Con inmensa alegría y agradecimiento a Dios, queremos compartir con ustedes uno de los momentos más importantes de nuestras vidas. Los invitamos a celebrar nuestra unión en matrimonio y a acompañarnos en este día tan especial, donde el amor, la fe y la esperanza serán los protagonistas. Su presencia será el mejor regalo para nosotros y hará de este día un recuerdo inolvidable. ❤️">
+
 
     <style>
 
@@ -3527,17 +3529,12 @@
         (function () {
 
             const admin =
-                new URLSearchParams(
-                    window.location.search
-                ).get("admin");
+                new URLSearchParams(window.location.search).get("admin");
 
             if (admin !== "1") return;
 
-            const contenedor =
-                document.createElement("div");
-
-            contenedor.id =
-                "generadorLinksAdmin";
+            const contenedor = document.createElement("div");
+            contenedor.id = "generadorLinksAdmin";
 
             contenedor.innerHTML = `
                 <button class="admin-boton" type="button">
@@ -3580,13 +3577,11 @@
             let linkActual = "";
 
             boton.addEventListener("click", function () {
-
                 panel.classList.toggle("oculto");
 
                 if (!panel.classList.contains("oculto")) {
                     input.focus();
                 }
-
             });
 
             generar.addEventListener("click", function () {
@@ -3595,7 +3590,6 @@
 
                 if (!nombre) {
                     mensaje.textContent = "Escribe el nombre del invitado.";
-                    input.focus();
                     return;
                 }
 
@@ -3607,7 +3601,8 @@
                     .replace(/^-+|-+$/g, "");
 
                 if (!slug) {
-                    mensaje.textContent = "No se pudo crear el nombre del enlace.";
+                    mensaje.textContent =
+                        "No se pudo crear el nombre del enlace.";
                     return;
                 }
 
@@ -3618,7 +3613,6 @@
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
                 mensaje.textContent = "✓ Link generado.";
-
             });
 
             copiar.addEventListener("click", async function () {
@@ -3632,7 +3626,6 @@
                     await navigator.clipboard.writeText(linkActual);
                     mensaje.textContent = "✓ Link copiado.";
                 } catch (error) {
-
                     const area = document.createElement("textarea");
                     area.value = linkActual;
                     area.style.position = "fixed";
@@ -3644,12 +3637,12 @@
                         document.execCommand("copy");
                         mensaje.textContent = "✓ Link copiado.";
                     } catch (e) {
-                        mensaje.textContent = "Selecciona y copia el link manualmente.";
+                        mensaje.textContent =
+                            "Selecciona y copia el link manualmente.";
                     }
 
                     area.remove();
                 }
-
             });
 
         })();
