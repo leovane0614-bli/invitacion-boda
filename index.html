@@ -3606,29 +3606,11 @@
                     return;
                 }
 
-                /*
-                 * VISTA PREVIA PERSONALIZADA DE WHATSAPP
-                 *
-                 * La URL real del Worker se configura UNA SOLA VEZ
-                 * cuando Cloudflare nos entregue la dirección publicada.
-                 *
-                 * NO se deja una URL falsa ni de ejemplo.
-                 */
-                const URL_PREVIEW = "";
-
-                if (!URL_PREVIEW) {
-                    mensaje.textContent =
-                        "⚠ Falta conectar el enlace real del Worker de WhatsApp.";
-                    linkBox.textContent =
-                        "Primero publica el Worker y coloca aquí su URL real.";
-                    linkBox.classList.add("visible");
-                    return;
-                }
-
                 linkActual =
-                    URL_PREVIEW.replace(/\/$/, "") +
-                    "?nombre=" +
-                    encodeURIComponent(nombre);
+                    window.location.origin +
+                    window.location.pathname +
+                    "#" +
+                    slug;
 
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
