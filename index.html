@@ -997,7 +997,7 @@
                 }
             });
 
-            generar.addEventListener("click", function (e) {
+           generar.addEventListener("click", function (e) {
     e.stopPropagation();
     let nombre = input.value.trim();
 
@@ -1007,13 +1007,12 @@
         return;
     }
 
-    // Cambia espacios y el símbolo & por guiones limpios para que el link no lleve %26
+    // Mantiene el & codificándolo como %26 y convierte los espacios en guiones
     let nombreParaLink = nombre
-        .replace(/&/g, "y")            // Cambia & por "y" para evitar el %26 en la URL
-        .replace(/\s+/g, "-")          // Cambia espacios por guiones
-        .replace(/-+/g, "-");          // Evita guiones dobles
+        .replace(/\s+/g, "-")
+        .replace(/&/g, "%26");
 
-    linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombreParaLink);
+    linkActual = WORKER_URL + "?nombre=" + nombreParaLink;
     
     linkBox.textContent = linkActual;
     linkBox.style.setProperty("display", "block", "important");
