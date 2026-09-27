@@ -2309,6 +2309,101 @@
         })();
 
     </script>
+<!-- Últimas etiquetas de tu index.html -->
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
 
+      const contenedor = document.createElement("div");
+      contenedor.id = "generadorLinksAdminFixed";
+      contenedor.style.cssText = "position: fixed !important; bottom: 20px !important; right: 20px !important; z-index: 9999999 !important; font-family: sans-serif !important;";
+
+      contenedor.innerHTML = `
+          <button id="adminBotonToggle" type="button" style="padding: 12px 18px !important; background: #000000 !important; color: #ffffff !important; border: 2px solid #ffffff !important; border-radius: 8px !important; cursor: pointer !important; font-weight: bold !important; box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important; font-size: 14px !important; display: block !important;">⚙ GENERAR LINK</button>
+          
+          <div id="adminPanelCaja" style="display: none; margin-bottom: 10px; background: #ffffff !important; border: 1px solid #ccc !important; padding: 15px !important; border-radius: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important; width: 280px !important; color: #333333 !important;">
+              <div style="font-weight: bold !important; font-size: 14px !important; margin-bottom: 8px !important; color: #111 !important;">LINK PERSONALIZADO</div>
+              <input id="adminInputNombre" type="text" placeholder="Ej: Carlos & Diana" autocomplete="off" style="width: 100% !important; padding: 8px !important; margin-bottom: 10px !important; box-sizing: border-box !important; border: 1px solid #ccc !important; border-radius: 5px !important; font-size: 14px !important; color: #000 !important; background: #fff !important;">
+              <button id="adminBotonGenerar" type="button" style="width: 100% !important; padding: 10px !important; background: #d63384 !important; color: #fff !important; border: none !important; border-radius: 5px !important; cursor: pointer !important; font-weight: bold !important; margin-bottom: 6px !important;">GENERAR LINK</button>
+              <div id="adminBoxLink" style="word-break: break-all !important; font-size: 12px !important; margin: 8px 0 !important; padding: 6px !important; background: #f0f0f0 !important; border-radius: 4px !important; display: none !important; color: #000 !important;"></div>
+              <button id="adminBotonCopiar" type="button" style="width: 100% !important; padding: 10px !important; background: #198754 !important; color: #fff !important; border: none !important; border-radius: 5px !important; cursor: pointer !important; font-weight: bold !important; display: none !important;">COPIAR LINK</button>
+              <div id="adminMensajeTexto" style="font-size: 12px !important; margin-top: 6px !important; font-weight: bold !important; text-align: center !important;"></div>
+          </div>
+      `;
+
+      document.body.appendChild(contenedor);
+
+      const boton = document.getElementById("adminBotonToggle");
+      const panel = document.getElementById("adminPanelCaja");
+      const input = document.getElementById("adminInputNombre");
+      const generar = document.getElementById("adminBotonGenerar");
+      const linkBox = document.getElementById("adminBoxLink");
+      const copiar = document.getElementById("adminBotonCopiar");
+      const mensaje = document.getElementById("adminMensajeTexto");
+
+      let linkActual = "";
+
+      boton.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (panel.style.display === "none") {
+              panel.style.setProperty("display", "block", "important");
+              input.focus();
+          } else {
+              panel.style.setProperty("display", "none", "important");
+          }
+      });
+
+      generar.addEventListener("click", function (e) {
+          e.stopPropagation();
+          let nombre = input.value.trim();
+
+          if (!nombre) {
+              mensaje.style.color = "#dc3545";
+              mensaje.textContent = "Escribe el nombre del invitado.";
+              return;
+          }
+
+          let nombreLimpio = nombre;
+          let esFamilia = false;
+
+          if (/\s*(&|y)?\s*Familia$/i.test(nombreLimpio)) {
+              nombreLimpio = nombreLimpio.replace(/\s*(&|y)?\s*Familia$/i, "").trim();
+              esFamilia = true;
+          }
+
+          let nombreFormateado = nombreLimpio
+              .replace(/[:]/g, "")
+              .replace(/\s+/g, "-")
+              .replace(/-+/g, "-");
+
+          let linkGenerado = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
+          if (esFamilia) {
+              linkGenerado += "&familia=1";
+          }
+
+          linkActual = linkGenerado;
+          linkBox.textContent = linkActual;
+          linkBox.style.setProperty("display", "block", "important");
+          copiar.style.setProperty("display", "block", "important");
+          mensaje.style.color = "#198754";
+          mensaje.textContent = "✓ Link generado.";
+      });
+
+      copiar.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (!linkActual) return;
+          navigator.clipboard.writeText(linkActual).then(() => {
+              mensaje.style.color = "#198754";
+              mensaje.textContent = "✓ Link copiado.";
+          }).catch(() => {
+              mensaje.style.color = "#dc3545";
+              mensaje.textContent = "Error al copiar.";
+          });
+      });
+    });
+  </script>
+</body>
+</html>
 </body>
 </html>
