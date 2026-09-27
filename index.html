@@ -2270,7 +2270,8 @@ function obtenerNombreDesdeLink() {
                 const token = textoABase64URL(nombre);
 
                 // El enlace NO contiene espacios, &, %20, %26 ni %2520.
-              linkActual = WORKER_URL + "?invitado=" + encodeURIComponent(nombre);
+              // Cambiar por esto:
+            const token = textoABase64URL(nombre);linkActual = WORKER_URL + "?invitado=" + token;
 
                 linkBox.textContent = linkActual;
                 linkBox.style.display = "block";
