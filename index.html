@@ -1889,29 +1889,36 @@
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
         /* Obtener nombre del invitado */
-    function obtenerNombreDesdeLink() {
+  function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
 
-    let token = params.get("invitado");
+    let token = params.get("invitado") || window.location.hash.replace(/^#/, "");
 
-    if (token) {
-        try {
-            token = token.replace(/-/g, "+").replace(/_/g, "/");
-            while (token.length % 4) token += "=";
+    if (!token) return "Invitado especial";
 
-            const bytes = Uint8Array.from(atob(token), function (c) {
-                return c.charCodeAt(0);
-            });
+    let texto = "";
 
-            return new TextDecoder()
-                .decode(bytes)
-                .replace(/\s+/g, " ")
-                .trim() || "Invitado especial";
-
-        } catch (e) {
-            return "Invitado especial";
+    try {
+        // Si viene como #invitado=..., tomamos solo el valor.
+        if (token.indexOf("invitado=") === 0) {
+            token = token.substring("invitado=".length);
         }
+
+        // Base64 URL-safe -> texto UTF-8
+        token = token.replace(/-/g, "+").replace(/_/g, "/");
+        while (token.length % 4) token += "=";
+
+        const bytes = Uint8Array.from(atob(token), function (c) {
+            return c.charCodeAt(0);
+        });
+
+        texto = new TextDecoder().decode(bytes);
+    } catch (e) {
+        return "Invitado especial";
     }
+
+    return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
+}
 
     let texto = window.location.hash.replace(/^#/, "");
 
