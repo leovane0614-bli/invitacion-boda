@@ -786,12 +786,24 @@
 
         /* Obtener nombre del invitado exacto de la URL */
        /* Obtener nombre del invitado exacto de la URL */
+/* Obtener nombre del invitado exacto de la URL */
 function obtenerNombreDesdeLink() {
-    const params = new URLSearchParams(window.location.search);
-    // Toma primero la variable 'nombre' o en su defecto todo lo que esté después del '#'
-    let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
+    // Lee primero lo que viene después del '#' o como parámetro
+    let texto = window.location.hash.replace(/^#/, "");
+    
+    if (!texto) {
+        const params = new URLSearchParams(window.location.search);
+        texto = params.get("nombre") || "";
+    }
 
     if (!texto) return "Invitado especial";
+
+    try {
+        texto = decodeURIComponent(texto);
+    } catch (e) {}
+
+    return texto.replace(/-/g, " ").replace(/\s+/g, " ").trim() || "Invitado especial";
+}
 
     try {
         texto = decodeURIComponent(texto);
@@ -1005,7 +1017,7 @@ function obtenerNombreDesdeLink() {
                 }
             });
 
-          generar.addEventListener("click", function (e) {
+         generar.addEventListener("click", function (e) {
     e.stopPropagation();
     let nombre = input.value.trim();
 
@@ -1015,7 +1027,7 @@ function obtenerNombreDesdeLink() {
         return;
     }
 
-    // Genera el enlace directo con el hash # y el texto tal cual
+    // Genera la URL con el hash # limpia
     linkActual = WORKER_URL + "#" + nombre;
     
     linkBox.textContent = linkActual;
