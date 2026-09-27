@@ -785,12 +785,20 @@
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
         /* Obtener nombre del invitado exacto de la URL */
-        function obtenerNombreDesdeLink() {
-            const params = new URLSearchParams(window.location.search);
-            let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
+       /* Obtener nombre del invitado exacto de la URL */
+function obtenerNombreDesdeLink() {
+    const params = new URLSearchParams(window.location.search);
+    // Toma primero la variable 'nombre' o en su defecto todo lo que esté después del '#'
+    let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
 
-            if (!texto) return "Invitado especial";
+    if (!texto) return "Invitado especial";
 
+    try {
+        texto = decodeURIComponent(texto);
+    } catch (e) {}
+
+    return texto.trim() || "Invitado especial";
+}
             try {
                 texto = decodeURIComponent(texto);
             } catch (e) {}
@@ -997,7 +1005,7 @@
                 }
             });
 
-           generar.addEventListener("click", function (e) {
+          generar.addEventListener("click", function (e) {
     e.stopPropagation();
     let nombre = input.value.trim();
 
@@ -1007,12 +1015,8 @@
         return;
     }
 
-    // Mantiene el & codificándolo como %26 y convierte los espacios en guiones
-    let nombreParaLink = nombre
-        .replace(/\s+/g, "-")
-        .replace(/&/g, "%26");
-
-    linkActual = WORKER_URL + "?nombre=" + nombreParaLink;
+    // Genera el enlace directo con el hash # y el texto tal cual
+    linkActual = WORKER_URL + "#" + nombre;
     
     linkBox.textContent = linkActual;
     linkBox.style.setProperty("display", "block", "important");
