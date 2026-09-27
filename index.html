@@ -784,20 +784,13 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-        /* Obtener nombre del invitado */
-/* Obtener nombre del invitado */
-function obtenerNombreDesdeLink() {
-    const params = new URLSearchParams(window.location.search);
-    let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
+        /* Obtener nombre del invitado exacto de la URL */
+        function obtenerNombreDesdeLink() {
+            const params = new URLSearchParams(window.location.search);
+            let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
 
-    if (!texto) return "Invitado especial";
+            if (!texto) return "Invitado especial";
 
-    try {
-        texto = decodeURIComponent(texto);
-    } catch (e) {}
-
-    return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
-}
             try {
                 texto = decodeURIComponent(texto);
             } catch (e) {}
@@ -974,7 +967,7 @@ function obtenerNombreDesdeLink() {
                 
                 <div id="adminPanelCaja" style="display: none; margin-bottom: 10px; background: #ffffff !important; border: 1px solid #ccc !important; padding: 15px !important; border-radius: 10px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important; width: 280px !important; color: #333333 !important;">
                     <div style="font-weight: bold !important; font-size: 14px !important; margin-bottom: 8px !important; color: #111 !important;">LINK PERSONALIZADO</div>
-                    <input id="adminInputNombre" type="text" placeholder="Ej: Carlos & Diana" autocomplete="off" style="width: 100% !important; padding: 8px !important; margin-bottom: 10px !important; box-sizing: border-box !important; border: 1px solid #ccc !important; border-radius: 5px !important; font-size: 14px !important; color: #000 !important; background: #fff !important;">
+                    <input id="adminInputNombre" type="text" placeholder="Ej: Carlos y Familia" autocomplete="off" style="width: 100% !important; padding: 8px !important; margin-bottom: 10px !important; box-sizing: border-box !important; border: 1px solid #ccc !important; border-radius: 5px !important; font-size: 14px !important; color: #000 !important; background: #fff !important;">
                     <button id="adminBotonGenerar" type="button" style="width: 100% !important; padding: 10px !important; background: #d63384 !important; color: #fff !important; border: none !important; border-radius: 5px !important; cursor: pointer !important; font-weight: bold !important; margin-bottom: 6px !important;">GENERAR LINK</button>
                     <div id="adminBoxLink" style="word-break: break-all !important; font-size: 12px !important; margin: 8px 0 !important; padding: 6px !important; background: #f0f0f0 !important; border-radius: 4px !important; display: none !important; color: #000 !important;"></div>
                     <button id="adminBotonCopiar" type="button" style="width: 100% !important; padding: 10px !important; background: #198754 !important; color: #fff !important; border: none !important; border-radius: 5px !important; cursor: pointer !important; font-weight: bold !important; display: none !important;">COPIAR LINK</button>
@@ -1014,25 +1007,13 @@ function obtenerNombreDesdeLink() {
                     return;
                 }
 
-                let nombreLimpio = nombre;
-                let esFamilia = false;
-
-                if (/\s*(&|y)?\s*Familia$/i.test(nombreLimpio)) {
-                    nombreLimpio = nombreLimpio.replace(/\s*(&|y)?\s*Familia$/i, "").trim();
-                    esFamilia = true;
-                }
-
-                let nombreFormateado = nombreLimpio
-                    .replace(/[:]/g, "")
+                // Codifica de forma limpia reemplazando espacios por guiones
+                let nombreFormateado = nombre
                     .replace(/\s+/g, "-")
                     .replace(/-+/g, "-");
 
-                let linkGenerado = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
-                if (esFamilia) {
-                    linkGenerado += "&familia=1";
-                }
-
-                linkActual = linkGenerado;
+                linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
+                
                 linkBox.textContent = linkActual;
                 linkBox.style.setProperty("display", "block", "important");
                 copiar.style.setProperty("display", "block", "important");
