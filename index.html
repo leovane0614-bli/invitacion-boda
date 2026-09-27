@@ -1888,8 +1888,7 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-        
-function obtenerNombreDesdeLink() {
+        function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
     let texto = params.get("invitado") || params.get("nombre");
 
@@ -1953,6 +1952,24 @@ function obtenerNombreDesdeLink() {
         .replace(/\s+/g, " ")
         .trim() || "Invitado especial";
 }
+
+        // Cargar e inyectar el nombre del invitado al cargar la página
+document.addEventListener("DOMContentLoaded", function () {
+    const nombreFinal = obtenerNombreDesdeLink();
+    
+    // Inyectar en el HTML de la portada
+    const elementoNombre = document.getElementById("nombreInvitadoPersonalizado");
+    if (elementoNombre) {
+        elementoNombre.textContent = nombreFinal;
+    }
+
+    // Rellenar automáticamente el campo de texto en la sección de confirmación
+    const inputNombre = document.getElementById("nombreInvitado");
+    if (inputNombre && nombreFinal !== "Invitado especial") {
+        inputNombre.value = nombreFinal;
+    }
+});
+
         /* Música */
 
         window.addEventListener("load", function () {
