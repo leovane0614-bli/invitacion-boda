@@ -2127,106 +2127,106 @@
 
         /* Generador de enlaces admin */
 
-        (function () {
-            const admin = new URLSearchParams(window.location.search).get("admin");
-            if (admin !== "1") return;
+        /* Generador de links admin */
 
-            const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
+(function () {
+    const admin = new URLSearchParams(window.location.search).get("admin");
+    if (admin !== "1") return;
 
-            const contenedor = document.createElement("div");
-            contenedor.id = "generadorLinksAdmin";
+    const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
 
-            contenedor.innerHTML = `
-                <button class="admin-boton" type="button">⚙ GENERAR LINK</button>
-                <div class="admin-panel oculto">
-                    <div class="admin-titulo">LINK PERSONALIZADO</div>
-                    <input class="admin-nombre" type="text" placeholder="Ej: Carlos & Familia" autocomplete="off">
-                    <button class="admin-generar" type="button">GENERAR LINK</button>
-                    <div class="admin-link"></div>
-                    <button class="admin-copiar" type="button">COPIAR LINK</button>
-                    <div class="admin-mensaje"></div>
-                </div>
-            `;
+    const contenedor = document.createElement("div");
+    contenedor.id = "generadorLinksAdmin";
 
-            document.body.appendChild(contenedor);
+    contenedor.innerHTML = `
+        <button class="admin-boton" type="button">⚙ GENERAR LINK</button>
+        <div class="admin-panel oculto">
+            <div class="admin-titulo">LINK PERSONALIZADO</div>
+            <input class="admin-nombre" type="text" placeholder="Ej: Carlos & Familia" autocomplete="off">
+            <button class="admin-generar" type="button">GENERAR LINK</button>
+            <div class="admin-link"></div>
+            <button class="admin-copiar" type="button">COPIAR LINK</button>
+            <div class="admin-mensaje"></div>
+        </div>
+    `;
 
-            const boton = contenedor.querySelector(".admin-boton");
-            const panel = contenedor.querySelector(".admin-panel");
-            const input = contenedor.querySelector(".admin-nombre");
-            const generar = contenedor.querySelector(".admin-generar");
-            const linkBox = contenedor.querySelector(".admin-link");
-            const copiar = contenedor.querySelector(".admin-copiar");
-            const mensaje = contenedor.querySelector(".admin-mensaje");
+    document.body.appendChild(contenedor);
 
-            let linkActual = "";
+    const boton = contenedor.querySelector(".admin-boton");
+    const panel = contenedor.querySelector(".admin-panel");
+    const input = contenedor.querySelector(".admin-nombre");
+    const generar = contenedor.querySelector(".admin-generar");
+    const linkBox = contenedor.querySelector(".admin-link");
+    const copiar = contenedor.querySelector(".admin-copiar");
+    const mensaje = contenedor.querySelector(".admin-mensaje");
 
-            boton.addEventListener("click", function () {
-                panel.classList.toggle("oculto");
-                if (!panel.classList.contains("oculto")) input.focus();
-            });
+    let linkActual = "";
 
-            generar.addEventListener("click", function () {
-                let nombre = input.value.trim();
+    boton.addEventListener("click", function () {
+        panel.classList.toggle("oculto");
+        if (!panel.classList.contains("oculto")) input.focus();
+    });
 
-                if (!nombre) {
-                    mensaje.textContent = "Escribe el nombre del invitado.";
-                    return;
-                }
+    generar.addEventListener("click", function () {
+        let nombre = input.value.trim();
 
-                let nombreLimpio = nombre.trim();
-                let linkActualGenerado = "";
+        if (!nombre) {
+            mensaje.textContent = "Escribe el nombre del invitado.";
+            return;
+        }
 
-                if (/\s*&\s*Familia$/i.test(nombreLimpio)) {
-                    nombreLimpio = nombreLimpio
-                        .replace(/\s*&\s*Familia$/i, "")
-                        .trim();
+        let nombreLimpio = nombre.trim();
+        let esFamilia = false;
 
-                    linkActualGenerado =
-                        WORKER_URL +
-                        "?nombre=" +
-                        encodeURIComponent(nombreLimpio) +
-                        "&familia=1";
-                } else {
-                    linkActualGenerado =
-                        WORKER_URL +
-                        "?nombre=" +
-                        encodeURIComponent(nombreLimpio);
-                }
+        if (/\s*&\s*Familia$/i.test(nombreLimpio)) {
+            nombreLimpio = nombreLimpio.replace(/\s*&\s*Familia$/i, "").trim();
+            esFamilia = true;
+        }
 
-                linkActual = linkActualGenerado;
-                linkBox.textContent = linkActual;
-                linkBox.classList.add("visible");
-                mensaje.textContent = "✓ Link generado.";
-            });
+        // Convierte "Hola & Hola" o "Hola y Hola" a "Hola-y-Hola" reemplazando espacios y el caracter &
+        let nombreFormateado = nombreLimpio
+            .replace(/&/g, "y")
+            .replace(/\s+/g, "-");
 
-            copiar.addEventListener("click", async function () {
-                if (!linkActual) {
-                    mensaje.textContent = "Primero genera un link.";
-                    return;
-                }
+        let linkActualGenerado = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
+        if (esFamilia) {
+            linkActualGenerado += "&familia=1";
+        }
 
-                try {
-                    await navigator.clipboard.writeText(linkActual);
-                    mensaje.textContent = "✓ Link copiado.";
-                } catch (error) {
-                    const area = document.createElement("textarea");
-                    area.value = linkActual;
-                    area.style.position = "fixed";
-                    area.style.left = "-9999px";
-                    document.body.appendChild(area);
-                    area.select();
+        linkActual = linkActualGenerado;
+        linkBox.textContent = linkActual;
+        linkBox.classList.add("visible");
+        mensaje.textContent = "✓ Link generado.";
+    });
 
-                    try {
-                        document.execCommand("copy");
-                        mensaje.textContent = "✓ Link copiado.";
-                    } catch (e) {
-                        mensaje.textContent = "Selecciona y copia el link manualmente.";
-                    }
+    copiar.addEventListener("click", async function () {
+        if (!linkActual) {
+            mensaje.textContent = "Primero genera un link.";
+            return;
+        }
 
-                    area.remove();
-                }
-            });
-        })();
+        try {
+            await navigator.clipboard.writeText(linkActual);
+            mensaje.textContent = "✓ Link copiado.";
+        } catch (error) {
+            const area = document.createElement("textarea");
+            area.value = linkActual;
+            area.style.position = "fixed";
+            area.style.left = "-9999px";
+            document.body.appendChild(area);
+            area.select();
+
+            try {
+                document.execCommand("copy");
+                mensaje.textContent = "✓ Link copiado.";
+            } catch (e) {
+                mensaje.textContent = "Selecciona y copia el link manualmente.";
+            }
+
+            area.remove();
+        }
+    });
+})();
 
     </script>
 
