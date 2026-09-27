@@ -1888,63 +1888,34 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-        /* Obtener nombre del invitado */
-  function obtenerNombreDesdeLink() {
-    const params = new URLSearchParams(window.location.search);
+     /* Obtener nombre del invitado */
+        function obtenerNombreDesdeLink() {
+            const params = new URLSearchParams(window.location.search);
 
-    let token = params.get("invitado") || window.location.hash.replace(/^#/, "");
+            let token = params.get("invitado") || window.location.hash.replace(/^#/, "");
 
-    if (!token) return "Invitado especial";
+            if (!token) return "Invitado especial";
 
-    let texto = "";
+            let texto = "";
 
-    try {
-        // Si viene como #invitado=..., tomamos solo el valor.
-        if (token.indexOf("invitado=") === 0) {
-            token = token.substring("invitado=".length);
-        }
+            try {
+                // Si viene como #invitado=..., tomamos solo el valor.
+                if (token.indexOf("invitado=") === 0) {
+                    token = token.substring("invitado=".length);
+                }
 
-        // Base64 URL-safe -> texto UTF-8
-        token = token.replace(/-/g, "+").replace(/_/g, "/");
-        while (token.length % 4) token += "=";
+                // Base64 URL-safe -> texto UTF-8
+                token = token.replace(/-/g, "+").replace(/_/g, "/");
+                while (token.length % 4) token += "=";
 
-        const bytes = Uint8Array.from(atob(token), function (c) {
-            return c.charCodeAt(0);
-        });
+                const bytes = Uint8Array.from(atob(token), function (c) {
+                    return c.charCodeAt(0);
+                });
 
-        texto = new TextDecoder().decode(bytes);
-    } catch (e) {
-        return "Invitado especial";
-    }
-
-    return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
-}
-
-    let texto = window.location.hash.replace(/^#/, "");
-
-    if (!texto) return "Invitado especial";
-
-    try {
-        texto = decodeURIComponent(texto);
-    } catch (e) {}
-
-    return texto
-        .replace(/\s+/g, " ")
-        .trim() || "Invitado especial";
-}
-    // Si viene desde el Worker en el hash: #Carlos%20%26%20Familia
-    let texto = window.location.hash.replace(/^#/, "");
-
-    if (!texto) return "Invitado especial";
-
-    try {
-        texto = decodeURIComponent(texto);
-    } catch (e) {}
-
-    return texto
-        .replace(/\s+/g, " ")
-        .trim() || "Invitado especial";
-}
+                texto = new TextDecoder().decode(bytes);
+            } catch (e) {
+                return "Invitado especial";
+            }
 
             return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
         }
