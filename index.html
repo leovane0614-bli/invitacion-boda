@@ -1888,39 +1888,66 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-     /* Obtener nombre del invitado */
-        function obtenerNombreDesdeLink() {
-            const params = new URLSearchParams(window.location.search);
+     function obtenerNombreDesdeLink() {
+    const params = new URLSearchParams(window.location.search);
+    let texto = params.get("invitado");
 
-            let token = params.get("invitado") || window.location.hash.replace(/^#/, "");
-
-            if (!token) return "Invitado especial";
-
-            let texto = "";
-
+    if (texto) {
+        // Reconocer los enlaces antiguos en Base64.
+        if (/^[A-Za-z0-9_-]+$/.test(texto)) {
             try {
-                // Si viene como #invitado=..., tomamos solo el valor.
-                if (token.indexOf("invitado=") === 0) {
-                    token = token.substring("invitado=".length);
+                let base64 = texto
+                    .replace(/-/g, "+")
+                    .replace(/_/g, "/");
+
+                while (base64.length % 4) {
+                    base64 += "=";
                 }
 
-                // Base64 URL-safe -> texto UTF-8
-                token = token.replace(/-/g, "+").replace(/_/g, "/");
-                while (token.length % 4) token += "=";
+                const bytes = Uint8Array.from(
+                    atob(base64),
+                    c => c.charCodeAt(0)
+                );
 
-                const bytes = Uint8Array.from(atob(token), function (c) {
-                    return c.charCodeAt(0);
-                });
+                const decodificado = new TextDecoder(
+                    "utf-8",
+                    { fatal: true }
+                ).decode(bytes);
 
-                texto = new TextDecoder().decode(bytes);
-            } catch (e) {
-                return "Invitado especial";
-            }
+                const binario = Array.from(
+                    new TextEncoder().encode(decodificado),
+                    b => String.fromCharCode(b)
+                ).join("");
 
-            return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
+                const comprobacion = btoa(binario)
+                    .replace(/\+/g, "-")
+                    .replace(/\//g, "_")
+                    .replace(/=+$/g, "");
+
+                if (comprobacion === texto) {
+                    texto = decodificado;
+                }
+            } catch (e) {}
         }
 
-        document.getElementById("nombreInvitadoPersonalizado").textContent = obtenerNombreDesdeLink();
+        // Si el enlace contiene &Familia sin codificar.
+        if (params.has("Familia")) {
+            texto += " & Familia";
+        }
+    } else {
+        texto = window.location.hash.replace(/^#/, "");
+
+        if (texto) {
+            try {
+                texto = decodeURIComponent(texto);
+            } catch (e) {}
+        }
+    }
+
+    return (texto || "Invitado especial")
+        .replace(/\s+/g, " ")
+        .trim() || "Invitado especial";
+}
 
         /* Música */
 
