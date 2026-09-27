@@ -1888,53 +1888,53 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-     function obtenerNombreDesdeLink() {
+   function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
     let texto = params.get("invitado");
 
     if (texto) {
-        // Reconocer los enlaces antiguos en Base64.
-        if (/^[A-Za-z0-9_-]+$/.test(texto)) {
-            try {
-                let base64 = texto
-                    .replace(/-/g, "+")
-                    .replace(/_/g, "/");
+        // Intentar recuperar el nombre desde Base64.
+        try {
+            let base64 = texto
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
 
-                while (base64.length % 4) {
-                    base64 += "=";
-                }
+            while (base64.length % 4) {
+                base64 += "=";
+            }
 
-                const bytes = Uint8Array.from(
-                    atob(base64),
-                    c => c.charCodeAt(0)
-                );
+            const bytes = Uint8Array.from(
+                atob(base64),
+                c => c.charCodeAt(0)
+            );
 
-                const decodificado = new TextDecoder(
-                    "utf-8",
-                    { fatal: true }
-                ).decode(bytes);
+            const decodificado = new TextDecoder("utf-8", {
+                fatal: true
+            }).decode(bytes);
 
-                const binario = Array.from(
-                    new TextEncoder().encode(decodificado),
-                    b => String.fromCharCode(b)
-                ).join("");
+            const binario = Array.from(
+                new TextEncoder().encode(decodificado),
+                b => String.fromCharCode(b)
+            ).join("");
 
-                const comprobacion = btoa(binario)
-                    .replace(/\+/g, "-")
-                    .replace(/\//g, "_")
-                    .replace(/=+$/g, "");
+            const comprobacion = btoa(binario)
+                .replace(/\+/g, "-")
+                .replace(/\//g, "_")
+                .replace(/=+$/g, "");
 
-                if (comprobacion === texto) {
-                    texto = decodificado;
-                }
-            } catch (e) {}
+            if (comprobacion === texto) {
+                texto = decodificado;
+            }
+        } catch (e) {
+            // Si no es Base64, conservar el nombre original.
         }
 
-        // Si el enlace contiene &Familia sin codificar.
-        if (params.has("Familia")) {
+        // Compatibilidad con enlaces antiguos.
+        if (params.has("Familia") && !/&\s*Familia$/i.test(texto)) {
             texto += " & Familia";
         }
     } else {
+        // Leer el nombre enviado por el Worker en el hash.
         texto = window.location.hash.replace(/^#/, "");
 
         if (texto) {
