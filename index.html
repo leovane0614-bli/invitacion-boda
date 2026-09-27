@@ -2185,7 +2185,7 @@
                 // Reemplaza ampersand (&) por la letra "y", y espacios por guiones
                 const nombreLimpio = nombre.trim();
 
-                linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombreLimpio);
+                linkActual = WORKER_URL + "?nombre=" + nombreLimpio;
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
                 mensaje.textContent = "✓ Link generado.";
