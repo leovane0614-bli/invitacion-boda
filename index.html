@@ -785,11 +785,21 @@
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
         /* Obtener nombre del invitado exacto de la URL */
-        function obtenerNombreDesdeLink() {
-            const params = new URLSearchParams(window.location.search);
-            let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
+        /* Obtener nombre del invitado exacto de la URL */
+function obtenerNombreDesdeLink() {
+    const params = new URLSearchParams(window.location.search);
+    let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
 
-            if (!texto) return "Invitado especial";
+    if (!texto) return "Invitado especial";
+
+    try {
+        // Decodifica %26 como & y recupera el texto completo
+        texto = decodeURIComponent(texto);
+    } catch (e) {}
+
+    // Si viene con guiones en lugar de espacios, los convierte a espacio
+    return texto.replace(/-/g, " ").replace(/\s+/g, " ").trim() || "Invitado especial";
+}
 
             try {
                 texto = decodeURIComponent(texto);
