@@ -1892,37 +1892,35 @@
         function obtenerNombreDesdeLink() {
             const params = new URLSearchParams(window.location.search);
 
-            let texto =
-                params.get("nombre") ||
-                window.location.hash.replace(/^#/, "");
+            let token = params.get("invitado") || window.location.hash.replace(/^#/, "");
 
-            if (!texto) {
+            if (!token) return "Invitado especial";
+
+            let texto = "";
+
+            try {
+                // Si viene como #invitado=..., tomamos solo el valor.
+                if (token.indexOf("invitado=") === 0) {
+                    token = token.substring("invitado=".length);
+                }
+
+                // Base64 URL-safe -> texto UTF-8
+                token = token.replace(/-/g, "+").replace(/_/g, "/");
+                while (token.length % 4) token += "=";
+
+                const bytes = Uint8Array.from(atob(token), function (c) {
+                    return c.charCodeAt(0);
+                });
+
+                texto = new TextDecoder().decode(bytes);
+            } catch (e) {
                 return "Invitado especial";
             }
 
-            for (let i = 0; i < 3; i++) {
-                try {
-                    const decodificado = decodeURIComponent(texto);
-
-                    if (decodificado === texto) {
-                        break;
-                    }
-
-                    texto = decodificado;
-                } catch (e) {
-                    break;
-                }
-            }
-
-            return texto
-                .replace(/-/g, " ")
-                .replace(/\by\b/gi, "&")
-                .replace(/\s+/g, " ")
-                .trim() || "Invitado especial";
+            return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
         }
 
-        document.getElementById("nombreInvitadoPersonalizado").textContent =
-            obtenerNombreDesdeLink();
+        document.getElementById("nombreInvitadoPersonalizado").textContent = obtenerNombreDesdeLink();
 
         /* Música */
 
@@ -2145,21 +2143,14 @@
             window.open(url, "_blank");
         });
 
-        /* =====================================================
-           GENERADOR DE LINKS PERSONALIZADOS
-           SOLO VISIBLE EN MODO ADMINISTRADOR
-        ===================================================== */
-
+        /* Generador de links admin */
         (function () {
             const parametros = new URLSearchParams(window.location.search);
-
             const esAdministrador =
                 parametros.get("admin") === "1" &&
-                !parametros.has("nombre");
+                !parametros.has("invitado");
 
-            if (!esAdministrador) {
-                return;
-            }
+            if (!esAdministrador) return;
 
             const WORKER_URL =
                 "https://gentle-frog-6f22.leovane0614.workers.dev/";
@@ -2217,6 +2208,20 @@
 
             let linkActual = "";
 
+            function textoABase64URL(texto) {
+                const bytes = new TextEncoder().encode(texto);
+                let binario = "";
+
+                bytes.forEach(function (byte) {
+                    binario += String.fromCharCode(byte);
+                });
+
+                return btoa(binario)
+                    .replace(/\\+/g, "-")
+                    .replace(/\\//g, "_")
+                    .replace(/=+$/g, "");
+            }
+
             boton.addEventListener("click", function (e) {
                 e.stopPropagation();
 
@@ -2239,31 +2244,14 @@
                     return;
                 }
 
-                let nombreLimpio = nombre;
-                let esFamilia = false;
-
-                if (/\s*(&|y)?\s*Familia$/i.test(nombreLimpio)) {
-                    nombreLimpio = nombreLimpio
-                        .replace(/\s*(&|y)?\s*Familia$/i, "")
-                        .trim();
-                    esFamilia = true;
-                }
-
-                nombreLimpio = nombreLimpio
-                    .replace(/[:]/g, "")
-                    .replace(/\s+/g, " ")
+                nombre = nombre
+                    .replace(/\\s+/g, " ")
                     .trim();
 
-                let linkGenerado =
-                    WORKER_URL +
-                    "?nombre=" +
-                    encodeURIComponent(nombreLimpio);
+                const token = textoABase64URL(nombre);
 
-                if (esFamilia) {
-                    linkGenerado += "&familia=1";
-                }
-
-                linkActual = linkGenerado;
+                // El enlace NO contiene espacios, &, %20, %26 ni %2520.
+                linkActual = WORKER_URL + "?invitado=" + token;
 
                 linkBox.textContent = linkActual;
                 linkBox.style.display = "block";
@@ -2307,7 +2295,8 @@
                 }
             });
         })();
-
+    </script>
 </body>
 </html>
+</body>
 </html>
