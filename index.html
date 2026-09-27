@@ -2126,19 +2126,12 @@
         });
 
         /* Generador de links admin */
-
-        /* Generador de links admin */
-/* Generador de links admin */
-/* Generador de links admin */
 (function () {
-    // 1. Detectar si la URL lleva la palabra "admin" o no tiene "nombre"
     const urlParams = new URLSearchParams(window.location.search);
-    const esAdmin = urlParams.has("admin");
-    const esInvitado = urlParams.has("nombre");
-
-    // Si entra un INVITADO (tiene ?nombre=...) y no estás en modo admin, se oculta para él
-    if (esInvitado && !esAdmin) {
-        return; 
+    
+    // Oculta el generador SOLO si la URL incluye un nombre de invitado
+    if (urlParams.has("nombre")) {
+        return;
     }
 
     const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
@@ -2147,45 +2140,46 @@
     contenedor.id = "generadorLinksAdmin";
 
     contenedor.innerHTML = `
-        <button class="admin-boton" type="button" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; padding: 10px 15px; background: #222; color: #fff; border: none; border-radius: 8px; cursor: pointer;">⚙ GENERAR LINK</button>
-        <div class="admin-panel oculto" style="position: fixed; bottom: 70px; right: 20px; z-index: 9999; background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 300px;">
-            <div class="admin-titulo" style="font-weight: bold; margin-bottom: 10px;">LINK PERSONALIZADO</div>
-            <input class="admin-nombre" type="text" placeholder="Ej: Carlos & Diana" autocomplete="off" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
-            <button class="admin-generar" type="button" style="width: 100%; padding: 8px; background: #d63384; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 5px;">GENERAR LINK</button>
-            <div class="admin-link" style="word-break: break-all; font-size: 0.85rem; margin: 8px 0; color: #333;"></div>
-            <button class="admin-copiar" type="button" style="width: 100%; padding: 8px; background: #198754; color: white; border: none; border-radius: 4px; cursor: pointer;">COPIAR LINK</button>
-            <div class="admin-mensaje" style="font-size: 0.8rem; margin-top: 5px; color: green;"></div>
+        <button id="adminBotonToggle" type="button" style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; padding: 12px 18px; background: #222; color: #fff; border: 2px solid #fff; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">⚙ GENERAR LINK</button>
+        
+        <div id="adminPanelCaja" style="display: none; position: fixed; bottom: 75px; right: 20px; z-index: 999999; background: #ffffff; border: 1px solid #ddd; padding: 18px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.25); width: 280px; font-family: sans-serif; color: #333;">
+            <div style="font-weight: bold; font-size: 0.95rem; margin-bottom: 10px; color: #111;">LINK PERSONALIZADO</div>
+            <input id="adminInputNombre" type="text" placeholder="Ej: Carlos & Diana" autocomplete="off" style="width: 100%; padding: 8px 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem;">
+            <button id="adminBotonGenerar" type="button" style="width: 100%; padding: 9px; background: #d63384; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 8px;">GENERAR LINK</button>
+            <div id="adminBoxLink" style="word-break: break-all; font-size: 0.8rem; margin: 8px 0; padding: 6px; background: #f4f4f5; border-radius: 4px; display: none;"></div>
+            <button id="adminBotonCopiar" type="button" style="width: 100%; padding: 9px; background: #198754; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; display: none;">COPIAR LINK</button>
+            <div id="adminMensajeTexto" style="font-size: 0.8rem; margin-top: 8px; font-weight: bold; text-align: center;"></div>
         </div>
     `;
 
     document.body.appendChild(contenedor);
 
-    const boton = contenedor.querySelector(".admin-boton");
-    const panel = contenedor.querySelector(".admin-panel");
-    const input = contenedor.querySelector(".admin-nombre");
-    const generar = contenedor.querySelector(".admin-generar");
-    const linkBox = contenedor.querySelector(".admin-link");
-    const copiar = contenedor.querySelector(".admin-copiar");
-    const mensaje = contenedor.querySelector(".admin-mensaje");
+    const boton = document.getElementById("adminBotonToggle");
+    const panel = document.getElementById("adminPanelCaja");
+    const input = document.getElementById("adminInputNombre");
+    const generar = document.getElementById("adminBotonGenerar");
+    const linkBox = document.getElementById("adminBoxLink");
+    const copiar = document.getElementById("adminBotonCopiar");
+    const mensaje = document.getElementById("adminMensajeTexto");
 
     let linkActual = "";
 
-    // Alternar visibilidad del panel
+    // Abrir / Cerrar el panel de administración
     boton.addEventListener("click", function () {
-        if (panel.style.display === "none" || panel.classList.contains("oculto")) {
+        if (panel.style.display === "none") {
             panel.style.display = "block";
-            panel.classList.remove("oculto");
             input.focus();
         } else {
             panel.style.display = "none";
-            panel.classList.add("oculto");
         }
     });
 
+    // Generar la URL
     generar.addEventListener("click", function () {
         let nombre = input.value.trim();
 
         if (!nombre) {
+            mensaje.style.color = "#dc3545";
             mensaje.textContent = "Escribe el nombre del invitado.";
             return;
         }
@@ -2198,7 +2192,7 @@
             esFamilia = true;
         }
 
-        // Formatea el nombre sin reemplazar el '&' por 'y'
+        // Formato para conservar el '&'
         let nombreFormateado = nombreLimpio
             .replace(/[:]/g, "")
             .replace(/\s+/g, "-")
@@ -2211,8 +2205,24 @@
 
         linkActual = linkGenerado;
         linkBox.textContent = linkActual;
+        linkBox.style.display = "block";
+        copiar.style.display = "block";
+        mensaje.style.color = "#198754";
         mensaje.textContent = "✓ Link generado.";
     });
+
+    // Copiar al portapapeles
+    copiar.addEventListener("click", function () {
+        if (!linkActual) return;
+        navigator.clipboard.writeText(linkActual).then(() => {
+            mensaje.style.color = "#198754";
+            mensaje.textContent = "✓ Link copiado al portapapeles.";
+        }).catch(() => {
+            mensaje.style.color = "#dc3545";
+            mensaje.textContent = "Error al copiar.";
+        });
+    });
+})();
 
     if (copiar) {
         copiar.addEventListener("click", function () {
