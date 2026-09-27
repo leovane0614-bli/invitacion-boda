@@ -2167,37 +2167,40 @@
         if (!panel.classList.contains("oculto")) input.focus();
     });
 
-    generar.addEventListener("click", function () {
-        let nombre = input.value.trim();
+   generar.addEventListener("click", function () {
+    let nombre = input.value.trim();
 
-        if (!nombre) {
-            mensaje.textContent = "Escribe el nombre del invitado.";
-            return;
-        }
+    if (!nombre) {
+        mensaje.textContent = "Escribe el nombre del invitado.";
+        return;
+    }
 
-        let nombreLimpio = nombre.trim();
-        let esFamilia = false;
+    let nombreLimpio = nombre;
+    let esFamilia = false;
 
-        if (/\s*&\s*Familia$/i.test(nombreLimpio)) {
-            nombreLimpio = nombreLimpio.replace(/\s*&\s*Familia$/i, "").trim();
-            esFamilia = true;
-        }
+    // Si escribes "Carlos & Familia", detecta la familia y limpia el sufijo
+    if (/\s*(&|y)\s*Familia$/i.test(nombreLimpio)) {
+        nombreLimpio = nombreLimpio.replace(/\s*(&|y)\s*Familia$/i, "").trim();
+        esFamilia = true;
+    }
 
-        // Convierte "Hola & Hola" o "Hola y Hola" a "Hola-y-Hola" reemplazando espacios y el caracter &
-        let nombreFormateado = nombreLimpio
-            .replace(/&/g, "y")
-            .replace(/\s+/g, "-");
+    // Limpia símbolos, elimina la "y" suelta o "&" entre nombres y convierte espacios a guiones
+    let nombreFormateado = nombreLimpio
+        .replace(/[:]/g, "")
+        .replace(/\b(y|&)\b/gi, "") // Quita la 'y' o '&' para que no aparezca en la URL
+        .replace(/\s+/g, "-")        // Reemplaza los espacios por un solo guión
+        .replace(/-+/g, "-");       // Limpia guiones dobles si quedaron
 
-        let linkActualGenerado = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
-        if (esFamilia) {
-            linkActualGenerado += "&familia=1";
-        }
+    let linkGenerado = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
+    if (esFamilia) {
+        linkGenerado += "&familia=1";
+    }
 
-        linkActual = linkActualGenerado;
-        linkBox.textContent = linkActual;
-        linkBox.classList.add("visible");
-        mensaje.textContent = "✓ Link generado.";
-    });
+    linkActual = linkGenerado;
+    linkBox.textContent = linkActual;
+    linkBox.classList.add("visible");
+    mensaje.textContent = "✓ Link generado.";
+});
 
     copiar.addEventListener("click", async function () {
         if (!linkActual) {
