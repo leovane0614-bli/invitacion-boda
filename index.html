@@ -1888,12 +1888,13 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-   function obtenerNombreDesdeLink() {
+        
+function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
-    let texto = params.get("invitado");
+    let texto = params.get("invitado") || params.get("nombre");
 
     if (texto) {
-        // Intentar recuperar el nombre desde Base64.
+        // Comprobar si el nombre viene en Base64.
         try {
             let base64 = texto
                 .replace(/-/g, "+")
@@ -1908,12 +1909,12 @@
                 c => c.charCodeAt(0)
             );
 
-            const decodificado = new TextDecoder("utf-8", {
+            const candidato = new TextDecoder("utf-8", {
                 fatal: true
             }).decode(bytes);
 
             const binario = Array.from(
-                new TextEncoder().encode(decodificado),
+                new TextEncoder().encode(candidato),
                 b => String.fromCharCode(b)
             ).join("");
 
@@ -1923,32 +1924,35 @@
                 .replace(/=+$/g, "");
 
             if (comprobacion === texto) {
-                texto = decodificado;
+                texto = candidato;
             }
         } catch (e) {
-            // Si no es Base64, conservar el nombre original.
+            // Si no es Base64, conservar el texto recibido.
         }
 
-        // Compatibilidad con enlaces antiguos.
-        if (params.has("Familia") && !/&\s*Familia$/i.test(texto)) {
+        if (
+            params.has("Familia") &&
+            !/&\s*Familia$/i.test(texto)
+        ) {
             texto += " & Familia";
         }
     } else {
-        // Leer el nombre enviado por el Worker en el hash.
+        // Leer el nombre que envía el Worker en el hash.
         texto = window.location.hash.replace(/^#/, "");
 
-        if (texto) {
-            try {
-                texto = decodeURIComponent(texto);
-            } catch (e) {}
+        if (texto.startsWith("invitado=")) {
+            texto = texto.substring(9);
         }
+
+        try {
+            texto = decodeURIComponent(texto);
+        } catch (e) {}
     }
 
     return (texto || "Invitado especial")
         .replace(/\s+/g, " ")
         .trim() || "Invitado especial";
 }
-
         /* Música */
 
         window.addEventListener("load", function () {
