@@ -2129,14 +2129,15 @@
 
         /* Generador de links admin */
 /* Generador de links admin */
+/* Generador de links admin */
 (function () {
+    // 1. Detectar si la URL lleva la palabra "admin" o no tiene "nombre"
     const urlParams = new URLSearchParams(window.location.search);
-
-    // Si la URL tiene un parámetro '?admin=1', SIEMPRE mostrará el panel
     const esAdmin = urlParams.has("admin");
+    const esInvitado = urlParams.has("nombre");
 
-    // Oculta el panel solo si hay un nombre Y NO está el modo admin activado
-    if (urlParams.has("nombre") && !esAdmin) {
+    // Si entra un INVITADO (tiene ?nombre=...) y no estás en modo admin, se oculta para él
+    if (esInvitado && !esAdmin) {
         return; 
     }
 
@@ -2146,14 +2147,14 @@
     contenedor.id = "generadorLinksAdmin";
 
     contenedor.innerHTML = `
-        <button class="admin-boton" type="button">⚙ GENERAR LINK</button>
-        <div class="admin-panel oculto">
-            <div class="admin-titulo">LINK PERSONALIZADO</div>
-            <input class="admin-nombre" type="text" placeholder="Ej: Carlos & Diana" autocomplete="off">
-            <button class="admin-generar" type="button">GENERAR LINK</button>
-            <div class="admin-link"></div>
-            <button class="admin-copiar" type="button">COPIAR LINK</button>
-            <div class="admin-mensaje"></div>
+        <button class="admin-boton" type="button" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; padding: 10px 15px; background: #222; color: #fff; border: none; border-radius: 8px; cursor: pointer;">⚙ GENERAR LINK</button>
+        <div class="admin-panel oculto" style="position: fixed; bottom: 70px; right: 20px; z-index: 9999; background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 300px;">
+            <div class="admin-titulo" style="font-weight: bold; margin-bottom: 10px;">LINK PERSONALIZADO</div>
+            <input class="admin-nombre" type="text" placeholder="Ej: Carlos & Diana" autocomplete="off" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+            <button class="admin-generar" type="button" style="width: 100%; padding: 8px; background: #d63384; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 5px;">GENERAR LINK</button>
+            <div class="admin-link" style="word-break: break-all; font-size: 0.85rem; margin: 8px 0; color: #333;"></div>
+            <button class="admin-copiar" type="button" style="width: 100%; padding: 8px; background: #198754; color: white; border: none; border-radius: 4px; cursor: pointer;">COPIAR LINK</button>
+            <div class="admin-mensaje" style="font-size: 0.8rem; margin-top: 5px; color: green;"></div>
         </div>
     `;
 
@@ -2169,9 +2170,16 @@
 
     let linkActual = "";
 
+    // Alternar visibilidad del panel
     boton.addEventListener("click", function () {
-        panel.classList.toggle("oculto");
-        if (!panel.classList.contains("oculto")) input.focus();
+        if (panel.style.display === "none" || panel.classList.contains("oculto")) {
+            panel.style.display = "block";
+            panel.classList.remove("oculto");
+            input.focus();
+        } else {
+            panel.style.display = "none";
+            panel.classList.add("oculto");
+        }
     });
 
     generar.addEventListener("click", function () {
@@ -2190,7 +2198,7 @@
             esFamilia = true;
         }
 
-        // Reemplaza espacios por guiones y limpia signos (CONSERVA EL '&')
+        // Formatea el nombre sin reemplazar el '&' por 'y'
         let nombreFormateado = nombreLimpio
             .replace(/[:]/g, "")
             .replace(/\s+/g, "-")
@@ -2203,10 +2211,23 @@
 
         linkActual = linkGenerado;
         linkBox.textContent = linkActual;
-        linkBox.classList.add("visible");
         mensaje.textContent = "✓ Link generado.";
     });
 
+    if (copiar) {
+        copiar.addEventListener("click", function () {
+            if (!linkActual) {
+                mensaje.textContent = "Primero genera un link.";
+                return;
+            }
+            navigator.clipboard.writeText(linkActual).then(() => {
+                mensaje.textContent = "✓ Link copiado.";
+            }).catch(() => {
+                mensaje.textContent = "Error al copiar.";
+            });
+        });
+    }
+})();
     if (copiar) {
         copiar.addEventListener("click", function () {
             if (!linkActual) {
