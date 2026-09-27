@@ -1889,33 +1889,44 @@
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
         /* Obtener nombre del invitado */
-        function obtenerNombreDesdeLink() {
-            const params = new URLSearchParams(window.location.search);
+    function obtenerNombreDesdeLink() {
+    const params = new URLSearchParams(window.location.search);
 
-            let token = params.get("invitado") || window.location.hash.replace(/^#/, "");
+    // Si viene ?invitado=BASE64
+    let token = params.get("invitado");
 
-            if (!token) return "Invitado especial";
+    if (token) {
+        try {
+            token = token.replace(/-/g, "+").replace(/_/g, "/");
+            while (token.length % 4) token += "=";
 
-            let texto = "";
+            const bytes = Uint8Array.from(atob(token), function (c) {
+                return c.charCodeAt(0);
+            });
 
-            try {
-                // Si viene como #invitado=..., tomamos solo el valor.
-                if (token.indexOf("invitado=") === 0) {
-                    token = token.substring("invitado=".length);
-                }
+            return new TextDecoder()
+                .decode(bytes)
+                .replace(/\s+/g, " ")
+                .trim() || "Invitado especial";
 
-                // Base64 URL-safe -> texto UTF-8
-                token = token.replace(/-/g, "+").replace(/_/g, "/");
-                while (token.length % 4) token += "=";
+        } catch (e) {
+            return "Invitado especial";
+        }
+    }
 
-                const bytes = Uint8Array.from(atob(token), function (c) {
-                    return c.charCodeAt(0);
-                });
+    // Si viene desde el Worker en el hash: #Carlos%20%26%20Familia
+    let texto = window.location.hash.replace(/^#/, "");
 
-                texto = new TextDecoder().decode(bytes);
-            } catch (e) {
-                return "Invitado especial";
-            }
+    if (!texto) return "Invitado especial";
+
+    try {
+        texto = decodeURIComponent(texto);
+    } catch (e) {}
+
+    return texto
+        .replace(/\s+/g, " ")
+        .trim() || "Invitado especial";
+}
 
             return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
         }
