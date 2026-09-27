@@ -1891,30 +1891,27 @@
         
 function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
-    let texto = params.get("invitado") || params.get("nombre") || "";
-
-    if (!texto) {
-        let hash = window.location.hash.replace(/^#/, "");
-
-        if (hash.startsWith("invitado=")) {
-            hash = new URLSearchParams(hash).get("invitado") || "";
-        }
-
-        try {
-            texto = decodeURIComponent(hash);
-        } catch (e) {
-            texto = hash;
-        }
-    }
+    let texto = params.get("invitado") || params.get("nombre");
 
     if (texto) {
-        // Reconocer Base64 únicamente si es válido.
+        // Comprobar si el nombre viene en Base64.
         try {
-            let base64 = texto.replace(/-/g, "+").replace(/_/g, "/");
-            while (base64.length % 4) base64 += "=";
+            let base64 = texto
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
 
-            const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-            const candidato = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+            while (base64.length % 4) {
+                base64 += "=";
+            }
+
+            const bytes = Uint8Array.from(
+                atob(base64),
+                c => c.charCodeAt(0)
+            );
+
+            const candidato = new TextDecoder("utf-8", {
+                fatal: true
+            }).decode(bytes);
 
             const binario = Array.from(
                 new TextEncoder().encode(candidato),
@@ -1930,17 +1927,32 @@ function obtenerNombreDesdeLink() {
                 texto = candidato;
             }
         } catch (e) {
-            // Si no es Base64, se conserva el nombre recibido.
+            // Si no es Base64, conservar el texto recibido.
         }
+
+        if (
+            params.has("Familia") &&
+            !/&\s*Familia$/i.test(texto)
+        ) {
+            texto += " & Familia";
+        }
+    } else {
+        // Leer el nombre que envía el Worker en el hash.
+        texto = window.location.hash.replace(/^#/, "");
+
+        if (texto.startsWith("invitado=")) {
+            texto = texto.substring(9);
+        }
+
+        try {
+            texto = decodeURIComponent(texto);
+        } catch (e) {}
     }
 
-    if (params.has("Familia") && !/&\s*Familia$/i.test(texto)) {
-        texto += " & Familia";
-    }
-
-    return texto.replace(/\s+/g, " ").trim() || "Invitado especial";
+    return (texto || "Invitado especial")
+        .replace(/\s+/g, " ")
+        .trim() || "Invitado especial";
 }
-
         /* Música */
 
         window.addEventListener("load", function () {
@@ -2270,8 +2282,7 @@ function obtenerNombreDesdeLink() {
                 const token = textoABase64URL(nombre);
 
                 // El enlace NO contiene espacios, &, %20, %26 ni %2520.
-              // Cambiar por esto:
-            const token = textoABase64URL(nombre);linkActual = WORKER_URL + "?invitado=" + token;
+              linkActual = WORKER_URL + "?invitado=" + encodeURIComponent(nombre);
 
                 linkBox.textContent = linkActual;
                 linkBox.style.display = "block";
