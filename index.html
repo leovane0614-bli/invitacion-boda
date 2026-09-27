@@ -2130,10 +2130,9 @@
         /* Generador de links admin */
 
 /* Generador de links admin */
+/* Generador de links admin */
 (function () {
-    const admin = new URLSearchParams(window.location.search).get("admin");
-    if (admin !== "1") return;
-
+    // Se quitó la validación de admin=1 para que siempre esté visible en la página
     const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
 
     const contenedor = document.createElement("div");
@@ -2179,18 +2178,16 @@
         let nombreLimpio = nombre;
         let esFamilia = false;
 
-        // Si incluye "Familia" al final
         if (/\s*(&|y)?\s*Familia$/i.test(nombreLimpio)) {
             nombreLimpio = nombreLimpio.replace(/\s*(&|y)?\s*Familia$/i, "").trim();
             esFamilia = true;
         }
 
-        // Limpieza de caracteres problemáticos
         let nombreFormateado = nombreLimpio
-            .replace(/%26|&/gi, "y")      // Cambia & o %26 por 'y'
-            .replace(/[:]/g, "")           // Elimina dos puntos
-            .replace(/\s+/g, "-")          // Espacios a guiones
-            .replace(/-+/g, "-");         // Elimina guiones repetidos
+            .replace(/%26|&/gi, "y")
+            .replace(/[:]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-");
 
         let linkGenerado = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
         if (esFamilia) {
@@ -2202,6 +2199,29 @@
         linkBox.classList.add("visible");
         mensaje.textContent = "✓ Link generado.";
     });
+
+    copiar.addEventListener("click", async function () {
+        if (!linkActual) {
+            mensaje.textContent = "Primero genera un link.";
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(linkActual);
+            mensaje.textContent = "✓ Link copiado.";
+        } catch (error) {
+            const area = document.createElement("textarea");
+            area.value = linkActual;
+            area.style.position = "fixed";
+            area.style.left = "-9999px";
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand("copy");
+            area.remove();
+            mensaje.textContent = "✓ Link copiado.";
+        }
+    });
+})();
 
     copiar.addEventListener("click", async function () {
         if (!linkActual) {
