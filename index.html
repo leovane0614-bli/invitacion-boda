@@ -1888,13 +1888,6 @@
         const musica = document.getElementById("musicaBoda");
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
-        /* Obtener nombre del invitado desde la URL */
-
-        /* Obtener nombre del invitado desde la URL (?nombre= o #) */
-
-        /* Obtener nombre del invitado desde la URL */
-
-        /* Obtener nombre del invitado desde la URL */
         /* Obtener nombre del invitado */
         function obtenerNombreDesdeLink() {
             const params = new URLSearchParams(window.location.search);
@@ -2132,9 +2125,7 @@
             window.open(url, "_blank");
         });
 
-        /* =====================================================
-           GENERADOR DE ENLACES CON SÍMBOLO & CONSERVADO
-        ===================================================== */
+        /* Generador de enlaces admin */
 
         (function () {
             const admin = new URLSearchParams(window.location.search).get("admin");
@@ -2182,28 +2173,27 @@
                     return;
                 }
 
-                // Reemplaza ampersand (&) por la letra "y", y espacios por guiones
                 let nombreLimpio = nombre.trim();
-let linkActualGenerado = "";
+                let linkActualGenerado = "";
 
-if (/\s*&\s*Familia$/i.test(nombreLimpio)) {
-    nombreLimpio = nombreLimpio
-        .replace(/\s*&\s*Familia$/i, "")
-        .trim();
+                if (/\s*&\s*Familia$/i.test(nombreLimpio)) {
+                    nombreLimpio = nombreLimpio
+                        .replace(/\s*&\s*Familia$/i, "")
+                        .trim();
 
-    linkActualGenerado =
-        WORKER_URL +
-        "?nombre=" +
-        encodeURIComponent(nombreLimpio) +
-        "&familia=1";
-} else {
-    linkActualGenerado =
-        WORKER_URL +
-        "?nombre=" +
-        encodeURIComponent(nombreLimpio);
-}
+                    linkActualGenerado =
+                        WORKER_URL +
+                        "?nombre=" +
+                        encodeURIComponent(nombreLimpio) +
+                        "&familia=1";
+                } else {
+                    linkActualGenerado =
+                        WORKER_URL +
+                        "?nombre=" +
+                        encodeURIComponent(nombreLimpio);
+                }
 
-linkActual = linkActualGenerado;
+                linkActual = linkActualGenerado;
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
                 mensaje.textContent = "✓ Link generado.";
