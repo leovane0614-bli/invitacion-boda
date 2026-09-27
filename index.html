@@ -1892,7 +1892,6 @@
     function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
 
-    // Si viene ?invitado=BASE64
     let token = params.get("invitado");
 
     if (token) {
@@ -1914,6 +1913,18 @@
         }
     }
 
+    let texto = window.location.hash.replace(/^#/, "");
+
+    if (!texto) return "Invitado especial";
+
+    try {
+        texto = decodeURIComponent(texto);
+    } catch (e) {}
+
+    return texto
+        .replace(/\s+/g, " ")
+        .trim() || "Invitado especial";
+}
     // Si viene desde el Worker en el hash: #Carlos%20%26%20Familia
     let texto = window.location.hash.replace(/^#/, "");
 
