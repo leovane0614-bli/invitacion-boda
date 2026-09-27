@@ -2143,380 +2143,159 @@
             window.open(url, "_blank");
         });
 
-        <script>
-/* GENERADOR DE LINKS ADMIN — ÚNICO BLOQUE */
-(function () {
-    const parametros = new URLSearchParams(window.location.search);
+        /* Generador de links admin */
+        (function () {
+            const parametros = new URLSearchParams(window.location.search);
+            const esAdministrador =
+                parametros.get("admin") === "1" &&
+                !parametros.has("invitado");
 
-    // Solo mostrar el generador en la URL administrativa
-    if (parametros.get("admin") !== "1") {
-        return;
-    }
+            if (!esAdministrador) return;
 
-    const WORKER_URL =
-        "https://gentle-frog-6f22.leovane0614.workers.dev/";
+            const WORKER_URL =
+                "https://gentle-frog-6f22.leovane0614.workers.dev/";
 
-    function codificarBase64Url(texto) {
-        const bytes = new TextEncoder().encode(texto);
-        let binario = "";
+            const contenedor = document.createElement("div");
+            contenedor.id = "generadorLinksAdminFixed";
+            contenedor.style.cssText =
+                "position:fixed;bottom:20px;right:20px;z-index:9999999;font-family:sans-serif;";
 
-        bytes.forEach(function (byte) {
-            binario += String.fromCharCode(byte);
-        });
+            contenedor.innerHTML = `
+                <button id="adminBotonToggle" type="button"
+                    style="padding:12px 18px;background:#000;color:#fff;border:2px solid #fff;border-radius:8px;cursor:pointer;font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,.4);font-size:14px;">
+                    ⚙ GENERAR LINK
+                </button>
 
-        return btoa(binario)
-            .replace(/\+/g, "-")
-            .replace(/\//g, "_")
-            .replace(/=+$/g, "");
-    }
+                <div id="adminPanelCaja"
+                    style="display:none;margin-bottom:10px;background:#fff;border:1px solid #ccc;padding:15px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.3);width:280px;color:#333;">
 
-    const contenedor = document.createElement("div");
+                    <div style="font-weight:bold;font-size:14px;margin-bottom:8px;color:#111;">
+                        LINK PERSONALIZADO
+                    </div>
 
-    contenedor.id = "generadorLinksAdminFixed";
+                    <input id="adminInputNombre" type="text"
+                        placeholder="Ej: Carlos & Familia"
+                        autocomplete="off"
+                        style="width:100%;padding:8px;margin-bottom:10px;box-sizing:border-box;border:1px solid #ccc;border-radius:5px;font-size:14px;color:#000;background:#fff;">
 
-    contenedor.style.cssText =
-        "position:fixed !important;" +
-        "bottom:20px !important;" +
-        "right:20px !important;" +
-        "z-index:9999999 !important;" +
-        "font-family:sans-serif !important;";
+                    <button id="adminBotonGenerar" type="button"
+                        style="width:100%;padding:10px;background:#d63384;color:#fff;border:none;border-radius:5px;cursor:pointer;font-weight:bold;margin-bottom:6px;">
+                        GENERAR LINK
+                    </button>
 
-    contenedor.innerHTML = `
-        <button
-            id="adminBotonToggle"
-            type="button"
-            style="
-                padding:12px 18px !important;
-                background:#000 !important;
-                color:#fff !important;
-                border:2px solid #fff !important;
-                border-radius:8px !important;
-                cursor:pointer !important;
-                font-weight:bold !important;
-                box-shadow:0 4px 12px rgba(0,0,0,.4) !important;
-                font-size:14px !important;
-                display:block !important;
-            ">
-            ⚙ GENERAR LINK
-        </button>
+                    <div id="adminBoxLink"
+                        style="word-break:break-all;font-size:12px;margin:8px 0;padding:6px;background:#f0f0f0;border-radius:4px;display:none;color:#000;"></div>
 
-        <div
-            id="adminPanelCaja"
-            style="
-                display:none;
-                margin-bottom:10px;
-                background:#fff !important;
-                border:1px solid #ccc !important;
-                padding:15px !important;
-                border-radius:10px !important;
-                box-shadow:0 8px 24px rgba(0,0,0,.3) !important;
-                width:280px !important;
-                color:#333 !important;
-            ">
+                    <button id="adminBotonCopiar" type="button"
+                        style="width:100%;padding:10px;background:#198754;color:#fff;border:none;border-radius:5px;cursor:pointer;font-weight:bold;display:none;">
+                        COPIAR LINK
+                    </button>
 
-            <div
-                style="
-                    font-weight:bold !important;
-                    font-size:14px !important;
-                    margin-bottom:8px !important;
-                    color:#111 !important;
-                ">
-                LINK PERSONALIZADO
-            </div>
+                    <div id="adminMensajeTexto"
+                        style="font-size:12px;margin-top:6px;font-weight:bold;text-align:center;"></div>
+                </div>
+            `;
 
-            <input
-                id="adminInputNombre"
-                type="text"
-                placeholder="Ej: Carlos & Familia"
-                autocomplete="off"
-                style="
-                    width:100% !important;
-                    padding:8px !important;
-                    margin-bottom:10px !important;
-                    box-sizing:border-box !important;
-                    border:1px solid #ccc !important;
-                    border-radius:5px !important;
-                    font-size:14px !important;
-                    color:#000 !important;
-                    background:#fff !important;
-                ">
+            document.body.appendChild(contenedor);
 
-            <button
-                id="adminBotonGenerar"
-                type="button"
-                style="
-                    width:100% !important;
-                    padding:10px !important;
-                    background:#d63384 !important;
-                    color:#fff !important;
-                    border:none !important;
-                    border-radius:5px !important;
-                    cursor:pointer !important;
-                    font-weight:bold !important;
-                    margin-bottom:6px !important;
-                ">
-                GENERAR LINK
-            </button>
+            const boton = document.getElementById("adminBotonToggle");
+            const panel = document.getElementById("adminPanelCaja");
+            const input = document.getElementById("adminInputNombre");
+            const generar = document.getElementById("adminBotonGenerar");
+            const linkBox = document.getElementById("adminBoxLink");
+            const copiar = document.getElementById("adminBotonCopiar");
+            const mensaje = document.getElementById("adminMensajeTexto");
 
-            <div
-                id="adminBoxLink"
-                style="
-                    word-break:break-all !important;
-                    font-size:12px !important;
-                    margin:8px 0 !important;
-                    padding:6px !important;
-                    background:#f0f0f0 !important;
-                    border-radius:4px !important;
-                    display:none !important;
-                    color:#000 !important;
-                ">
-            </div>
+            let linkActual = "";
 
-            <button
-                id="adminBotonCopiar"
-                type="button"
-                style="
-                    width:100% !important;
-                    padding:10px !important;
-                    background:#198754 !important;
-                    color:#fff !important;
-                    border:none !important;
-                    border-radius:5px !important;
-                    cursor:pointer !important;
-                    font-weight:bold !important;
-                    display:none !important;
-                ">
-                COPIAR LINK
-            </button>
+            function textoABase64URL(texto) {
+                const bytes = new TextEncoder().encode(texto);
+                let binario = "";
 
-            <div
-                id="adminMensajeTexto"
-                style="
-                    font-size:12px !important;
-                    margin-top:6px !important;
-                    font-weight:bold !important;
-                    text-align:center !important;
-                ">
-            </div>
-        </div>
-    `;
+                bytes.forEach(function (byte) {
+                    binario += String.fromCharCode(byte);
+                });
 
-    function iniciarGenerador() {
-
-        document.body.appendChild(contenedor);
-
-        const boton =
-            document.getElementById("adminBotonToggle");
-
-        const panel =
-            document.getElementById("adminPanelCaja");
-
-        const input =
-            document.getElementById("adminInputNombre");
-
-        const generar =
-            document.getElementById("adminBotonGenerar");
-
-        const linkBox =
-            document.getElementById("adminBoxLink");
-
-        const copiar =
-            document.getElementById("adminBotonCopiar");
-
-        const mensaje =
-            document.getElementById("adminMensajeTexto");
-
-        let linkActual = "";
-
-        boton.addEventListener("click", function (e) {
-
-            e.stopPropagation();
-
-            if (panel.style.display === "none") {
-
-                panel.style.setProperty(
-                    "display",
-                    "block",
-                    "important"
-                );
-
-                input.focus();
-
-            } else {
-
-                panel.style.setProperty(
-                    "display",
-                    "none",
-                    "important"
-                );
-            }
-        });
-
-        generar.addEventListener("click", function (e) {
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            let nombre = input.value.trim();
-
-            if (!nombre) {
-
-                mensaje.style.color = "#dc3545";
-
-                mensaje.textContent =
-                    "Escribe el nombre del invitado.";
-
-                input.focus();
-
-                return;
+                return btoa(binario)
+                    .replace(/\\+/g, "-")
+                    .replace(/\\//g, "_")
+                    .replace(/=+$/g, "");
             }
 
-            let nombreLimpio = nombre;
-            let esFamilia = false;
+            boton.addEventListener("click", function (e) {
+                e.stopPropagation();
 
-            if (
-                /\s*(&|y)?\s*Familia$/i.test(nombreLimpio)
-            ) {
+                if (panel.style.display === "none") {
+                    panel.style.display = "block";
+                    input.focus();
+                } else {
+                    panel.style.display = "none";
+                }
+            });
 
-                nombreLimpio =
-                    nombreLimpio
-                        .replace(
-                            /\s*(&|y)?\s*Familia$/i,
-                            ""
-                        )
-                        .trim();
+            generar.addEventListener("click", function (e) {
+                e.stopPropagation();
 
-                esFamilia = true;
-            }
+                let nombre = input.value.trim();
 
-            nombreLimpio =
-                nombreLimpio
-                    .replace(/[:]/g, "")
-                    .replace(/\s+/g, " ")
+                if (!nombre) {
+                    mensaje.style.color = "#dc3545";
+                    mensaje.textContent = "Escribe el nombre del invitado.";
+                    return;
+                }
+
+                nombre = nombre
+                    .replace(/\\s+/g, " ")
                     .trim();
 
-            const token =
-                codificarBase64Url(nombreLimpio);
+                const token = textoABase64URL(nombre);
 
-            let linkGenerado =
-                WORKER_URL +
-                "?invitado=" +
-                token;
+                // El enlace NO contiene espacios, &, %20, %26 ni %2520.
+                linkActual = WORKER_URL + "?invitado=" + token;
 
-            if (esFamilia) {
-                linkGenerado += "&familia=1";
-            }
+                linkBox.textContent = linkActual;
+                linkBox.style.display = "block";
+                copiar.style.display = "block";
 
-            linkActual = linkGenerado;
+                mensaje.style.color = "#198754";
+                mensaje.textContent = "✓ Link generado.";
+            });
 
-            linkBox.textContent =
-                linkActual;
-
-            linkBox.style.setProperty(
-                "display",
-                "block",
-                "important"
-            );
-
-            copiar.style.setProperty(
-                "display",
-                "block",
-                "important"
-            );
-
-            mensaje.style.color =
-                "#198754";
-
-            mensaje.textContent =
-                "✓ Link generado.";
-        });
-
-        copiar.addEventListener(
-            "click",
-            async function (e) {
-
-                e.preventDefault();
+            copiar.addEventListener("click", async function (e) {
                 e.stopPropagation();
 
                 if (!linkActual) {
-
-                    mensaje.style.color =
-                        "#dc3545";
-
-                    mensaje.textContent =
-                        "Primero genera un link.";
-
+                    mensaje.style.color = "#dc3545";
+                    mensaje.textContent = "Primero genera un link.";
                     return;
                 }
 
                 try {
-
-                    await navigator.clipboard
-                        .writeText(linkActual);
-
-                    mensaje.style.color =
-                        "#198754";
-
-                    mensaje.textContent =
-                        "✓ Link copiado.";
-
+                    await navigator.clipboard.writeText(linkActual);
+                    mensaje.style.color = "#198754";
+                    mensaje.textContent = "✓ Link copiado.";
                 } catch (error) {
-
-                    const area =
-                        document.createElement("textarea");
-
+                    const area = document.createElement("textarea");
                     area.value = linkActual;
-
-                    area.style.position =
-                        "fixed";
-
-                    area.style.left =
-                        "-9999px";
-
+                    area.style.position = "fixed";
+                    area.style.left = "-9999px";
                     document.body.appendChild(area);
-
                     area.select();
 
                     try {
-
                         document.execCommand("copy");
-
-                        mensaje.style.color =
-                            "#198754";
-
-                        mensaje.textContent =
-                            "✓ Link copiado.";
-
-                    } catch (e2) {
-
-                        mensaje.style.color =
-                            "#dc3545";
-
-                        mensaje.textContent =
-                            "Selecciona y copia el link manualmente.";
+                        mensaje.style.color = "#198754";
+                        mensaje.textContent = "✓ Link copiado.";
+                    } catch (e) {
+                        mensaje.style.color = "#dc3545";
+                        mensaje.textContent = "Selecciona y copia el link manualmente.";
                     }
 
                     area.remove();
                 }
-            }
-        );
-    }
-
-    if (document.readyState === "loading") {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            iniciarGenerador,
-            { once: true }
-        );
-
-    } else {
-
-        iniciarGenerador();
-    }
-
-})();
-</script>
+            });
+        })();
+    </script>
 </body>
 </html>
 </body>
