@@ -2183,9 +2183,27 @@
                 }
 
                 // Reemplaza ampersand (&) por la letra "y", y espacios por guiones
-                const nombreLimpio = nombre.trim();
+                let nombreLimpio = nombre.trim();
+let linkActualGenerado = "";
 
-                linkActual = WORKER_URL + "?nombre=" + nombreLimpio;
+if (/\s*&\s*Familia$/i.test(nombreLimpio)) {
+    nombreLimpio = nombreLimpio
+        .replace(/\s*&\s*Familia$/i, "")
+        .trim();
+
+    linkActualGenerado =
+        WORKER_URL +
+        "?nombre=" +
+        encodeURIComponent(nombreLimpio) +
+        "&familia=1";
+} else {
+    linkActualGenerado =
+        WORKER_URL +
+        "?nombre=" +
+        encodeURIComponent(nombreLimpio);
+}
+
+linkActual = linkActualGenerado;
                 linkBox.textContent = linkActual;
                 linkBox.classList.add("visible");
                 mensaje.textContent = "✓ Link generado.";
