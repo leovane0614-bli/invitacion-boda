@@ -785,6 +785,7 @@
         const contenedorCorazones = document.getElementById("corazonesFlotantes");
 
         /* Obtener nombre del invitado */
+/* Obtener nombre del invitado */
 function obtenerNombreDesdeLink() {
     const params = new URLSearchParams(window.location.search);
     let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
@@ -795,16 +796,8 @@ function obtenerNombreDesdeLink() {
         texto = decodeURIComponent(texto);
     } catch (e) {}
 
-    let nombreFinal = texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim();
-
-    // Si la URL contiene &familia=1 o true, le añade " & Familia" al texto en pantalla
-    if (params.get("familia") === "1" || params.get("familia") === "true") {
-        nombreFinal += " & Familia";
-    }
-
-    return nombreFinal || "Invitado especial";
+    return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
 }
-
             try {
                 texto = decodeURIComponent(texto);
             } catch (e) {}
