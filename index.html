@@ -2251,7 +2251,7 @@
                 const token = textoABase64URL(nombre);
 
                 // El enlace NO contiene espacios, &, %20, %26 ni %2520.
-                linkActual = WORKER_URL + "?invitado=" + token;
+              linkActual = WORKER_URL + "?invitado=" + encodeURIComponent(nombre);
 
                 linkBox.textContent = linkActual;
                 linkBox.style.display = "block";
