@@ -1891,15 +1891,38 @@
         /* Obtener nombre del invitado */
         function obtenerNombreDesdeLink() {
             const params = new URLSearchParams(window.location.search);
-            let texto = params.get("nombre") || window.location.hash.replace(/^#/, "");
 
-            if (!texto) return "Invitado especial";
+            let texto =
+                params.get("nombre") ||
+                window.location.hash.replace(/^#/, "");
 
-            try {
-                texto = decodeURIComponent(texto);
-            } catch (e) {}
+            if (!texto) {
+                return "Invitado especial";
+            }
 
-            return texto.replace(/-/g, " ").replace(/\by\b/gi, "&").replace(/\s+/g, " ").trim() || "Invitado especial";
+            /*
+             * Decodificamos hasta 3 veces para evitar que
+             * aparezcan %20, %26 o %2520, %2526.
+             */
+            for (let i = 0; i < 3; i++) {
+                try {
+                    const decodificado = decodeURIComponent(texto);
+
+                    if (decodificado === texto) {
+                        break;
+                    }
+
+                    texto = decodificado;
+                } catch (e) {
+                    break;
+                }
+            }
+
+            return texto
+                .replace(/-/g, " ")
+                .replace(/\by\b/gi, "&")
+                .replace(/\s+/g, " ")
+                .trim() || "Invitado especial";
         }
 
         document.getElementById("nombreInvitadoPersonalizado").textContent = obtenerNombreDesdeLink();
