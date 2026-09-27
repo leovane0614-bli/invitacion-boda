@@ -2216,10 +2216,10 @@
                     binario += String.fromCharCode(byte);
                 });
 
-                return btoa(binario)
-                    .replace(/\\+/g, "-")
-                    .replace(/\\//g, "_")
-                    .replace(/=+$/g, "");
+            return btoa(binario)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
             }
 
             boton.addEventListener("click", function (e) {
@@ -2245,8 +2245,8 @@
                 }
 
                 nombre = nombre
-                    .replace(/\\s+/g, " ")
-                    .trim();
+                .replace(/\s+/g, " ")
+                .trim();
 
                 const token = textoABase64URL(nombre);
 
