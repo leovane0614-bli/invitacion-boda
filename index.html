@@ -2128,12 +2128,16 @@
         /* Generador de links admin */
 
         /* Generador de links admin */
+/* Generador de links admin */
 (function () {
-    // Si la página se abre con un parámetro 'nombre', significa que es un INVITADO.
-    // Ocultamos el generador por completo para que no lo vean.
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("nombre")) {
-        return; // Detiene la ejecución para que no cree el botón ni el panel
+
+    // Si la URL tiene un parámetro '?admin=1', SIEMPRE mostrará el panel
+    const esAdmin = urlParams.has("admin");
+
+    // Oculta el panel solo si hay un nombre Y NO está el modo admin activado
+    if (urlParams.has("nombre") && !esAdmin) {
+        return; 
     }
 
     const WORKER_URL = "https://gentle-frog-6f22.leovane0614.workers.dev/";
@@ -2186,7 +2190,7 @@
             esFamilia = true;
         }
 
-        // Reemplaza espacios por guiones y limpia signos problemáticos (CONSERVA EL '&')
+        // Reemplaza espacios por guiones y limpia signos (CONSERVA EL '&')
         let nombreFormateado = nombreLimpio
             .replace(/[:]/g, "")
             .replace(/\s+/g, "-")
@@ -2202,6 +2206,21 @@
         linkBox.classList.add("visible");
         mensaje.textContent = "✓ Link generado.";
     });
+
+    if (copiar) {
+        copiar.addEventListener("click", function () {
+            if (!linkActual) {
+                mensaje.textContent = "Primero genera un link.";
+                return;
+            }
+            navigator.clipboard.writeText(linkActual).then(() => {
+                mensaje.textContent = "✓ Link copiado al portapapeles.";
+            }).catch(() => {
+                mensaje.textContent = "Error al copiar.";
+            });
+        });
+    }
+})();
 
     // Evento para el botón COPIAR LINK
     if (copiar) {
