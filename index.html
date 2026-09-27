@@ -998,28 +998,29 @@
             });
 
             generar.addEventListener("click", function (e) {
-                e.stopPropagation();
-                let nombre = input.value.trim();
+    e.stopPropagation();
+    let nombre = input.value.trim();
 
-                if (!nombre) {
-                    mensaje.style.color = "#dc3545";
-                    mensaje.textContent = "Escribe el nombre del invitado.";
-                    return;
-                }
+    if (!nombre) {
+        mensaje.style.color = "#dc3545";
+        mensaje.textContent = "Escribe el nombre del invitado.";
+        return;
+    }
 
-                // Codifica de forma limpia reemplazando espacios por guiones
-                let nombreFormateado = nombre
-                    .replace(/\s+/g, "-")
-                    .replace(/-+/g, "-");
+    // Cambia espacios y el símbolo & por guiones limpios para que el link no lleve %26
+    let nombreParaLink = nombre
+        .replace(/&/g, "y")            // Cambia & por "y" para evitar el %26 en la URL
+        .replace(/\s+/g, "-")          // Cambia espacios por guiones
+        .replace(/-+/g, "-");          // Evita guiones dobles
 
-                linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombreFormateado);
-                
-                linkBox.textContent = linkActual;
-                linkBox.style.setProperty("display", "block", "important");
-                copiar.style.setProperty("display", "block", "important");
-                mensaje.style.color = "#198754";
-                mensaje.textContent = "✓ Link generado.";
-            });
+    linkActual = WORKER_URL + "?nombre=" + encodeURIComponent(nombreParaLink);
+    
+    linkBox.textContent = linkActual;
+    linkBox.style.setProperty("display", "block", "important");
+    copiar.style.setProperty("display", "block", "important");
+    mensaje.style.color = "#198754";
+    mensaje.textContent = "✓ Link generado.";
+});
 
             copiar.addEventListener("click", function (e) {
                 e.stopPropagation();
