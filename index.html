@@ -2459,6 +2459,562 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         })();
     </script>
+   <!-- =========================================================
+     TARJETA IMPRESA PERSONALIZADA - SOLO ADMIN
+     NO MODIFICA LA INVITACIÓN DIGITAL
+     ========================================================= -->
+
+<style>
+    #moduloTarjetaImpresion {
+        display: none;
+        margin-top: 8px;
+    }
+
+    #botonTarjetaImpresion {
+        width: 100%;
+        padding: 10px;
+        background: #0d6efd;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    #botonTarjetaImpresion:hover {
+        background: #0b5ed7;
+    }
+
+    #mensajeTarjetaImpresion {
+        font-size: 12px;
+        margin-top: 6px;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+(function () {
+
+    const parametros = new URLSearchParams(window.location.search);
+
+    /*
+     * Este módulo solamente existe en:
+     * ?admin=1
+     *
+     * No aparece en la invitación normal.
+     */
+    if (
+        parametros.get("admin") !== "1" ||
+        parametros.has("invitado")
+    ) {
+        return;
+    }
+
+    const panel = document.getElementById("adminPanelCaja");
+    const input = document.getElementById("adminInputNombre");
+
+    if (!panel || !input) {
+        return;
+    }
+
+    /*
+     * Evitamos crear el módulo dos veces.
+     */
+    if (document.getElementById("moduloTarjetaImpresion")) {
+        return;
+    }
+
+    const modulo = document.createElement("div");
+
+    modulo.id = "moduloTarjetaImpresion";
+
+    modulo.innerHTML = `
+        <button id="botonTarjetaImpresion" type="button">
+            🖨️ GENERAR TARJETA
+        </button>
+
+        <div id="mensajeTarjetaImpresion"></div>
+    `;
+
+    /*
+     * Lo agregamos debajo del contenido actual
+     * del panel del administrador.
+     */
+    panel.appendChild(modulo);
+
+    const botonTarjeta =
+        document.getElementById("botonTarjetaImpresion");
+
+    const mensajeTarjeta =
+        document.getElementById("mensajeTarjetaImpresion");
+
+    /*
+     * Mostrar el módulo solamente después
+     * de que exista un nombre escrito.
+     */
+    function actualizarModulo() {
+
+        const nombre = input.value.trim();
+
+        if (nombre) {
+            modulo.style.display = "block";
+        } else {
+            modulo.style.display = "none";
+        }
+    }
+
+    input.addEventListener("input", actualizarModulo);
+
+    /*
+     * Generar tarjeta.
+     */
+    botonTarjeta.addEventListener("click", function () {
+
+        const nombre = input.value.trim();
+
+        if (!nombre) {
+
+            mensajeTarjeta.style.color = "#dc3545";
+            mensajeTarjeta.textContent =
+                "Escribe primero el nombre del invitado.";
+
+            input.focus();
+
+            return;
+        }
+
+        mensajeTarjeta.style.color = "#198754";
+        mensajeTarjeta.textContent =
+            "✓ Abriendo tarjeta personalizada...";
+
+        /*
+         * La tarjeta se genera en una ventana independiente.
+         *
+         * La foto novios.jpeg se utiliza directamente.
+         * No se modifica, no se filtra y no se transforma.
+         */
+        const ventana = window.open(
+            "",
+            "_blank",
+            "width=900,height=900"
+        );
+
+        if (!ventana) {
+
+            mensajeTarjeta.style.color = "#dc3545";
+            mensajeTarjeta.textContent =
+                "Permite las ventanas emergentes del navegador.";
+
+            return;
+        }
+
+        const nombreSeguro = nombre
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+
+        ventana.document.open();
+
+        ventana.document.write(`
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Tarjeta - Leo & Vane</title>
+
+<style>
+
+@page {
+    size: 100mm 150mm;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #e9e9e9;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/*
+ * Área física:
+ * 10 x 15 cm
+ */
+.tarjeta {
+
+    width: 100mm;
+    height: 150mm;
+
+    margin: 20px auto;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #eef8ff 100%
+        );
+
+    border: 1px solid #d8d8d8;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.18);
+
+    text-align: center;
+
+    color: #17324d;
+
+    padding:
+        7mm
+        6mm
+        6mm
+        6mm;
+}
+
+.marco {
+
+    position: absolute;
+
+    top: 3mm;
+    left: 3mm;
+    right: 3mm;
+    bottom: 3mm;
+
+    border: 1px solid #b7cfe0;
+
+    pointer-events: none;
+}
+
+.corazon {
+    font-size: 18px;
+    margin-bottom: 1mm;
+}
+
+.novios {
+
+    font-family:
+        "Brush Script MT",
+        "Segoe Script",
+        cursive;
+
+    font-size: 25px;
+
+    color: #17324d;
+
+    margin-top: 1mm;
+}
+
+.nuestra {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    margin-top: 1mm;
+
+    color: #506b80;
+}
+
+.foto {
+
+    width: 68mm;
+    height: auto;
+
+    max-height: 48mm;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin:
+        3mm
+        auto
+        2mm auto;
+
+    border-radius: 2mm;
+}
+
+.nos-casamos {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+
+    margin-top: 1mm;
+
+    color: #17324d;
+}
+
+.fecha {
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    margin-top: 2mm;
+
+    color: #274f70;
+}
+
+.hora {
+
+    font-size: 12px;
+
+    margin-top: 1mm;
+
+    color: #506b80;
+}
+
+.lugar {
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    margin-top: 2mm;
+
+    color: #17324d;
+}
+
+.ubicacion {
+
+    font-size: 9px;
+
+    margin-top: 1mm;
+
+    color: #5b7181;
+}
+
+.frase {
+
+    font-size: 9px;
+
+    font-style: italic;
+
+    line-height: 1.3;
+
+    margin:
+        3mm
+        5mm
+        2mm
+        5mm;
+
+    color: #536b7b;
+}
+
+.especial {
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    margin-top: 2mm;
+
+    color: #718697;
+}
+
+.invitado {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin-top: 1mm;
+
+    color: #17324d;
+
+    word-break: break-word;
+}
+
+/*
+ * Controles que NO salen impresos.
+ */
+.controles {
+
+    position: fixed;
+
+    top: 15px;
+    left: 15px;
+
+    z-index: 999;
+
+    display: flex;
+
+    gap: 8px;
+}
+
+.controles button {
+
+    border: none;
+
+    padding: 10px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    color: white;
+}
+
+.imprimir {
+    background: #198754;
+}
+
+.cerrar {
+    background: #dc3545;
+}
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .tarjeta {
+
+        margin: 0;
+
+        box-shadow: none;
+
+        border: none;
+    }
+
+    .controles {
+        display: none !important;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="controles">
+
+    <button
+        class="imprimir"
+        onclick="window.print()">
+        🖨️ IMPRIMIR
+    </button>
+
+    <button
+        class="cerrar"
+        onclick="window.close()">
+        ✕ CERRAR
+    </button>
+
+</div>
+
+<div class="tarjeta">
+
+    <div class="marco"></div>
+
+    <div class="corazon">
+        ♥
+    </div>
+
+    <div class="novios">
+        Leo & Vane
+    </div>
+
+    <div class="nuestra">
+        NUESTRA BODA
+    </div>
+
+    <!--
+        IMPORTANTE:
+        Se utiliza la imagen original directamente.
+        No se modifica el rostro.
+    -->
+    <img
+        class="foto"
+        src="novios.jpeg"
+        alt="Leo & Vane">
+
+    <div class="nos-casamos">
+        ¡NOS CASAMOS!
+    </div>
+
+    <div class="fecha">
+        20 · 12 · 2026
+    </div>
+
+    <div class="hora">
+        5:30 PM
+    </div>
+
+    <div class="lugar">
+        IPUC Las Minas
+    </div>
+
+    <div class="ubicacion">
+        Vereda Las Minas · Pital, Huila
+    </div>
+
+    <div class="frase">
+        Será un honor compartir este día tan especial contigo.
+    </div>
+
+    <div class="especial">
+        INVITACIÓN ESPECIAL PARA:
+    </div>
+
+    <div class="invitado">
+        ${nombreSeguro}
+    </div>
+
+</div>
+
+</body>
+
+</html>
+        `);
+
+        ventana.document.close();
+
+    });
+
+})();
+</script><!--  -->
 </body>
 </html>
 </body>
