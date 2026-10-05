@@ -2461,11 +2461,14 @@ document.addEventListener("DOMContentLoaded", function () {
     </script>
 <!-- =========================================================
      TARJETA IMPRESA PERSONALIZADA - SOLO ADMIN
-     DISEÑO BASADO EN LA REFERENCIA APROBADA
      
+     REGLA:
      NO MODIFICA LA INVITACIÓN DIGITAL
      NO MODIFICA LA FOTO
      NO MODIFICA LOS ROSTROS
+     
+     UTILIZA LA TARJETA DE REFERENCIA COMPLETA
+     Y SOLO CAMBIA EL NOMBRE DEL INVITADO.
      ========================================================= -->
 
 <style>
@@ -2476,6 +2479,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     margin-top: 8px;
 }
+
 
 #botonTarjetaImpresion {
 
@@ -2496,10 +2500,12 @@ document.addEventListener("DOMContentLoaded", function () {
     font-weight: bold;
 }
 
+
 #botonTarjetaImpresion:hover {
 
     background: #0b5ed7;
 }
+
 
 #mensajeTarjetaImpresion {
 
@@ -2524,7 +2530,9 @@ document.addEventListener("DOMContentLoaded", function () {
        ===================================================== */
 
     const parametros =
-        new URLSearchParams(window.location.search);
+        new URLSearchParams(
+            window.location.search
+        );
 
 
     if (
@@ -2537,14 +2545,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       PANEL ADMIN EXISTENTE
+       BUSCAR PANEL ADMINISTRADOR
        ===================================================== */
 
     const panel =
-        document.getElementById("adminPanelCaja");
+        document.getElementById(
+            "adminPanelCaja"
+        );
+
 
     const input =
-        document.getElementById("adminInputNombre");
+        document.getElementById(
+            "adminInputNombre"
+        );
 
 
     if (!panel || !input) {
@@ -2554,7 +2567,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       EVITAR DUPLICAR EL MÓDULO
+       EVITAR DUPLICAR
        ===================================================== */
 
     if (
@@ -2574,6 +2587,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modulo =
         document.createElement("div");
 
+
     modulo.id =
         "moduloTarjetaImpresion";
 
@@ -2587,6 +2601,7 @@ document.addEventListener("DOMContentLoaded", function () {
             🖨️ GENERAR TARJETA
 
         </button>
+
 
         <div
             id="mensajeTarjetaImpresion">
@@ -2611,7 +2626,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       MOSTRAR BOTÓN CUANDO HAYA NOMBRE
+       MOSTRAR BOTÓN AL ESCRIBIR NOMBRE
        ===================================================== */
 
     function actualizarModulo() {
@@ -2651,9 +2666,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 input.value.trim();
 
 
-            /* =================================================
+            /* =============================================
                VALIDAR
-               ================================================= */
+               ============================================= */
 
             if (!nombre) {
 
@@ -2669,9 +2684,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            /* =================================================
+            /* =============================================
                MENSAJE
-               ================================================= */
+               ============================================= */
 
             mensajeTarjeta.style.color =
                 "#198754";
@@ -2680,9 +2695,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 "✓ Abriendo tarjeta personalizada...";
 
 
-            /* =================================================
+            /* =============================================
                ABRIR VENTANA
-               ================================================= */
+               ============================================= */
 
             const ventana =
                 window.open(
@@ -2704,9 +2719,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            /* =================================================
+            /* =============================================
                PROTEGER NOMBRE
-               ================================================= */
+               ============================================= */
 
             const nombreSeguro =
                 nombre
@@ -2717,19 +2732,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     .replace(/'/g, "&#39;");
 
 
-            /* =================================================
-               URL REAL DE LA IMAGEN
+            /* =============================================
+               IMAGEN REAL DE LA TARJETA
                
-               ESTA ES LA IMAGEN DE LA TARJETA APROBADA.
-               ================================================= */
+               IMPORTANTE:
+               ESTA IMAGEN DEBE ESTAR EN GITHUB.
+               ============================================= */
 
-            const fondoTarjeta =
-                "https://raw.githubusercontent.com/leovane0614-bli/invitacion-boda/main/tarjeta-fondo-referencia.png";
+            const FONDO_TARJETA =
+                "https://leovane0614-bli.github.io/invitacion-boda/tarjeta-fondo-referencia.jpg";
 
 
-            /* =================================================
-               CREAR DOCUMENTO
-               ================================================= */
+            /* =============================================
+               CREAR VENTANA
+               ============================================= */
 
             ventana.document.open();
 
@@ -2759,7 +2775,8 @@ document.addEventListener("DOMContentLoaded", function () {
 <style>
 
 /* =====================================================
-   IMPRESIÓN 10 × 15 CM
+   IMPRESIÓN FÍSICA
+   10 × 15 CM
    ===================================================== */
 
 @page {
@@ -2836,7 +2853,9 @@ body {
 
     position: absolute;
 
-    inset: 0;
+    top: 0;
+
+    left: 0;
 
     width: 100%;
 
@@ -2851,30 +2870,32 @@ body {
 
 
 /* =====================================================
-   ZONA DEL NOMBRE
+   NOMBRE DEL INVITADO
      
-   ESTA ZONA TAPA SOLAMENTE EL NOMBRE QUE YA VIENE
-   EN LA IMAGEN DE REFERENCIA.
-
-   NO TAPA LAS FLORES NI LA DECORACIÓN.
+   LA IMAGEN YA TIENE EL RECUADRO BLANCO.
+   AQUÍ SOLO COLOCAMOS EL TEXTO.
    ===================================================== */
 
-.zona-nombre {
+.nombre-invitado {
 
     position: absolute;
 
-    left: 20%;
+    z-index: 10;
 
-    width: 60%;
 
-    top: 84.05%;
+    /*
+     * Posición del espacio blanco
+     * de la tarjeta de referencia.
+     */
 
-    height: 6.7%;
+    left: 27.3%;
 
-    background:
-        rgba(255,255,255,.96);
+    width: 45.5%;
 
-    z-index: 5;
+    top: 84.1%;
+
+    height: 6.5%;
+
 
     display: flex;
 
@@ -2882,42 +2903,73 @@ body {
 
     justify-content: center;
 
+
     text-align: center;
 
-    overflow: hidden;
-}
-
-
-/* =====================================================
-   NOMBRE PERSONALIZADO
-   ===================================================== */
-
-.nombre-invitado {
-
-    width: 100%;
 
     padding:
-        0
-        1mm;
+        0 1mm;
+
 
     color: #173b63;
+
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size: 4.6mm;
+
+    font-size: 4.4mm;
+
 
     font-weight: bold;
 
+
     line-height: 1.05;
 
-    text-align: center;
 
     word-break: break-word;
 
     overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   MENSAJE DE ERROR
+   ===================================================== */
+
+.error-imagen {
+
+    position: absolute;
+
+    z-index: 100;
+
+    top: 45%;
+
+    left: 10%;
+
+    width: 80%;
+
+    padding: 12px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 2px solid #dc3545;
+
+    border-radius: 8px;
+
+    color: #dc3545;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    display: none;
 }
 
 
@@ -2956,7 +3008,7 @@ body {
 
     font-weight: bold;
 
-    color: white;
+    color: #ffffff;
 }
 
 
@@ -3005,6 +3057,12 @@ body {
 
         display: none !important;
     }
+
+
+    .error-imagen {
+
+        display: none !important;
+    }
 }
 
 </style>
@@ -3016,7 +3074,7 @@ body {
 
 
 <!-- =====================================================
-     BOTONES
+     CONTROLES
      ===================================================== -->
 
 <div class="controles">
@@ -3052,18 +3110,35 @@ body {
 
 
     <!--
-        IMAGEN COMPLETA DE LA REFERENCIA
+        ESTA ES LA TARJETA COMPLETA.
 
-        NO SE VUELVE A CARGAR novios.jpeg.
+        Ya contiene:
 
-        La fotografía ya está dentro de esta imagen,
-        exactamente como fue aprobada.
+        ✓ FOTO
+        ✓ ROSTROS
+        ✓ FLORES
+        ✓ MARCO
+        ✓ LEO & VANE
+        ✓ NUESTRA BODA
+        ✓ NOS CASAMOS
+        ✓ FECHA
+        ✓ HORA
+        ✓ LUGAR
+        ✓ FRASE
+        ✓ DECORACIÓN
+        ✓ ESPACIO PARA INVITADO
     -->
 
     <img
         class="fondo-tarjeta"
-        src="${fondoTarjeta}"
+        src="${FONDO_TARJETA}"
         alt="Tarjeta de boda Leo y Vane"
+        onload="
+            document.getElementById('errorImagen').style.display='none';
+        "
+        onerror="
+            document.getElementById('errorImagen').style.display='block';
+        "
     >
 
 
@@ -3071,13 +3146,37 @@ body {
          NOMBRE PERSONALIZADO
          ================================================= -->
 
-    <div class="zona-nombre">
+    <div class="nombre-invitado">
 
-        <div class="nombre-invitado">
+        ${nombreSeguro}
 
-            ${nombreSeguro}
+    </div>
 
-        </div>
+
+    <!-- =================================================
+         ERROR SI LA IMAGEN NO ESTÁ PUBLICADA
+         ================================================= -->
+
+    <div
+        id="errorImagen"
+        class="error-imagen">
+
+        ⚠️ No se encontró
+        <br><br>
+
+        <strong>
+            tarjeta-fondo-referencia.jpg
+        </strong>
+
+        <br><br>
+
+        Súbela al repositorio de GitHub
+        <br>
+
+        dentro de la carpeta principal
+        <br>
+
+        de la invitación.
 
     </div>
 
